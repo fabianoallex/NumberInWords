@@ -6,7 +6,7 @@ Em breve implementações para outros idiomas serão incluídas.
 
 ## Exemplos de uso
 
-Exemplo de como criar uma instância da classe `CardinalInPortugueseWords` e usá-la para escrever números por extenso:
+Exemplo de como criar uma instância da classe `CardinalInPortugueseWords` e usá-la para escrever por extenso:
 
 ```java
 CardinalInPortugueseWords converter = new CardinalInPortugueseWords.Builder()
@@ -17,4 +17,15 @@ CardinalInPortugueseWords converter = new CardinalInPortugueseWords.Builder()
 
 // "um bilhão, duzentos e trinta e quatro milhões, quinhentos e sessenta e sete mil, oitocentos e noventa"
 System.out.println(converter.inWords(1234567890L)); 
+```
+
+Exemplo de como criar uma instância da classe `OrdinalInPortugueseWords` e usá-la para escrever por extenso:
+
+```java
+OrdinalInPortugueseWords converter = new OrdinalInPortugueseWords.Builder()
+.withFemaleGender()
+.withCommaSeparator()
+.build();
+
+System.out.println(converter.inWords(15L)); // "décima quinta"
 ```

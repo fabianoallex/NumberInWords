@@ -22,7 +22,7 @@ public class OrdinalBlock extends Block {
     }
 
     public String inWords(boolean useCommaSeparator, Gender gender) {
-        var numberDescriptionMap = getNumberDescriptionsMap(gender, this.suffix);
+        var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
         String result = "";
         String comma = useCommaSeparator ? ", " : " ";
@@ -58,7 +58,7 @@ public class OrdinalBlock extends Block {
         return result.trim() + comma;
     }
 
-    Map<Integer, String> getNumberDescriptionsMap(Gender gender, Suffix suffix) {
+    Map<Integer, String> getNumberDescriptionsMapForGender(Gender gender) {
         if (gender.equals(Gender.MALE))
             return OrdinalDescriptions.maleDescriptionsMap;
 

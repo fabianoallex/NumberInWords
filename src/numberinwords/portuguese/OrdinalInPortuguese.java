@@ -15,6 +15,9 @@ public class OrdinalInPortuguese implements NumberInWords {
     public String inWords(Long number) {
         StringBuilder result = new StringBuilder();
 
+        if (number <= 0)
+            return "";
+
         OrdinalBlock numberBlock = new OrdinalBlock.Builder()
                 .withNumber(number)
                 .withGender(this.gender)
@@ -30,7 +33,7 @@ public class OrdinalInPortuguese implements NumberInWords {
             numberBlock = numberBlock.getNextPronounceableBlock();
         }
 
-        return result.toString();
+        return result.toString().trim();
     }
 
     public static class Builder {

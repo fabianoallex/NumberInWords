@@ -53,7 +53,7 @@ public class OrdinalDescriptions {
         maleDescriptionsMap.put(700, "septingentésimo"); // ou setingentésimo
         maleDescriptionsMap.put(800, "octingentésimo"); // ou octogentésimo
         maleDescriptionsMap.put(900, "noningentésimo"); // ou nongentésimo
-        maleDescriptionsMap.put(1000, "milésimo"); // ou nongentésimo
+        maleDescriptionsMap.put(1000, "milésimo");
 
         femaleDescriptionsMap.put(1, "primeira");
         femaleDescriptionsMap.put(2, "segunda");
@@ -82,6 +82,6 @@ public class OrdinalDescriptions {
         femaleDescriptionsMap.put(700, "septingentésima"); // ou setingentésimo
         femaleDescriptionsMap.put(800, "octingentésima"); // ou octogentésimo
         femaleDescriptionsMap.put(900, "noningentésima"); // ou nongentésimo
-        femaleDescriptionsMap.put(1000, "milésima"); // ou nongentésimo
+        femaleDescriptionsMap.put(1000, "milésima");
     }
 }

@@ -76,6 +76,9 @@ public class Main {
                 .build();
 
         System.out.println(ordinalNumber.inWords(125221129L));
+        System.out.println(ordinalNumber.inWords(11L));
+        System.out.println(ordinalNumber.inWords(12L));
+        System.out.println(ordinalNumber.inWords(16L));
     }
 }
 

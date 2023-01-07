@@ -41,12 +41,12 @@ public class OrdinalBlock extends Block {
             if (hundred > 0)
                 result += numberDescriptionMap.get(hundred * 100) + " ";
 
-            if (dozens > 0 && dozens < 20)
+            if (dozens > 0 && dozens < 10)
                 //ex. 1200. previne 'primeiro milésimo ducentésimo'. fica 'milésimo ducentésimo'
-                if (!(dozens == 1 && this.suffix.equals(Suffix.THOUSAND)))
+                if (!(dozens == 1 && this.suffix.compareTo(Suffix.NO_SUFFIX) > 0))
                     result += numberDescriptionMap.get(dozens) + " ";
 
-            if (dozens >= 20) {
+            if (dozens >= 10) {
                 int ten = dozens / 10;
                 int one = dozens % 10;
 

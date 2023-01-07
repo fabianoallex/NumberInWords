@@ -10,10 +10,9 @@ Exemplo de como criar uma instância da classe `CardinalInPortugueseWords` e us�
 
 ```java
 CardinalInPortugueseWords converter = new CardinalInPortugueseWords.Builder()
-    .withMaleGender()
-    .withCommaSeparator()
-    .withZeroDescription("zero")
-    .build();
+        .withMaleGender()
+        .withCommaSeparator()
+        .build();
 
 // "um bilhão, duzentos e trinta e quatro milhões, quinhentos e sessenta e sete mil, oitocentos e noventa"
 System.out.println(converter.inWords(1234567890L)); 
@@ -23,9 +22,9 @@ Exemplo de como criar uma instância da classe `OrdinalInPortugueseWords` e usá
 
 ```java
 OrdinalInPortugueseWords converter = new OrdinalInPortugueseWords.Builder()
-.withFemaleGender()
-.withCommaSeparator()
-.build();
+        .withFemaleGender()
+        .withCommaSeparator()
+        .build();
 
 System.out.println(converter.inWords(15L)); // "décima quinta"
 ```

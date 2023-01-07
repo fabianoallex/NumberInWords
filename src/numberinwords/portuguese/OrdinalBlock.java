@@ -27,9 +27,7 @@ public class OrdinalBlock extends Block {
         String result = "";
         String comma = useCommaSeparator ? ", " : " ";
 
-        if (this.getValue() == 0)
-            result = "";
-        else {
+        if (this.getValue() != 0) {
             int hundred = (int) (this.getValue() / 100);
             int dozens = (int) (this.getValue() % 100);
 
@@ -52,7 +50,7 @@ public class OrdinalBlock extends Block {
             }
         }
 
-        result += OrdinalDescriptions.getSuffixDescription(suffix, gender) + " ";
+        result += OrdinalDescriptions.getSuffixDescriptionForGender(suffix, gender) + " ";
 
         if (this.isLastPronounceableBlock())
             return result;
@@ -76,12 +74,8 @@ public class OrdinalBlock extends Block {
         OrdinalBlock build() {
             OrdinalBlock block = new OrdinalBlock(this);
 
-            while (true) {
-                number /= 1000;
-                if (number == 0)
-                    break;
+            for (long number = this.number/1000; number > 0; number /= 1000)
                 block = block.addNext(number);
-            }
 
             return block;
         }

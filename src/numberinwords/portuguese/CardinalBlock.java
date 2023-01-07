@@ -69,7 +69,7 @@ public class CardinalBlock extends Block {
             }
         }
 
-        result += CardinalDescriptions.getSuffixDescription(suffix, getValue());
+        result += CardinalDescriptions.getSuffixDescriptionForValue(suffix, getValue());
 
         if (this.isLastPronounceableBlock())
             return result;
@@ -95,12 +95,8 @@ public class CardinalBlock extends Block {
         CardinalBlock build() {
             CardinalBlock block = new CardinalBlock(this);
 
-            while (true) {
-                number /= 1000;
-                if (number == 0)
-                    break;
+            for (long number = this.number/1000; number > 0; number /= 1000)
                 block = block.addNext(number);
-            }
 
             return block;
         }

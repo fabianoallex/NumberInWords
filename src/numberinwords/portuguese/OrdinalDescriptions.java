@@ -16,7 +16,7 @@ public class OrdinalDescriptions {
             "septilionésima", "octilionésima", "nonilionésima", "decilionésima"
     };
 
-    static String getSuffixDescription(Suffix suffix, Gender gender) {
+    static String getSuffixDescriptionForGender(Suffix suffix, Gender gender) {
         if (gender.equals(Gender.MALE))
             return maleSuffixes[suffix.suffixIndex];
 

@@ -27,8 +27,8 @@ public class CardinalDescriptions {
         return pluralSuffixes[suffix.suffixIndex];
     }
 
-    static String getSuffixDescription(Suffix suffix, Long value) {
-        return (value == 1 ? getSingularSuffixDescription(suffix) : getPluralSuffixDescription(suffix));
+    static String getSuffixDescriptionForValue(Suffix suffix, Long forValue) {
+        return (forValue == 1 ? getSingularSuffixDescription(suffix) : getPluralSuffixDescription(suffix));
     }
 
     static {

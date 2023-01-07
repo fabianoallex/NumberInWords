@@ -2,14 +2,14 @@ package numberinwords.portuguese;
 
 import numberinwords.NumberInWords;
 
-public class CardinalInPortugueseWords implements NumberInWords {
+public class CardinalInPortuguese implements NumberInWords {
     private final boolean useCommaSeparator;
     private final Gender gender;
     private final String zeroDescription;
     private final String negativeSignalDescription;
     private final String positiveSignalDescription;
 
-    protected CardinalInPortugueseWords(Builder builder) {
+    protected CardinalInPortuguese(Builder builder) {
         this.useCommaSeparator = builder.useCommaSeparator;
         this.gender = builder.gender;
         this.zeroDescription = builder.zeroDescription;
@@ -87,8 +87,8 @@ public class CardinalInPortugueseWords implements NumberInWords {
             return this;
         }
 
-        public CardinalInPortugueseWords build() {
-            return new CardinalInPortugueseWords(this);
+        public CardinalInPortuguese build() {
+            return new CardinalInPortuguese(this);
         }
     }
 }

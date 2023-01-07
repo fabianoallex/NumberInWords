@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CardinalInPortugueseWordsTest {
+class CardinalInPortugueseTest {
 
     @Test
     @DisplayName("inWords")
@@ -62,7 +62,7 @@ class CardinalInPortugueseWordsTest {
 
         //testCases.put(10000000000000000000L, "dez quintilhões"); //não pode ser testado, pois valor maior que Long.MAX_VALUE
 
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder().build();
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder().build();
         testCases.forEach((number, expectedResult) ->
                 assertEquals(
                         expectedResult,
@@ -90,7 +90,7 @@ class CardinalInPortugueseWordsTest {
         testCases.put(202002002L, "duzentos e dois milhões duas mil e duas");
         testCases.put(500202002002L, "quinhentos bilhões duzentos e dois milhões duas mil e duas");
 
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withFemaleGender()
                 .build();
 
@@ -104,7 +104,7 @@ class CardinalInPortugueseWordsTest {
     @Test
     @DisplayName("inWords (Comma Separator)")
     void inWordsWithCommaSeparator() {
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withCommaSeparator()
                 .build();
 
@@ -123,7 +123,7 @@ class CardinalInPortugueseWordsTest {
     @Test
     @DisplayName("inWords (Negative Signal Description)")
     void inWordsWithNegativeSignalDescription() {
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withNegativeSignalDescription("(negativo)")
                 .build();
 
@@ -142,7 +142,7 @@ class CardinalInPortugueseWordsTest {
     @Test
     @DisplayName("inWords (Positive Signal Description)")
     void inWordsWithPositiveSignalDescription() {
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withPositiveSignalDescription("+++")
                 .build();
 
@@ -160,7 +160,7 @@ class CardinalInPortugueseWordsTest {
     @Test
     @DisplayName("inWords (Zero Description)")
     void inWordsWithZeroDescription() {
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withZeroDescription("nenhum")
                 .build();
 

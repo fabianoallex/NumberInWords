@@ -1,10 +1,10 @@
 import numberinwords.NumberInWords;
-import numberinwords.portuguese.CardinalInPortugueseWords;
-import numberinwords.portuguese.OrdinalInPortugueseWords;
+import numberinwords.portuguese.CardinalInPortuguese;
+import numberinwords.portuguese.OrdinalInPortuguese;
 
 public class Main {
     public static void main(String[] args) {
-        NumberInWords cardinalNumber = new CardinalInPortugueseWords.Builder()
+        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withCommaSeparator()
                 .withFemaleGender()
                 .withZeroDescription("Nenhuma")
@@ -70,7 +70,7 @@ public class Main {
         System.out.println(cardinalNumber.inWords(Long.MAX_VALUE));
         System.out.println(cardinalNumber.inWords(-Long.MAX_VALUE));
 
-        NumberInWords ordinalNumber = new OrdinalInPortugueseWords.Builder()
+        NumberInWords ordinalNumber = new OrdinalInPortuguese.Builder()
                 .withMaleGender()
                 .withCommaSeparator()
                 .build();

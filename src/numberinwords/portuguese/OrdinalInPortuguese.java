@@ -2,11 +2,11 @@ package numberinwords.portuguese;
 
 import numberinwords.NumberInWords;
 
-public class OrdinalInPortugueseWords implements NumberInWords {
+public class OrdinalInPortuguese implements NumberInWords {
     private final Gender gender;
     private final boolean useCommaSeparator;
 
-    protected OrdinalInPortugueseWords(Builder builder) {
+    protected OrdinalInPortuguese(Builder builder) {
         this.gender = builder.gender;
         this.useCommaSeparator = builder.useCommaSeparator;
     }
@@ -50,8 +50,8 @@ public class OrdinalInPortugueseWords implements NumberInWords {
             return this;
         }
 
-        public OrdinalInPortugueseWords build() {
-            return new OrdinalInPortugueseWords(this);
+        public OrdinalInPortuguese build() {
+            return new OrdinalInPortuguese(this);
         }
     }
 }

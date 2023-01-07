@@ -17,10 +17,12 @@ public class OrdinalInPortuguese implements NumberInWords {
 
         OrdinalBlock numberBlock = new OrdinalBlock.Builder()
                 .withNumber(number)
+                .withGender(this.gender)
+                .withCommaSeparator(this.useCommaSeparator)
                 .build();
 
         while (numberBlock != null) {
-            result.append(numberBlock.inWords(this.useCommaSeparator, this.gender));
+            result.append(numberBlock.inWords());
 
             if (numberBlock.isLastPronounceableBlock())
                 break;

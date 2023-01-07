@@ -3,12 +3,19 @@ package numberinwords.portuguese;
 import java.util.Map;
 
 public class OrdinalBlock extends Block {
+    private final boolean useCommaSeparator;
+    private final Gender gender;
+
     private OrdinalBlock(Builder builder) {
         super(builder);
+        this.useCommaSeparator = builder.useCommaSeparator;
+        this.gender = builder.gender;
     }
 
     private OrdinalBlock(Long value, OrdinalBlock next) {
         super(value, next);
+        this.useCommaSeparator = next.useCommaSeparator;
+        this.gender = next.gender;
     }
 
     @Override
@@ -21,7 +28,7 @@ public class OrdinalBlock extends Block {
         return (OrdinalBlock) super.getNextPronounceableBlock();
     }
 
-    public String inWords(boolean useCommaSeparator, Gender gender) {
+    public String inWords() {
         var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
         String result = "";
@@ -66,8 +73,21 @@ public class OrdinalBlock extends Block {
     }
 
     public static class Builder extends Block.Builder {
+        public boolean useCommaSeparator;
+        public Gender gender;
+
         Builder withNumber(Long number) {
             this.number = Math.abs(number);
+            return this;
+        }
+
+        Builder withCommaSeparator(boolean useCommaSeparator) {
+            this.useCommaSeparator = useCommaSeparator;
+            return this;
+        }
+
+        Builder withGender(Gender gender) {
+            this.gender = gender;
             return this;
         }
 

@@ -36,7 +36,6 @@ public class CardinalBlock extends Block {
             zeroDescription = CardinalDescriptions.maleDescriptionsMap.get(0);
 
         String result = "";
-        String comma = useCommaSeparator ? ", " : " ";
 
         var numberDescriptionMap = getNumberDescriptionsMap(gender, this.suffix);
 
@@ -70,20 +69,27 @@ public class CardinalBlock extends Block {
         }
 
         result += CardinalDescriptions.getSuffixDescriptionForValue(suffix, getValue());
+        result += this.getConjuction(useCommaSeparator);
+
+        return result;
+    }
+
+    private String getConjuction(boolean useCommaSeparator) {
+        String comma = useCommaSeparator ? ", " : " ";
 
         if (this.isLastPronounceableBlock())
-            return result;
+            return "";
 
         if (!this.getNextPronounceableBlock().isLastPronounceableBlock())
-            return result + comma;
+            return comma;
 
         if (this.getNextPronounceableBlock().getValue() % 100 == 0)
-            return result + " e ";
+            return " e ";
 
         if (this.getNextPronounceableBlock().getValue() < 100)
-            return result + " e ";
+            return " e ";
 
-        return result + comma;
+        return comma;
     }
 
     public static class Builder extends Block.Builder {

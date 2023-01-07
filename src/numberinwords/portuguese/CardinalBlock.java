@@ -3,12 +3,22 @@ package numberinwords.portuguese;
 import java.util.Map;
 
 public class CardinalBlock extends Block {
+    private final boolean useCommaSeparator;
+    private final String zeroDescription;
+    private final Gender gender;
+
     private CardinalBlock(Builder builder) {
         super(builder);
+        this.useCommaSeparator = builder.useCommaSeparator;
+        this.zeroDescription = builder.zeroDescription;
+        this.gender = builder.gender;
     }
 
     private CardinalBlock(Long value, CardinalBlock next) {
         super(value, next);
+        this.useCommaSeparator = next.useCommaSeparator;
+        this.zeroDescription = next.zeroDescription;
+        this.gender = next.gender;
     }
 
     @Override
@@ -21,26 +31,19 @@ public class CardinalBlock extends Block {
         return (CardinalBlock) super.getNextPronounceableBlock();
     }
 
-    Map<Integer, String> getNumberDescriptionsMap(Gender gender, Suffix suffix) {
-        if (gender.equals(Gender.MALE))
-            return CardinalDescriptions.maleDescriptionsMap;
-
-        if (suffix.equals(Suffix.NO_SUFFIX) || suffix.equals(Suffix.THOUSAND))
-            return CardinalDescriptions.femaleDescriptionsMap;
-
-        return CardinalDescriptions.maleDescriptionsMap;
+    public String inWords() {
+        return this.getNumberDescription() +
+                this.getSuffixDescription() +
+                this.getConjuction();
     }
 
-    public String inWords(boolean useCommaSeparator, Gender gender, String zeroDescription) {
-        if (zeroDescription == null)
-            zeroDescription = CardinalDescriptions.maleDescriptionsMap.get(0);
-
+    private String getNumberDescription() {
         String result = "";
 
-        var numberDescriptionMap = getNumberDescriptionsMap(gender, this.suffix);
+        var numberDescriptionMap = getNumberDescriptionsMap(this.gender);
 
         if (this.getValue() == 0)
-            result = zeroDescription + " ";
+            result = this.getZeroDescription() + " ";
 
         if (this.getValue() == 100)
             result = numberDescriptionMap.get(-100) + " "; //-100 returns 'cem'. +100 returns 'cento'
@@ -68,14 +71,32 @@ public class CardinalBlock extends Block {
             }
         }
 
-        result += CardinalDescriptions.getSuffixDescriptionForValue(suffix, getValue());
-        result += this.getConjuction(useCommaSeparator);
-
         return result;
     }
 
-    private String getConjuction(boolean useCommaSeparator) {
-        String comma = useCommaSeparator ? ", " : " ";
+    private String getZeroDescription() {
+        if (this.zeroDescription == null)
+            return CardinalDescriptions.maleDescriptionsMap.get(0);
+
+        return this.zeroDescription;
+    }
+
+    private String getSuffixDescription() {
+        return CardinalDescriptions.getSuffixDescriptionForValue(this.suffix, this.getValue());
+    }
+
+    private Map<Integer, String> getNumberDescriptionsMap(Gender gender) {
+        if (gender.equals(Gender.MALE))
+            return CardinalDescriptions.maleDescriptionsMap;
+
+        if (this.suffix.equals(Suffix.NO_SUFFIX) || this.suffix.equals(Suffix.THOUSAND))
+            return CardinalDescriptions.femaleDescriptionsMap;
+
+        return CardinalDescriptions.maleDescriptionsMap;
+    }
+
+    private String getConjuction() {
+        String comma = this.useCommaSeparator ? ", " : " ";
 
         if (this.isLastPronounceableBlock())
             return "";
@@ -93,8 +114,27 @@ public class CardinalBlock extends Block {
     }
 
     public static class Builder extends Block.Builder {
+        boolean useCommaSeparator = false;
+        String zeroDescription;
+        public Gender gender;
+
         Builder withNumber(Long number) {
             this.number = Math.abs(number);
+            return this;
+        }
+
+        Builder withCommaSeparator(boolean useCommaSeparator) {
+            this.useCommaSeparator = useCommaSeparator;
+            return this;
+        }
+
+        Builder withZeroDescription(String zeroDescription) {
+            this.zeroDescription = zeroDescription;
+            return this;
+        }
+
+        Builder withGender(Gender gender) {
+            this.gender = gender;
             return this;
         }
 

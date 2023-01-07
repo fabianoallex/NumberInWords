@@ -22,17 +22,20 @@ public class CardinalInPortuguese implements NumberInWords {
         StringBuilder result = new StringBuilder();
         result.append(getSignalDescription(number));
 
-        CardinalBlock cardinalBlock = new CardinalBlock.Builder()
+        CardinalBlock block = new CardinalBlock.Builder()
+                .withCommaSeparator(useCommaSeparator)
+                .withZeroDescription(this.zeroDescription)
+                .withGender(this.gender)
                 .withNumber(number)
                 .build();
 
-        while (cardinalBlock != null) {
-            result.append(cardinalBlock.inWords(this.useCommaSeparator, this.gender, this.zeroDescription));
+        while (block != null) {
+            result.append(block.inWords());
 
-            if (cardinalBlock.isLastPronounceableBlock())
+            if (block.isLastPronounceableBlock())
                 break;
 
-            cardinalBlock = cardinalBlock.getNextPronounceableBlock();
+            block = block.getNextPronounceableBlock();
         }
 
         return result.toString().trim();

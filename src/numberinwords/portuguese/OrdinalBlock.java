@@ -21,10 +21,11 @@ public class OrdinalBlock extends Block {
         return (OrdinalBlock) super.getNextPronounceableBlock();
     }
 
-    public String inWords(Gender gender) {
+    public String inWords(boolean useCommaSeparator, Gender gender) {
         var numberDescriptionMap = getNumberDescriptionsMap(gender, this.suffix);
 
         String result = "";
+        String comma = useCommaSeparator ? ", " : " ";
 
         if (this.getValue() == 0)
             result = "";
@@ -53,7 +54,10 @@ public class OrdinalBlock extends Block {
 
         result += OrdinalDescriptions.getSuffixDescription(suffix, gender) + " ";
 
-        return result;
+        if (this.isLastPronounceableBlock())
+            return result;
+
+        return result.trim() + comma;
     }
 
     Map<Integer, String> getNumberDescriptionsMap(Gender gender, Suffix suffix) {

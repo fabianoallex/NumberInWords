@@ -72,6 +72,7 @@ public class Main {
 
         NumberInWords ordinalNumber = new OrdinalInPortugueseWords.Builder()
                 .withMaleGender()
+                .withCommaSeparator()
                 .build();
 
         System.out.println(ordinalNumber.inWords(125221129L));

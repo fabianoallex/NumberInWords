@@ -6,10 +6,10 @@ Em breve implementações para outros idiomas serão incluídas.
 
 ## Exemplos de uso
 
-Exemplo de como criar uma instância da classe `CardinalInPortugueseWords` e usá-la para escrever por extenso:
+Exemplo de como criar uma instância da classe `CardinalInPortuguese` e usá-la para escrever por extenso:
 
 ```java
-CardinalInPortugueseWords converter = new CardinalInPortugueseWords.Builder()
+CardinalInPortugueseWords converter = new CardinalInPortuguese.Builder()
         .withMaleGender()
         .withCommaSeparator()
         .build();
@@ -18,10 +18,10 @@ CardinalInPortugueseWords converter = new CardinalInPortugueseWords.Builder()
 System.out.println(converter.inWords(1234567890L)); 
 ```
 
-Exemplo de como criar uma instância da classe `OrdinalInPortugueseWords` e usá-la para escrever por extenso:
+Exemplo de como criar uma instância da classe `OrdinalInPortuguese` e usá-la para escrever por extenso:
 
 ```java
-OrdinalInPortugueseWords converter = new OrdinalInPortugueseWords.Builder()
+OrdinalInPortugueseWords converter = new OrdinalInPortuguese.Builder()
         .withFemaleGender()
         .withCommaSeparator()
         .build();

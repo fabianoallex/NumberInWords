@@ -1,5 +1,6 @@
 package numberinwords.portuguese;
 
+import numberinwords.Gender;
 import numberinwords.NumberInWords;
 
 public class OrdinalInPortuguese implements NumberInWords<Long> {

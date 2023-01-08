@@ -1,20 +1,25 @@
-package numberinwords.portuguese;
+package numberinwords;
 
 public abstract class Block {
-    final Long value;
-    final Suffix suffix;
-    final Block next;
+    private final Long value;
 
-    Block(Builder builder) {
+    private final Suffix suffix;
+
+    private final Block next;
+    public Block(Builder builder) {
         this.next = null;
         this.value = builder.number % 1000;
         this.suffix = Suffix.NO_SUFFIX; //first block don't have suffix
     }
 
-    Block(Long value, Block next) {
+    public Block(Long value, Block next) {
         this.next = next;
         this.value = value % 1000;
         this.suffix = next.suffix.getNext(); //get next suffix
+    }
+
+    public Suffix getSuffix() {
+        return suffix;
     }
 
     public String inWords() {
@@ -24,11 +29,11 @@ public abstract class Block {
     }
     public abstract Block addNext(Long value);
 
-    protected abstract String getSuffixDescription();
+    public abstract String getSuffixDescription();
 
-    protected abstract String getConjuction();
+    public abstract String getConjuction();
 
-    protected abstract String getNumberDescription();
+    public abstract String getNumberDescription();
 
     public Long getValue() {
         return value;
@@ -47,7 +52,7 @@ public abstract class Block {
         return next;
     }
 
-    boolean isLastPronounceable() {
+    public boolean isLastPronounceable() {
         return getNextPronounceable() == null;
     }
 

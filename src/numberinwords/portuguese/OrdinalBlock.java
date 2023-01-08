@@ -1,5 +1,9 @@
 package numberinwords.portuguese;
 
+import numberinwords.Block;
+import numberinwords.Gender;
+import numberinwords.Suffix;
+
 import java.util.Map;
 
 public class OrdinalBlock extends Block {
@@ -29,7 +33,7 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    protected String getNumberDescription() {
+    public String getNumberDescription() {
         var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
         String result = "";
@@ -43,7 +47,7 @@ public class OrdinalBlock extends Block {
 
             if (dozens > 0 && dozens < 10)
                 //ex. 1200. previne 'primeiro milésimo ducentésimo'. fica 'milésimo ducentésimo'
-                if (!(dozens == 1 && this.suffix.compareTo(Suffix.NO_SUFFIX) > 0))
+                if (!(dozens == 1 && this.getSuffix().compareTo(Suffix.NO_SUFFIX) > 0))
                     result += numberDescriptionMap.get(dozens) + " ";
 
             if (dozens >= 10) {
@@ -61,7 +65,7 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    protected String getConjuction() {
+    public String getConjuction() {
         if (this.isLastPronounceable())
             return "";
 
@@ -69,8 +73,8 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    protected String getSuffixDescription() {
-        return OrdinalDescriptions.getSuffixDescriptionForGender(suffix, gender);
+    public String getSuffixDescription() {
+        return OrdinalDescriptions.getSuffixDescriptionForGender(this.getSuffix(), gender);
     }
 
     private Map<Integer, String> getNumberDescriptionsMapForGender(Gender gender) {

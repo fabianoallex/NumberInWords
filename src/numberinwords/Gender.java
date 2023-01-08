@@ -1,4 +1,4 @@
-package numberinwords.portuguese;
+package numberinwords;
 
 public enum Gender {
     MALE, FEMALE

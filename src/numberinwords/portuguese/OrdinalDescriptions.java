@@ -1,5 +1,8 @@
 package numberinwords.portuguese;
 
+import numberinwords.Gender;
+import numberinwords.Suffix;
+
 import java.util.HashMap;
 import java.util.Map;
 

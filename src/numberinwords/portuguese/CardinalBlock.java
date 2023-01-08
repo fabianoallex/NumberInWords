@@ -1,5 +1,9 @@
 package numberinwords.portuguese;
 
+import numberinwords.Block;
+import numberinwords.Gender;
+import numberinwords.Suffix;
+
 import java.util.Map;
 
 public class CardinalBlock extends Block {
@@ -32,7 +36,7 @@ public class CardinalBlock extends Block {
     }
 
     @Override
-    protected String getNumberDescription() {
+    public String getNumberDescription() {
         String result = "";
 
         var numberDescriptionMap = getNumberDescriptionsMap(this.gender);
@@ -52,7 +56,7 @@ public class CardinalBlock extends Block {
 
             if (dozens > 0 && dozens < 20)
                 //ex. 1200. previne 'um mil e duzentos'. fica 'mil e duzentos'
-                if (!(dozens == 1 && this.suffix.equals(Suffix.THOUSAND)))
+                if (!(dozens == 1 && this.getSuffix().equals(Suffix.THOUSAND)))
                     result += numberDescriptionMap.get(dozens) + " ";
 
             if (dozens >= 20) {
@@ -77,22 +81,22 @@ public class CardinalBlock extends Block {
     }
 
     @Override
-    protected String getSuffixDescription() {
-        return CardinalDescriptions.getSuffixDescriptionForValue(this.suffix, this.getValue());
+    public String getSuffixDescription() {
+        return CardinalDescriptions.getSuffixDescriptionForValue(this.getSuffix(), this.getValue());
     }
 
     private Map<Integer, String> getNumberDescriptionsMap(Gender gender) {
         if (gender.equals(Gender.MALE))
             return CardinalDescriptions.maleDescriptionsMap;
 
-        if (this.suffix.equals(Suffix.NO_SUFFIX) || this.suffix.equals(Suffix.THOUSAND))
+        if (this.getSuffix().equals(Suffix.NO_SUFFIX) || this.getSuffix().equals(Suffix.THOUSAND))
             return CardinalDescriptions.femaleDescriptionsMap;
 
         return CardinalDescriptions.maleDescriptionsMap;
     }
 
     @Override
-    protected String getConjuction() {
+    public String getConjuction() {
         String comma = this.useCommaSeparator ? ", " : " ";
 
         if (this.isLastPronounceable())

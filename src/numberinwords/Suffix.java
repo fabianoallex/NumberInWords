@@ -1,4 +1,4 @@
-package numberinwords.portuguese;
+package numberinwords;
 
 public enum Suffix {
     NO_SUFFIX(0), THOUSAND(1), MILLION(2),
@@ -7,13 +7,13 @@ public enum Suffix {
     OCTILLION(9), NONILLION(10),
     DECILLION(11);
 
-    final int suffixIndex;
+    public final int suffixIndex;
 
     Suffix(int suffixIndex) {
         this.suffixIndex = suffixIndex;
     }
 
-    Suffix getNext() {
+    public Suffix getNext() {
         Suffix[] values = Suffix.values();
         int nextIndex = (this.ordinal() + 1) % values.length;
         return values[nextIndex];

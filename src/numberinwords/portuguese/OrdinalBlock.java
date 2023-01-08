@@ -29,10 +29,22 @@ public class OrdinalBlock extends Block {
     }
 
     public String inWords() {
+        return this.getNumberDescription() +
+                this.getSuffixDescription() +
+                this.getConjuction();
+    }
+
+    private String getConjuction() {
+        if (this.isLastPronounceableBlock())
+            return "";
+
+        return this.useCommaSeparator ? ", " : " ";
+    }
+
+    private String getNumberDescription() {
         var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
         String result = "";
-        String comma = useCommaSeparator ? ", " : " ";
 
         if (this.getValue() != 0) {
             int hundred = (int) (this.getValue() / 100);
@@ -57,15 +69,14 @@ public class OrdinalBlock extends Block {
             }
         }
 
-        result += OrdinalDescriptions.getSuffixDescriptionForGender(suffix, gender) + " ";
-
-        if (this.isLastPronounceableBlock())
-            return result;
-
-        return result.trim() + comma;
+        return result;
     }
 
-    Map<Integer, String> getNumberDescriptionsMapForGender(Gender gender) {
+    private String getSuffixDescription() {
+        return OrdinalDescriptions.getSuffixDescriptionForGender(suffix, gender);
+    }
+
+    private Map<Integer, String> getNumberDescriptionsMapForGender(Gender gender) {
         if (gender.equals(Gender.MALE))
             return OrdinalDescriptions.maleDescriptionsMap;
 

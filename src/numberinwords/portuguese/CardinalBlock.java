@@ -27,8 +27,8 @@ public class CardinalBlock extends Block {
     }
 
     @Override
-    CardinalBlock getNextPronounceableBlock() {
-        return (CardinalBlock) super.getNextPronounceableBlock();
+    public CardinalBlock getNextPronounceable() {
+        return (CardinalBlock) super.getNextPronounceable();
     }
 
     @Override
@@ -95,16 +95,16 @@ public class CardinalBlock extends Block {
     protected String getConjuction() {
         String comma = this.useCommaSeparator ? ", " : " ";
 
-        if (this.isLastPronounceableBlock())
+        if (this.isLastPronounceable())
             return "";
 
-        if (!this.getNextPronounceableBlock().isLastPronounceableBlock())
+        if (!this.getNextPronounceable().isLastPronounceable())
             return comma;
 
-        if (this.getNextPronounceableBlock().getValue() % 100 == 0)
+        if (this.getNextPronounceable().getValue() % 100 == 0)
             return " e ";
 
-        if (this.getNextPronounceableBlock().getValue() < 100)
+        if (this.getNextPronounceable().getValue() < 100)
             return " e ";
 
         return comma;

@@ -24,8 +24,8 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    OrdinalBlock getNextPronounceableBlock() {
-        return (OrdinalBlock) super.getNextPronounceableBlock();
+    public OrdinalBlock getNextPronounceable() {
+        return (OrdinalBlock) super.getNextPronounceable();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class OrdinalBlock extends Block {
 
     @Override
     protected String getConjuction() {
-        if (this.isLastPronounceableBlock())
+        if (this.isLastPronounceable())
             return "";
 
         return this.useCommaSeparator ? ", " : " ";

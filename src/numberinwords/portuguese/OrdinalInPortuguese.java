@@ -27,10 +27,10 @@ public class OrdinalInPortuguese implements NumberInWords<Long> {
         while (numberBlock != null) {
             result.append(numberBlock.inWords());
 
-            if (numberBlock.isLastPronounceableBlock())
+            if (numberBlock.isLastPronounceable())
                 break;
 
-            numberBlock = numberBlock.getNextPronounceableBlock();
+            numberBlock = numberBlock.getNextPronounceable();
         }
 
         return result.toString().trim();

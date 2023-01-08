@@ -30,25 +30,25 @@ public abstract class Block {
 
     protected abstract String getNumberDescription();
 
-    Long getValue() {
+    public Long getValue() {
         return value;
     }
 
-    Block getNextBlock() {
+    public Block getNext() {
         return this.next;
     }
 
-    Block getNextPronounceableBlock() {
-        Block next = this.getNextBlock();
+    public Block getNextPronounceable() {
+        Block next = this.getNext();
 
         while (next != null && next.getValue() == 0)
-            next = next.getNextBlock();
+            next = next.getNext();
 
         return next;
     }
 
-    boolean isLastPronounceableBlock() {
-        return getNextPronounceableBlock() == null;
+    boolean isLastPronounceable() {
+        return getNextPronounceable() == null;
     }
 
     public abstract static class Builder {

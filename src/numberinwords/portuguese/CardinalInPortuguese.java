@@ -32,10 +32,10 @@ public class CardinalInPortuguese implements NumberInWords<Long> {
         while (block != null) {
             result.append(block.inWords());
 
-            if (block.isLastPronounceableBlock())
+            if (block.isLastPronounceable())
                 break;
 
-            block = block.getNextPronounceableBlock();
+            block = block.getNextPronounceable();
         }
 
         return result.toString().trim();

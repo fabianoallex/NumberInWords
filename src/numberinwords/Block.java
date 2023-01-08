@@ -57,9 +57,9 @@ public abstract class Block {
     }
 
     public abstract static class Builder {
-        Long number;
+        protected Long number;
 
-        abstract Builder withNumber(Long number);
-        abstract Block build();
+        public abstract Builder withNumber(Long number);
+        public abstract Block build();
     }
 }

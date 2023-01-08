@@ -2,7 +2,7 @@ package numberinwords.portuguese;
 
 import numberinwords.NumberInWords;
 
-public class CardinalInPortuguese implements NumberInWords {
+public class CardinalInPortuguese implements NumberInWords<Long> {
     private final boolean useCommaSeparator;
     private final Gender gender;
     private final String zeroDescription;

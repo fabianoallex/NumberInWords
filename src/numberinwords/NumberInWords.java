@@ -1,6 +1,6 @@
 package numberinwords;
 
-public interface NumberInWords {
-    String inWords(Long number);
+public interface NumberInWords<T> {
+    String inWords(T number);
 }
 

@@ -4,7 +4,7 @@ import numberinwords.portuguese.OrdinalInPortuguese;
 
 public class Main {
     public static void main(String[] args) {
-        NumberInWords cardinalNumber = new CardinalInPortuguese.Builder()
+        NumberInWords<Long> cardinalNumber = new CardinalInPortuguese.Builder()
                 .withCommaSeparator()
                 .withFemaleGender()
                 .withZeroDescription("Nenhuma")
@@ -70,7 +70,7 @@ public class Main {
         System.out.println(cardinalNumber.inWords(Long.MAX_VALUE));
         System.out.println(cardinalNumber.inWords(-Long.MAX_VALUE));
 
-        NumberInWords ordinalNumber = new OrdinalInPortuguese.Builder()
+        NumberInWords<Long> ordinalNumber = new OrdinalInPortuguese.Builder()
                 .withMaleGender()
                 //.withCommaSeparator()
                 .build();

@@ -29,14 +29,6 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    protected String getConjuction() {
-        if (this.isLastPronounceableBlock())
-            return "";
-
-        return this.useCommaSeparator ? ", " : " ";
-    }
-
-    @Override
     protected String getNumberDescription() {
         var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
@@ -66,6 +58,14 @@ public class OrdinalBlock extends Block {
         }
 
         return result;
+    }
+
+    @Override
+    protected String getConjuction() {
+        if (this.isLastPronounceableBlock())
+            return "";
+
+        return this.useCommaSeparator ? ", " : " ";
     }
 
     @Override

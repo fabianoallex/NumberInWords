@@ -76,6 +76,7 @@ public class CardinalBlock extends Block {
         return this.zeroDescription;
     }
 
+    @Override
     protected String getSuffixDescription() {
         return CardinalDescriptions.getSuffixDescriptionForValue(this.suffix, this.getValue());
     }

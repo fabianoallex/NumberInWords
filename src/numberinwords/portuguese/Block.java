@@ -1,6 +1,6 @@
 package numberinwords.portuguese;
 
-public class Block {
+public abstract class Block {
     final Long value;
     final Suffix suffix;
     final Block next;
@@ -17,9 +17,18 @@ public class Block {
         this.suffix = next.suffix.getNext(); //get next suffix
     }
 
-    Block addNext(Long value) {
-        return new Block(value, this);
+    public String inWords() {
+        return this.getNumberDescription() +
+                this.getSuffixDescription() +
+                this.getConjuction();
     }
+    public abstract Block addNext(Long value);
+
+    protected abstract String getSuffixDescription();
+
+    protected abstract String getConjuction();
+
+    protected abstract String getNumberDescription();
 
     Long getValue() {
         return value;
@@ -42,21 +51,10 @@ public class Block {
         return getNextPronounceableBlock() == null;
     }
 
-    public static class Builder {
+    public abstract static class Builder {
         Long number;
 
-        Builder withNumber(Long number) {
-            this.number = Math.abs(number);
-            return this;
-        }
-
-        Block build() {
-            Block block = new Block(this);
-
-            while (number != 0)
-                block = block.addNext(number /= 1000);
-
-            return block;
-        }
+        abstract Builder withNumber(Long number);
+        abstract Block build();
     }
 }

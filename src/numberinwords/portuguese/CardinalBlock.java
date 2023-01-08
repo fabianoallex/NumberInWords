@@ -22,7 +22,7 @@ public class CardinalBlock extends Block {
     }
 
     @Override
-    CardinalBlock addNext(Long value) {
+    public CardinalBlock addNext(Long value) {
         return new CardinalBlock(value, this);
     }
 
@@ -31,13 +31,8 @@ public class CardinalBlock extends Block {
         return (CardinalBlock) super.getNextPronounceableBlock();
     }
 
-    public String inWords() {
-        return this.getNumberDescription() +
-                this.getSuffixDescription() +
-                this.getConjuction();
-    }
-
-    private String getNumberDescription() {
+    @Override
+    protected String getNumberDescription() {
         String result = "";
 
         var numberDescriptionMap = getNumberDescriptionsMap(this.gender);
@@ -81,7 +76,7 @@ public class CardinalBlock extends Block {
         return this.zeroDescription;
     }
 
-    private String getSuffixDescription() {
+    protected String getSuffixDescription() {
         return CardinalDescriptions.getSuffixDescriptionForValue(this.suffix, this.getValue());
     }
 
@@ -95,7 +90,8 @@ public class CardinalBlock extends Block {
         return CardinalDescriptions.maleDescriptionsMap;
     }
 
-    private String getConjuction() {
+    @Override
+    protected String getConjuction() {
         String comma = this.useCommaSeparator ? ", " : " ";
 
         if (this.isLastPronounceableBlock())
@@ -118,27 +114,29 @@ public class CardinalBlock extends Block {
         String zeroDescription;
         public Gender gender;
 
-        Builder withNumber(Long number) {
+        @Override
+        public Builder withNumber(Long number) {
             this.number = Math.abs(number);
             return this;
         }
 
-        Builder withCommaSeparator(boolean useCommaSeparator) {
+        public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;
             return this;
         }
 
-        Builder withZeroDescription(String zeroDescription) {
+        public Builder withZeroDescription(String zeroDescription) {
             this.zeroDescription = zeroDescription;
             return this;
         }
 
-        Builder withGender(Gender gender) {
+        public Builder withGender(Gender gender) {
             this.gender = gender;
             return this;
         }
 
-        CardinalBlock build() {
+        @Override
+        public CardinalBlock build() {
             CardinalBlock block = new CardinalBlock(this);
 
             for (long number = this.number/1000; number > 0; number /= 1000)

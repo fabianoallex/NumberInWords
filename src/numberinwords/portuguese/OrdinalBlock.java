@@ -19,7 +19,7 @@ public class OrdinalBlock extends Block {
     }
 
     @Override
-    OrdinalBlock addNext(Long value) {
+    public OrdinalBlock addNext(Long value) {
         return new OrdinalBlock(value, this);
     }
 
@@ -28,20 +28,16 @@ public class OrdinalBlock extends Block {
         return (OrdinalBlock) super.getNextPronounceableBlock();
     }
 
-    public String inWords() {
-        return this.getNumberDescription() +
-                this.getSuffixDescription() +
-                this.getConjuction();
-    }
-
-    private String getConjuction() {
+    @Override
+    protected String getConjuction() {
         if (this.isLastPronounceableBlock())
             return "";
 
         return this.useCommaSeparator ? ", " : " ";
     }
 
-    private String getNumberDescription() {
+    @Override
+    protected String getNumberDescription() {
         var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
 
         String result = "";
@@ -72,7 +68,8 @@ public class OrdinalBlock extends Block {
         return result;
     }
 
-    private String getSuffixDescription() {
+    @Override
+    protected String getSuffixDescription() {
         return OrdinalDescriptions.getSuffixDescriptionForGender(suffix, gender);
     }
 
@@ -87,22 +84,24 @@ public class OrdinalBlock extends Block {
         public boolean useCommaSeparator;
         public Gender gender;
 
-        Builder withNumber(Long number) {
+        @Override
+        public Builder withNumber(Long number) {
             this.number = Math.abs(number);
             return this;
         }
 
-        Builder withCommaSeparator(boolean useCommaSeparator) {
+        public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;
             return this;
         }
 
-        Builder withGender(Gender gender) {
+        public Builder withGender(Gender gender) {
             this.gender = gender;
             return this;
         }
 
-        OrdinalBlock build() {
+        @Override
+        public OrdinalBlock build() {
             OrdinalBlock block = new OrdinalBlock(this);
 
             for (long number = this.number/1000; number > 0; number /= 1000)

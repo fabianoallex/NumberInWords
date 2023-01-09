@@ -1,9 +1,9 @@
 package numberinwords.portuguese;
 
 import numberinwords.Gender;
-import numberinwords.NumberInWords;
+import numberinwords.OrdinalInWords;
 
-public class OrdinalInPortuguese implements NumberInWords<Long> {
+public class OrdinalInPortuguese implements OrdinalInWords {
     private final Gender gender;
     private final boolean useCommaSeparator;
 

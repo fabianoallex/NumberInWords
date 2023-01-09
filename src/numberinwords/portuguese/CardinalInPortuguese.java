@@ -1,9 +1,9 @@
 package numberinwords.portuguese;
 
+import numberinwords.CardinalInWords;
 import numberinwords.Gender;
-import numberinwords.NumberInWords;
 
-public class CardinalInPortuguese implements NumberInWords<Long> {
+public class CardinalInPortuguese implements CardinalInWords {
     private final boolean useCommaSeparator;
     private final Gender gender;
     private final String zeroDescription;

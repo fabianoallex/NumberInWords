@@ -1,8 +1,10 @@
 import numberinwords.CardinalInWords;
-import numberinwords.NumberInWords;
 import numberinwords.OrdinalInWords;
 import numberinwords.portuguese.CardinalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
+import numberinwords.roman.NumberInRoman;
+
+import static java.lang.String.join;
 
 public class Main {
     public static void main(String[] args) {
@@ -81,6 +83,18 @@ public class Main {
         System.out.println(ordinalNumber.inWords(11L));
         System.out.println(ordinalNumber.inWords(12L));
         System.out.println(ordinalNumber.inWords(16L));
+
+
+        NumberInRoman numberInRoman = new NumberInRoman.Builder()
+                .withAdditiveMethod()
+                .build();
+
+
+        for (int i = 0; i <= 10; i++) {
+            System.out.println(numberInRoman.inRoman(i));
+        }
+
+        System.out.println(numberInRoman.inRoman(3888));
+
     }
 }
-

@@ -2,10 +2,9 @@ package numberinwords;
 
 public abstract class Block {
     private final Long value;
-
     private final Suffix suffix;
-
     private final Block next;
+
     public Block(Builder builder) {
         this.next = null;
         this.value = builder.number % 1000;
@@ -18,21 +17,19 @@ public abstract class Block {
         this.suffix = next.suffix.getNext(); //get next suffix
     }
 
-    public Suffix getSuffix() {
-        return suffix;
-    }
-
     public String inWords() {
         return this.getNumberDescription() +
                 this.getSuffixDescription() +
                 this.getConjuction();
     }
+
+    public Suffix getSuffix() {
+        return suffix;
+    }
+
     public abstract Block addNext(Long value);
-
     public abstract String getSuffixDescription();
-
     public abstract String getConjuction();
-
     public abstract String getNumberDescription();
 
     public Long getValue() {

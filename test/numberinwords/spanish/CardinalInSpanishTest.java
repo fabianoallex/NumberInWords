@@ -1,6 +1,8 @@
 package numberinwords.spanish;
 
+import numberinwords.CardinalInWords;
 import numberinwords.NumberInWords;
+import numberinwords.OrdinalInWords;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
@@ -66,7 +68,7 @@ class CardinalInSpanishTest {
 
         //testCases.put(10000000000000000000L, "dez quintilhões"); //não pode ser testado, pois valor maior que Long.MAX_VALUE
 
-        NumberInWords<Long> cardinalNumber = new CardinalInSpanish.Builder().build();
+        CardinalInWords cardinalNumber = new CardinalInSpanish.Builder().build();
         testCases.forEach((number, expectedResult) ->
                 assertEquals(
                         expectedResult,

@@ -1,6 +1,8 @@
 package numberinwords.portuguese;
 
+import numberinwords.CardinalInWords;
 import numberinwords.NumberInWords;
+import numberinwords.OrdinalInWords;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +53,7 @@ class OrdinalInPortugueseTest {
         testCases.put(1000000000000000L, "quatrilionésimo");
         testCases.put(1000000000000000000L, "quintilionésimo");
 
-        NumberInWords<Long> ordinalNumber = new OrdinalInPortuguese.Builder().build();
+        OrdinalInWords ordinalNumber = new OrdinalInPortuguese.Builder().build();
         testCases.forEach((number, expectedResult) ->
                 assertEquals(
                         expectedResult,
@@ -100,7 +102,7 @@ class OrdinalInPortugueseTest {
         testCases.put(1000000000000000L, "quatrilionésima");
         testCases.put(1000000000000000000L, "quintilionésima");
 
-        NumberInWords<Long> ordinalNumber = new OrdinalInPortuguese.Builder()
+        OrdinalInWords ordinalNumber = new OrdinalInPortuguese.Builder()
                 .withFemaleGender()
                 .build();
 
@@ -152,7 +154,7 @@ class OrdinalInPortugueseTest {
         testCases.put(1000000000000000L, "quatrilionésima");
         testCases.put(1000000000000000000L, "quintilionésima");
 
-        NumberInWords<Long> ordinalNumber = new OrdinalInPortuguese.Builder()
+        OrdinalInWords ordinalNumber = new OrdinalInPortuguese.Builder()
                 .withFemaleGender()
                 .withCommaSeparator()
                 .build();

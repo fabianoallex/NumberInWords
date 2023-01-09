@@ -107,7 +107,7 @@ public class CardinalDescriptions {
         femaleDescriptionsMap.put(19, "diecinueve");
         femaleDescriptionsMap.put(20, "veinte");
         femaleDescriptionsMap.put(21, "veintiuna");
-        femaleDescriptionsMap.put(-21, "veintiún"); //apocope
+        femaleDescriptionsMap.put(-21, "veintiuna"); //apocope
         femaleDescriptionsMap.put(22, "veintidós");
         femaleDescriptionsMap.put(23, "veintitrés");
         femaleDescriptionsMap.put(24, "veinticuatro");

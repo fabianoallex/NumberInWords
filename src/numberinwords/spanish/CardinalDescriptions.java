@@ -36,7 +36,7 @@ public class CardinalDescriptions {
     static {
         maleDescriptionsMap.put(0, "cero");
         maleDescriptionsMap.put(1, "uno");
-        maleDescriptionsMap.put(-1, "un");
+        maleDescriptionsMap.put(-1, "un"); //apocope
         maleDescriptionsMap.put(2, "dos");
         maleDescriptionsMap.put(3, "tres");
         maleDescriptionsMap.put(4, "cuatro");
@@ -57,6 +57,7 @@ public class CardinalDescriptions {
         maleDescriptionsMap.put(19, "diecinueve");
         maleDescriptionsMap.put(20, "veinte");
         maleDescriptionsMap.put(21, "veintiuno");
+        maleDescriptionsMap.put(-21, "veintiún"); //apocope
         maleDescriptionsMap.put(22, "veintidós");
         maleDescriptionsMap.put(23, "veintitrés");
         maleDescriptionsMap.put(24, "veinticuatro");
@@ -106,6 +107,7 @@ public class CardinalDescriptions {
         femaleDescriptionsMap.put(19, "diecinueve");
         femaleDescriptionsMap.put(20, "veinte");
         femaleDescriptionsMap.put(21, "veintiuna");
+        femaleDescriptionsMap.put(-21, "veintiún"); //apocope
         femaleDescriptionsMap.put(22, "veintidós");
         femaleDescriptionsMap.put(23, "veintitrés");
         femaleDescriptionsMap.put(24, "veinticuatro");

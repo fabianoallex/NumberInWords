@@ -7,12 +7,14 @@ import numberinwords.Suffix;
 import java.util.Map;
 
 public class CardinalBlock extends Block {
+    private final boolean useApocope;
     private final boolean useCommaSeparator;
     private final String zeroDescription;
     private final Gender gender;
 
     private CardinalBlock(Builder builder) {
         super(builder);
+        this.useApocope = builder.useApocope;
         this.useCommaSeparator = builder.useCommaSeparator;
         this.zeroDescription = builder.zeroDescription;
         this.gender = builder.gender;
@@ -20,6 +22,7 @@ public class CardinalBlock extends Block {
 
     private CardinalBlock(Long value, CardinalBlock next) {
         super(value, next);
+        this.useApocope = next.useApocope;
         this.useCommaSeparator = next.useCommaSeparator;
         this.zeroDescription = next.zeroDescription;
         this.gender = next.gender;
@@ -54,13 +57,12 @@ public class CardinalBlock extends Block {
             if (hundred > 0)
                 result += numberDescriptionMap.get(hundred * 100) + " ";
 
-            if (dozens > 0 && dozens < 30)
-                //ex. 1200. previne 'uno mil e ducientos'. fica 'mil duzentos'
-                if (!(dozens == 1 && this.getSuffix().equals(Suffix.THOUSAND)))
-                    if (dozens == 1 && this.getSuffix().compareTo(Suffix.THOUSAND) > 0)
-                        result += numberDescriptionMap.get(-1) + " "; //un
-                    else
-                        result += numberDescriptionMap.get(dozens) + " ";
+            boolean useApocope =
+                    (dozens == 1 || dozens == 21) &&
+                            (this.getSuffix().compareTo(Suffix.THOUSAND) > 0 || this.useApocope);
+
+            if (dozens > 0 && dozens < 30 && !(dozens == 1 && this.getSuffix().equals(Suffix.THOUSAND)))
+                result += numberDescriptionMap.get(useApocope ? -dozens : dozens) + " ";
 
             if (dozens >= 30) {
                 int ten = dozens / 10;
@@ -118,6 +120,7 @@ public class CardinalBlock extends Block {
     }
 
     public static class Builder extends Block.Builder {
+        boolean useApocope = false;
         boolean useCommaSeparator = false;
         String zeroDescription;
         public Gender gender;
@@ -125,6 +128,11 @@ public class CardinalBlock extends Block {
         @Override
         public Builder withNumber(Long number) {
             this.number = Math.abs(number);
+            return this;
+        }
+
+        public Builder withApocope(boolean useApocope) {
+            this.useApocope = useApocope;
             return this;
         }
 

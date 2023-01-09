@@ -4,6 +4,7 @@ import numberinwords.CardinalInWords;
 import numberinwords.Gender;
 
 public class CardinalInSpanish implements CardinalInWords {
+    private final boolean useApocope;
     private final boolean useCommaSeparator;
     private final Gender gender;
     private final String zeroDescription;
@@ -11,6 +12,7 @@ public class CardinalInSpanish implements CardinalInWords {
     private final String positiveSignalDescription;
 
     protected CardinalInSpanish(Builder builder) {
+        this.useApocope = builder.useApocope;
         this.useCommaSeparator = builder.useCommaSeparator;
         this.gender = builder.gender;
         this.zeroDescription = builder.zeroDescription;
@@ -24,10 +26,11 @@ public class CardinalInSpanish implements CardinalInWords {
         result.append(getSignalDescription(number));
 
         CardinalBlock block = new CardinalBlock.Builder()
+                .withNumber(number)
+                .withApocope(useApocope)
                 .withCommaSeparator(useCommaSeparator)
                 .withZeroDescription(this.zeroDescription)
                 .withGender(this.gender)
-                .withNumber(number)
                 .build();
 
         while (block != null) {
@@ -57,6 +60,7 @@ public class CardinalInSpanish implements CardinalInWords {
     public static class Builder {
         public String negativeSignalDescription = CardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
         public String positiveSignalDescription = CardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
+        private boolean useApocope = false;
         private boolean useCommaSeparator = false;
         private Gender gender = Gender.MALE;
         private String zeroDescription;
@@ -91,8 +95,15 @@ public class CardinalInSpanish implements CardinalInWords {
             return this;
         }
 
+        public Builder withApocope() {
+            this.useApocope = true;
+            return this;
+        }
+
         public CardinalInSpanish build() {
             return new CardinalInSpanish(this);
         }
+
+
     }
 }

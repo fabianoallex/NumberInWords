@@ -58,7 +58,7 @@ public class CardinalBlock extends Block {
                 //ex. 1200. previne 'uno mil e ducientos'. fica 'mil duzentos'
                 if (!(dozens == 1 && this.getSuffix().equals(Suffix.THOUSAND)))
                     if (dozens == 1 && this.getSuffix().compareTo(Suffix.THOUSAND) > 0)
-                        result += numberDescriptionMap.get(-1) + " ";
+                        result += numberDescriptionMap.get(-1) + " "; //un
                     else
                         result += numberDescriptionMap.get(dozens) + " ";
 
@@ -112,7 +112,7 @@ public class CardinalBlock extends Block {
             return " ";
 
         if (this.getNextPronounceable().getValue() < 100)
-            return " ";
+            return " y ";
 
         return comma;
     }

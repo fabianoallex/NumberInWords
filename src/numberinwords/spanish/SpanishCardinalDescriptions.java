@@ -5,7 +5,7 @@ import numberinwords.Suffix;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CardinalDescriptions {
+public class SpanishCardinalDescriptions {
     static final String[] singularSuffixes = new String[] {
             "", "mil", "millón", "billón", "trillón", "cuatrillón",
             "quintillón", "sextillón", "septillón", "octillón",

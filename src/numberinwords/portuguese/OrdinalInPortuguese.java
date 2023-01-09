@@ -5,9 +5,18 @@ import numberinwords.OrdinalInWords;
 
 public class OrdinalInPortuguese implements OrdinalInWords {
     private final Gender gender;
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public boolean isUsingCommaSeparator() {
+        return useCommaSeparator;
+    }
+
     private final boolean useCommaSeparator;
 
-    protected OrdinalInPortuguese(Builder builder) {
+    private OrdinalInPortuguese(Builder builder) {
         this.gender = builder.gender;
         this.useCommaSeparator = builder.useCommaSeparator;
     }
@@ -19,9 +28,8 @@ public class OrdinalInPortuguese implements OrdinalInWords {
         if (number <= 0)
             return "";
 
-        OrdinalBlock numberBlock = new OrdinalBlock.Builder(number)
-                .withGender(this.gender)
-                .withCommaSeparator(this.useCommaSeparator)
+        PortugueseOrdinalBlock numberBlock = new PortugueseOrdinalBlock.Builder(number)
+                .withOrdinalInPortuguese(this)
                 .build();
 
         while (numberBlock != null) {

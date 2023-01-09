@@ -6,40 +6,34 @@ import numberinwords.Suffix;
 
 import java.util.Map;
 
-public class CardinalBlock extends Block {
-    private final boolean useCommaSeparator;
-    private final String zeroDescription;
-    private final Gender gender;
+public class PortugueseCardinalBlock extends Block {
+    private final CardinalInPortuguese cardinalInPortuguese;
 
-    private CardinalBlock(Builder builder) {
+    private PortugueseCardinalBlock(Builder builder) {
         super(builder);
-        this.useCommaSeparator = builder.useCommaSeparator;
-        this.zeroDescription = builder.zeroDescription;
-        this.gender = builder.gender;
+        this.cardinalInPortuguese = builder.cardinalInPortuguese;
     }
 
-    private CardinalBlock(Long value, CardinalBlock next) {
+    private PortugueseCardinalBlock(Long value, PortugueseCardinalBlock next) {
         super(value, next);
-        this.useCommaSeparator = next.useCommaSeparator;
-        this.zeroDescription = next.zeroDescription;
-        this.gender = next.gender;
+        this.cardinalInPortuguese = next.cardinalInPortuguese;
     }
 
     @Override
-    public CardinalBlock addNext(Long value) {
-        return new CardinalBlock(value, this);
+    public PortugueseCardinalBlock addNext(Long value) {
+        return new PortugueseCardinalBlock(value, this);
     }
 
     @Override
-    public CardinalBlock getNextPronounceable() {
-        return (CardinalBlock) super.getNextPronounceable();
+    public PortugueseCardinalBlock getNextPronounceable() {
+        return (PortugueseCardinalBlock) super.getNextPronounceable();
     }
 
     @Override
     public String getNumberDescription() {
         String result = "";
 
-        var numberDescriptionMap = getNumberDescriptionsMap(this.gender);
+        var numberDescriptionMap = getNumberDescriptionsMap(this.cardinalInPortuguese.getGender());
 
         if (this.getValue() == 0)
             result = this.getZeroDescription() + " ";
@@ -74,30 +68,30 @@ public class CardinalBlock extends Block {
     }
 
     private String getZeroDescription() {
-        if (this.zeroDescription == null)
-            return CardinalDescriptions.maleDescriptionsMap.get(0);
+        if (this.cardinalInPortuguese.getZeroDescription() == null)
+            return PortugueseCardinalDescriptions.maleDescriptionsMap.get(0);
 
-        return this.zeroDescription;
+        return this.cardinalInPortuguese.getZeroDescription();
     }
 
     @Override
     public String getSuffixDescription() {
-        return CardinalDescriptions.getSuffixDescriptionForValue(this.getSuffix(), this.getValue());
+        return PortugueseCardinalDescriptions.getSuffixDescriptionForValue(this.getSuffix(), this.getValue());
     }
 
     private Map<Integer, String> getNumberDescriptionsMap(Gender gender) {
         if (gender.equals(Gender.MALE))
-            return CardinalDescriptions.maleDescriptionsMap;
+            return PortugueseCardinalDescriptions.maleDescriptionsMap;
 
         if (this.getSuffix().equals(Suffix.NO_SUFFIX) || this.getSuffix().equals(Suffix.THOUSAND))
-            return CardinalDescriptions.femaleDescriptionsMap;
+            return PortugueseCardinalDescriptions.femaleDescriptionsMap;
 
-        return CardinalDescriptions.maleDescriptionsMap;
+        return PortugueseCardinalDescriptions.maleDescriptionsMap;
     }
 
     @Override
     public String getConjuction() {
-        String comma = this.useCommaSeparator ? ", " : " ";
+        String comma = this.cardinalInPortuguese.isUsingCommaSeparator() ? ", " : " ";
 
         if (this.isLastPronounceable())
             return "";
@@ -115,32 +109,20 @@ public class CardinalBlock extends Block {
     }
 
     public static class Builder extends Block.Builder {
-        boolean useCommaSeparator = false;
-        String zeroDescription;
-        public Gender gender;
+        CardinalInPortuguese cardinalInPortuguese;
 
         public Builder(Long number) {
             super(number);
         }
 
-        public Builder withCommaSeparator(boolean useCommaSeparator) {
-            this.useCommaSeparator = useCommaSeparator;
-            return this;
-        }
-
-        public Builder withZeroDescription(String zeroDescription) {
-            this.zeroDescription = zeroDescription;
-            return this;
-        }
-
-        public Builder withGender(Gender gender) {
-            this.gender = gender;
+        public Builder withCardinalInPortuguese(CardinalInPortuguese cardinalInPortuguese) {
+            this.cardinalInPortuguese = cardinalInPortuguese;
             return this;
         }
 
         @Override
-        public CardinalBlock build() {
-            CardinalBlock block = new CardinalBlock(this);
+        public PortugueseCardinalBlock build() {
+            PortugueseCardinalBlock block = new PortugueseCardinalBlock(this);
 
             for (long number = this.number/1000; number > 0; number /= 1000)
                 block = block.addNext(number);

@@ -6,7 +6,7 @@ import numberinwords.Suffix;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OrdinalDescriptions {
+public class PortugueseOrdinalDescriptions {
     static final String[] maleSuffixes = new String[] {
             "", "milésimo", "milionésimo", "bilionésimo", "trilionésimo",
             "quatrilionésimo", "quintilionésimo", "sextilionésimo",

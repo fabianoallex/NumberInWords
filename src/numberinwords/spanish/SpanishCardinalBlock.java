@@ -6,43 +6,34 @@ import numberinwords.Suffix;
 
 import java.util.Map;
 
-public class CardinalBlock extends Block {
-    private final boolean useApocope;
-    private final boolean useCommaSeparator;
-    private final String zeroDescription;
-    private final Gender gender;
+public class SpanishCardinalBlock extends Block {
+    private final CardinalInSpanish cardinalInSpanish;
 
-    private CardinalBlock(Builder builder) {
+    private SpanishCardinalBlock(Builder builder) {
         super(builder);
-        this.useApocope = builder.useApocope;
-        this.useCommaSeparator = builder.useCommaSeparator;
-        this.zeroDescription = builder.zeroDescription;
-        this.gender = builder.gender;
+        this.cardinalInSpanish = builder.cardinalInSpanish;
     }
 
-    private CardinalBlock(Long value, CardinalBlock next) {
+    private SpanishCardinalBlock(Long value, SpanishCardinalBlock next) {
         super(value, next);
-        this.useApocope = next.useApocope;
-        this.useCommaSeparator = next.useCommaSeparator;
-        this.zeroDescription = next.zeroDescription;
-        this.gender = next.gender;
+        this.cardinalInSpanish = next.cardinalInSpanish;
     }
 
     @Override
-    public CardinalBlock addNext(Long value) {
-        return new CardinalBlock(value, this);
+    public SpanishCardinalBlock addNext(Long value) {
+        return new SpanishCardinalBlock(value, this);
     }
 
     @Override
-    public CardinalBlock getNextPronounceable() {
-        return (CardinalBlock) super.getNextPronounceable();
+    public SpanishCardinalBlock getNextPronounceable() {
+        return (SpanishCardinalBlock) super.getNextPronounceable();
     }
 
     @Override
     public String getNumberDescription() {
         String result = "";
 
-        var numberDescriptionMap = getNumberDescriptionsMap(this.gender);
+        var numberDescriptionMap = getNumberDescriptionsMap(this.cardinalInSpanish.getGender());
 
         if (this.getValue() == 0)
             result = this.getZeroDescription() + " ";
@@ -59,7 +50,7 @@ public class CardinalBlock extends Block {
 
             boolean useApocope =
                     (dozens == 1 || dozens == 21) &&
-                            (this.getSuffix().compareTo(Suffix.THOUSAND) > 0 || this.useApocope);
+                            (this.getSuffix().compareTo(Suffix.THOUSAND) > 0 || this.cardinalInSpanish.isUsingApocope());
 
             if (dozens > 0 && dozens < 30 && !(dozens == 1 && this.getSuffix().equals(Suffix.THOUSAND)))
                 result += numberDescriptionMap.get(useApocope ? -dozens : dozens) + " ";
@@ -79,30 +70,30 @@ public class CardinalBlock extends Block {
     }
 
     private String getZeroDescription() {
-        if (this.zeroDescription == null)
-            return CardinalDescriptions.maleDescriptionsMap.get(0);
+        if (this.cardinalInSpanish.getZeroDescription() == null)
+            return SpanishCardinalDescriptions.maleDescriptionsMap.get(0);
 
-        return this.zeroDescription;
+        return this.cardinalInSpanish.getZeroDescription();
     }
 
     @Override
     public String getSuffixDescription() {
-        return CardinalDescriptions.getSuffixDescriptionForValue(this.getSuffix(), this.getValue());
+        return SpanishCardinalDescriptions.getSuffixDescriptionForValue(this.getSuffix(), this.getValue());
     }
 
     private Map<Integer, String> getNumberDescriptionsMap(Gender gender) {
         if (gender.equals(Gender.MALE))
-            return CardinalDescriptions.maleDescriptionsMap;
+            return SpanishCardinalDescriptions.maleDescriptionsMap;
 
         if (this.getSuffix().equals(Suffix.NO_SUFFIX) || this.getSuffix().equals(Suffix.THOUSAND))
-            return CardinalDescriptions.femaleDescriptionsMap;
+            return SpanishCardinalDescriptions.femaleDescriptionsMap;
 
-        return CardinalDescriptions.maleDescriptionsMap;
+        return SpanishCardinalDescriptions.maleDescriptionsMap;
     }
 
     @Override
     public String getConjuction() {
-        String comma = this.useCommaSeparator ? ", " : " ";
+        String comma = this.cardinalInSpanish.isUsingCommaSeparator() ? ", " : " ";
 
         if (this.isLastPronounceable())
             return "";
@@ -120,38 +111,20 @@ public class CardinalBlock extends Block {
     }
 
     public static class Builder extends Block.Builder {
-        boolean useApocope = false;
-        boolean useCommaSeparator = false;
-        String zeroDescription;
-        public Gender gender;
+        CardinalInSpanish cardinalInSpanish;
 
         public Builder(Long number) {
             super(number);
         }
 
-        public Builder withApocope(boolean useApocope) {
-            this.useApocope = useApocope;
-            return this;
-        }
-
-        public Builder withCommaSeparator(boolean useCommaSeparator) {
-            this.useCommaSeparator = useCommaSeparator;
-            return this;
-        }
-
-        public Builder withZeroDescription(String zeroDescription) {
-            this.zeroDescription = zeroDescription;
-            return this;
-        }
-
-        public Builder withGender(Gender gender) {
-            this.gender = gender;
+        public Builder withCardinalInSpanish(CardinalInSpanish cardinalInSpanish) {
+            this.cardinalInSpanish = cardinalInSpanish;
             return this;
         }
 
         @Override
-        public CardinalBlock build() {
-            CardinalBlock block = new CardinalBlock(this);
+        public SpanishCardinalBlock build() {
+            SpanishCardinalBlock block = new SpanishCardinalBlock(this);
 
             for (long number = this.number/1000; number > 0; number /= 1000)
                 block = block.addNext(number);

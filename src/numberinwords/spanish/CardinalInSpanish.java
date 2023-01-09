@@ -11,7 +11,31 @@ public class CardinalInSpanish implements CardinalInWords {
     private final String negativeSignalDescription;
     private final String positiveSignalDescription;
 
-    protected CardinalInSpanish(Builder builder) {
+    public boolean isUsingApocope() {
+        return useApocope;
+    }
+
+    public boolean isUsingCommaSeparator() {
+        return useCommaSeparator;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getZeroDescription() {
+        return zeroDescription;
+    }
+
+    public String getNegativeSignalDescription() {
+        return negativeSignalDescription;
+    }
+
+    public String getPositiveSignalDescription() {
+        return positiveSignalDescription;
+    }
+
+    private CardinalInSpanish(Builder builder) {
         this.useApocope = builder.useApocope;
         this.useCommaSeparator = builder.useCommaSeparator;
         this.gender = builder.gender;
@@ -25,11 +49,8 @@ public class CardinalInSpanish implements CardinalInWords {
         StringBuilder result = new StringBuilder();
         result.append(getSignalDescription(number));
 
-        CardinalBlock block = new CardinalBlock.Builder(number)
-                .withApocope(useApocope)
-                .withCommaSeparator(useCommaSeparator)
-                .withZeroDescription(this.zeroDescription)
-                .withGender(this.gender)
+        SpanishCardinalBlock block = new SpanishCardinalBlock.Builder(number)
+                .withCardinalInSpanish(this)
                 .build();
 
         while (block != null) {
@@ -57,8 +78,8 @@ public class CardinalInSpanish implements CardinalInWords {
     }
 
     public static class Builder {
-        public String negativeSignalDescription = CardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
-        public String positiveSignalDescription = CardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
+        public String negativeSignalDescription = SpanishCardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
+        public String positiveSignalDescription = SpanishCardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
         private boolean useApocope = false;
         private boolean useCommaSeparator = false;
         private Gender gender = Gender.MALE;
@@ -89,8 +110,18 @@ public class CardinalInSpanish implements CardinalInWords {
             return this;
         }
 
+        public Builder withGender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
         public Builder withZeroDescription(String zeroDescription) {
             this.zeroDescription = zeroDescription;
+            return this;
+        }
+
+        public Builder withCommaSeparator(boolean useCommaSeparator) {
+            this.useCommaSeparator = useCommaSeparator;
             return this;
         }
 

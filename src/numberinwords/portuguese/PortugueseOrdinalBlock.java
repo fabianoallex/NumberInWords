@@ -6,35 +6,32 @@ import numberinwords.Suffix;
 
 import java.util.Map;
 
-public class OrdinalBlock extends Block {
-    private final boolean useCommaSeparator;
-    private final Gender gender;
+public class PortugueseOrdinalBlock extends Block {
+    private final OrdinalInPortuguese ordinalInPortuguese;
 
-    private OrdinalBlock(Builder builder) {
+    private PortugueseOrdinalBlock(Builder builder) {
         super(builder);
-        this.useCommaSeparator = builder.useCommaSeparator;
-        this.gender = builder.gender;
+        this.ordinalInPortuguese = builder.ordinalInPortuguese;
     }
 
-    private OrdinalBlock(Long value, OrdinalBlock next) {
+    private PortugueseOrdinalBlock(Long value, PortugueseOrdinalBlock next) {
         super(value, next);
-        this.useCommaSeparator = next.useCommaSeparator;
-        this.gender = next.gender;
+        this.ordinalInPortuguese = next.ordinalInPortuguese;
     }
 
     @Override
-    public OrdinalBlock addNext(Long value) {
-        return new OrdinalBlock(value, this);
+    public PortugueseOrdinalBlock addNext(Long value) {
+        return new PortugueseOrdinalBlock(value, this);
     }
 
     @Override
-    public OrdinalBlock getNextPronounceable() {
-        return (OrdinalBlock) super.getNextPronounceable();
+    public PortugueseOrdinalBlock getNextPronounceable() {
+        return (PortugueseOrdinalBlock) super.getNextPronounceable();
     }
 
     @Override
     public String getNumberDescription() {
-        var numberDescriptionMap = getNumberDescriptionsMapForGender(gender);
+        var numberDescriptionMap = getNumberDescriptionsMapForGender(this.ordinalInPortuguese.getGender());
 
         String result = "";
 
@@ -69,42 +66,38 @@ public class OrdinalBlock extends Block {
         if (this.isLastPronounceable())
             return "";
 
-        return this.useCommaSeparator ? ", " : " ";
+        return this.ordinalInPortuguese.isUsingCommaSeparator() ? ", " : " ";
     }
 
     @Override
     public String getSuffixDescription() {
-        return OrdinalDescriptions.getSuffixDescriptionForGender(this.getSuffix(), gender);
+        return PortugueseOrdinalDescriptions.getSuffixDescriptionForGender(
+                this.getSuffix(),
+                this.ordinalInPortuguese.getGender());
     }
 
     private Map<Integer, String> getNumberDescriptionsMapForGender(Gender gender) {
         if (gender.equals(Gender.MALE))
-            return OrdinalDescriptions.maleDescriptionsMap;
+            return PortugueseOrdinalDescriptions.maleDescriptionsMap;
 
-        return OrdinalDescriptions.femaleDescriptionsMap;
+        return PortugueseOrdinalDescriptions.femaleDescriptionsMap;
     }
 
     public static class Builder extends Block.Builder {
-        public boolean useCommaSeparator;
-        public Gender gender;
+        OrdinalInPortuguese ordinalInPortuguese;
 
         public Builder(Long number) {
             super(number);
         }
 
-        public Builder withCommaSeparator(boolean useCommaSeparator) {
-            this.useCommaSeparator = useCommaSeparator;
-            return this;
-        }
-
-        public Builder withGender(Gender gender) {
-            this.gender = gender;
+        public Builder withOrdinalInPortuguese(OrdinalInPortuguese ordinalInPortuguese) {
+            this.ordinalInPortuguese = ordinalInPortuguese;
             return this;
         }
 
         @Override
-        public OrdinalBlock build() {
-            OrdinalBlock block = new OrdinalBlock(this);
+        public PortugueseOrdinalBlock build() {
+            PortugueseOrdinalBlock block = new PortugueseOrdinalBlock(this);
 
             for (long number = this.number/1000; number > 0; number /= 1000)
                 block = block.addNext(number);

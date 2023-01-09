@@ -10,6 +10,26 @@ public class CardinalInPortuguese implements CardinalInWords {
     private final String negativeSignalDescription;
     private final String positiveSignalDescription;
 
+    public boolean isUsingCommaSeparator() {
+        return useCommaSeparator;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getZeroDescription() {
+        return zeroDescription;
+    }
+
+    public String getNegativeSignalDescription() {
+        return negativeSignalDescription;
+    }
+
+    public String getPositiveSignalDescription() {
+        return positiveSignalDescription;
+    }
+
     protected CardinalInPortuguese(Builder builder) {
         this.useCommaSeparator = builder.useCommaSeparator;
         this.gender = builder.gender;
@@ -23,10 +43,8 @@ public class CardinalInPortuguese implements CardinalInWords {
         StringBuilder result = new StringBuilder();
         result.append(getSignalDescription(number));
 
-        CardinalBlock block = new CardinalBlock.Builder(number)
-                .withCommaSeparator(useCommaSeparator)
-                .withZeroDescription(this.zeroDescription)
-                .withGender(this.gender)
+        PortugueseCardinalBlock block = new PortugueseCardinalBlock.Builder(number)
+                .withCardinalInPortuguese(this)
                 .build();
 
         while (block != null) {
@@ -54,8 +72,8 @@ public class CardinalInPortuguese implements CardinalInWords {
     }
 
     public static class Builder {
-        public String negativeSignalDescription = CardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
-        public String positiveSignalDescription = CardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
+        public String negativeSignalDescription = PortugueseCardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
+        public String positiveSignalDescription = PortugueseCardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
         private boolean useCommaSeparator = false;
         private Gender gender = Gender.MALE;
         private String zeroDescription;

@@ -25,8 +25,7 @@ public class CardinalInSpanish implements CardinalInWords {
         StringBuilder result = new StringBuilder();
         result.append(getSignalDescription(number));
 
-        CardinalBlock block = new CardinalBlock.Builder()
-                .withNumber(number)
+        CardinalBlock block = new CardinalBlock.Builder(number)
                 .withApocope(useApocope)
                 .withCommaSeparator(useCommaSeparator)
                 .withZeroDescription(this.zeroDescription)
@@ -103,7 +102,5 @@ public class CardinalInSpanish implements CardinalInWords {
         public CardinalInSpanish build() {
             return new CardinalInSpanish(this);
         }
-
-
     }
 }

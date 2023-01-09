@@ -88,10 +88,8 @@ public class OrdinalBlock extends Block {
         public boolean useCommaSeparator;
         public Gender gender;
 
-        @Override
-        public Builder withNumber(Long number) {
-            this.number = Math.abs(number);
-            return this;
+        public Builder(Long number) {
+            super(number);
         }
 
         public Builder withCommaSeparator(boolean useCommaSeparator) {

@@ -23,11 +23,10 @@ public class CardinalInPortuguese implements CardinalInWords {
         StringBuilder result = new StringBuilder();
         result.append(getSignalDescription(number));
 
-        CardinalBlock block = new CardinalBlock.Builder()
+        CardinalBlock block = new CardinalBlock.Builder(number)
                 .withCommaSeparator(useCommaSeparator)
                 .withZeroDescription(this.zeroDescription)
                 .withGender(this.gender)
-                .withNumber(number)
                 .build();
 
         while (block != null) {

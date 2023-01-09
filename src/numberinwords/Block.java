@@ -59,7 +59,10 @@ public abstract class Block {
     public abstract static class Builder {
         protected Long number;
 
-        public abstract Builder withNumber(Long number);
+        public Builder(Long number) {
+            this.number = Math.abs(number);
+        }
+
         public abstract Block build();
     }
 }

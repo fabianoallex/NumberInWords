@@ -125,10 +125,8 @@ public class CardinalBlock extends Block {
         String zeroDescription;
         public Gender gender;
 
-        @Override
-        public Builder withNumber(Long number) {
-            this.number = Math.abs(number);
-            return this;
+        public Builder(Long number) {
+            super(number);
         }
 
         public Builder withApocope(boolean useApocope) {

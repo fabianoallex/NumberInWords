@@ -19,8 +19,7 @@ public class OrdinalInPortuguese implements OrdinalInWords {
         if (number <= 0)
             return "";
 
-        OrdinalBlock numberBlock = new OrdinalBlock.Builder()
-                .withNumber(number)
+        OrdinalBlock numberBlock = new OrdinalBlock.Builder(number)
                 .withGender(this.gender)
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();

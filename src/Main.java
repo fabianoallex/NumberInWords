@@ -198,9 +198,9 @@ public class Main {
         System.out.println(realInWords.inWords(new BigDecimal("2.996")));
 
 
-        DecimalInPortuguese decimalInPortuguese = new DecimalInPortuguese.Builder(10)
+        DecimalInPortuguese decimalInPortuguese = new DecimalInPortuguese.Builder()
                 .build();
 
-        System.out.println(decimalInPortuguese.inWords(102253L));
+        System.out.println(decimalInPortuguese.inWords(new BigDecimal("35.66669")));
     }
 }

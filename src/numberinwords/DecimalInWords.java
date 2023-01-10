@@ -1,4 +1,6 @@
 package numberinwords;
 
-public interface DecimalInWords extends NumberInWords<Long> {
+import java.math.BigDecimal;
+
+public interface DecimalInWords extends NumberInWords<BigDecimal> {
 }

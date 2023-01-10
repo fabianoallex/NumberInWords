@@ -3,6 +3,8 @@ package numberinwords.portuguese;
 import numberinwords.DecimalInWords;
 import numberinwords.NumberInWordsFactory;
 
+import java.math.BigDecimal;
+
 public class DecimalInPortuguese implements DecimalInWords {
     static final String[] hundredSuffix = {"", "décimo", "centésimo"};
     static final String[] thousandsSuffixes = new String[] {
@@ -11,34 +13,45 @@ public class DecimalInPortuguese implements DecimalInWords {
             "septilionésimo", "octilionésimo", "nonilionésimo", "decilionésimo"
     };
 
-    private final Integer numberOfDecimalPlaces;
     private final boolean useCommaSeparator;
 
     private DecimalInPortuguese(Builder builder) {
-        this.numberOfDecimalPlaces = builder.numberOfDecimalPlaces;
         this.useCommaSeparator = builder.useCommaSeparator;
     }
 
+
+
     @Override
-    public String inWords(Long number) {
-        long validNumber = (long) (number % Math.pow(10, this.numberOfDecimalPlaces));
+    public String inWords(BigDecimal number) {
 
-        if (validNumber == 0)
-            return "";
+        //working here todo
+//        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(number);
+//
+//        long validNumber = (long) (number % Math.pow(10, numberOfDecimalPlaces));
+//
+//        if (validNumber == 0)
+//            return "";
+//
+//        Integer validNumberOfDecimalPlaces = numberOfDecimalPlaces;
+//
+//        while (validNumber % 10 == 0) {
+//            validNumber /= 10;
+//            validNumberOfDecimalPlaces--;
+//        }
+//
+//        return NumberInWordsFactory.createCardinalInWords()
+//                .forPortugueseLanguage()
+//                .withCommaSeparator(this.useCommaSeparator)
+//                .build()
+//                .inWords(validNumber) + " " +
+//                    this.getSuffixDescription(validNumberOfDecimalPlaces, validNumber);
+        return null;
+    }
 
-        Integer validNumberOfDecimalPlaces = this.numberOfDecimalPlaces;
-
-        while (validNumber % 10 == 0) {
-            validNumber /= 10;
-            validNumberOfDecimalPlaces--;
-        }
-
-        return NumberInWordsFactory.createCardinalInWords()
-                .forPortugueseLanguage()
-                .withCommaSeparator(this.useCommaSeparator)
-                .build()
-                .inWords(validNumber) + " " +
-                    this.getSuffixDescription(validNumberOfDecimalPlaces, validNumber);
+    int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
+        String string = bigDecimal.stripTrailingZeros().toPlainString();
+        int index = string.indexOf(".");
+        return index < 0 ? 0 : string.length() - index - 1;
     }
 
     private String getSuffixDescription(Integer numberOfDecimalPlaces, Long number) {
@@ -62,12 +75,7 @@ public class DecimalInPortuguese implements DecimalInWords {
     }
 
     public static class Builder {
-        private final Integer numberOfDecimalPlaces;
         private boolean useCommaSeparator;
-
-        public Builder(Integer numberOfDecimalPlaces) {
-            this.numberOfDecimalPlaces = numberOfDecimalPlaces <= 0 ? 1 : numberOfDecimalPlaces;
-        }
 
         public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;

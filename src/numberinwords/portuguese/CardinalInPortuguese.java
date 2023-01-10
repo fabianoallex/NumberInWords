@@ -1,7 +1,6 @@
 package numberinwords.portuguese;
 
 import numberinwords.CardinalInWords;
-import numberinwords.DecimalInWords;
 import numberinwords.Gender;
 
 public class CardinalInPortuguese implements CardinalInWords {

@@ -14,7 +14,7 @@ public abstract class Block {
     public Block(Long value, Block next) {
         this.next = next;
         this.value = value % 1000;
-        this.suffix = next.suffix.getNext(); //get next suffix
+        this.suffix = next.suffix.getNext();
     }
 
     public String inWords() {

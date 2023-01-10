@@ -1,4 +1,5 @@
 import numberinwords.CardinalInWords;
+import numberinwords.NumberInWordsFactory;
 import numberinwords.OrdinalInWords;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
@@ -162,7 +163,18 @@ public class Main {
         System.out.println(cardinalInEnglish.inWords(Long.MAX_VALUE));
         System.out.println(cardinalInEnglish.inWords(-Long.MAX_VALUE));
 
+        CardinalInWords cardinalInEnglish2 = NumberInWordsFactory.createCardinalInWords()
+                .forEnglishLanguage()
+                .build();
 
+        System.out.println(cardinalInEnglish2.inWords(123456789L));
+
+        CardinalInWords cardinalInPortugues = NumberInWordsFactory.createCardinalInWords()
+                .forPortugueseLanguage()
+                .withCommaSeparator()
+                .build();
+
+        System.out.println(cardinalInPortugues.inWords(123456789L));
 
     }
 }

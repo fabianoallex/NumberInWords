@@ -1,6 +1,7 @@
 package numberinwords.portuguese;
 
 import numberinwords.CardinalInWords;
+import numberinwords.DecimalInWords;
 import numberinwords.Gender;
 
 public class CardinalInPortuguese implements CardinalInWords {
@@ -90,6 +91,11 @@ public class CardinalInPortuguese implements CardinalInWords {
 
         public Builder withCommaSeparator() {
             this.useCommaSeparator = true;
+            return this;
+        }
+
+        public Builder withCommaSeparator(boolean useCommaSeparator) {
+            this.useCommaSeparator = useCommaSeparator;
             return this;
         }
 

@@ -1,10 +1,15 @@
 import numberinwords.CardinalInWords;
+import numberinwords.NumberInWords;
 import numberinwords.NumberInWordsFactory;
 import numberinwords.OrdinalInWords;
 import numberinwords.english.CardinalInEnglish;
+import numberinwords.money.RealInWords;
 import numberinwords.portuguese.CardinalInPortuguese;
+import numberinwords.portuguese.DecimalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
+
+import java.math.BigDecimal;
 
 import static java.lang.String.join;
 
@@ -176,5 +181,26 @@ public class Main {
 
         System.out.println(cardinalInPortugues.inWords(123456789L));
 
+        var s = NumberInWordsFactory
+                .createCardinalInWords()
+                .forEnglishLanguage()
+                .withCommaSeparator()
+                .withZeroDescription("Nenhuma")
+                .withPositiveSignalDescription("+")
+                .withNegativeSignalDescription("-")
+                .build()
+                .inWords(-2555L);
+
+        RealInWords realInWords = new RealInWords.Builder()
+                .withNumberOfDecimalPlacesToCents(3)
+                .build();
+
+        System.out.println(realInWords.inWords(new BigDecimal("2.996")));
+
+
+        DecimalInPortuguese decimalInPortuguese = new DecimalInPortuguese.Builder(10)
+                .build();
+
+        System.out.println(decimalInPortuguese.inWords(102253L));
     }
 }

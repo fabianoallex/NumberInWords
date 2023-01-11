@@ -187,10 +187,9 @@ public class Main {
                 .inWords(-2555L);
 
         RealInWords realInWords = new RealInWords.Builder()
-                .withNumberOfDecimalPlacesToCents(3)
                 .build();
 
-        System.out.println(realInWords.inWords(new BigDecimal("2.996")));
+        System.out.println(realInWords.inWords(new BigDecimal("2.125")));
 
 
         var decimalInPortuguese = NumberInWordsFactory.createDecimalInWordsBuilder()

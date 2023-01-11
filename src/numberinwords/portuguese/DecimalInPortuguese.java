@@ -14,9 +14,13 @@ public class DecimalInPortuguese implements DecimalInWords {
     };
 
     private final boolean useCommaSeparator;
+    private final boolean useOnlyDecimalPart;
+    private final boolean useOnlyIntegerPart;
 
     private DecimalInPortuguese(Builder builder) {
         this.useCommaSeparator = builder.useCommaSeparator;
+        this.useOnlyIntegerPart = builder.useOnlyIntegerPart;
+        this.useOnlyDecimalPart = builder.useOnlyDecimalPart;
     }
 
     @Override
@@ -35,13 +39,16 @@ public class DecimalInPortuguese implements DecimalInWords {
         String decimalPartDescription = this.getDecimalPartDescription(decimalPart, numberOfDecimalPlaces);
         String conjuction = "";
 
-        if (integerPart > 0 && decimalPart > 0)
+        if (integerPart > 0 && decimalPart > 0 && !this.useOnlyDecimalPart && !this.useOnlyIntegerPart)
             conjuction = " e ";
 
         return integerPartDescription + conjuction + decimalPartDescription;
     }
 
     private String getIntegerPartDescription(long integerPart, long decimalPart) {
+        if (this.useOnlyDecimalPart)
+            return "";
+
         String zeroDescription = (integerPart == 0 && decimalPart > 0) ? "" : null;
 
         String integerSiffix = "";
@@ -59,6 +66,9 @@ public class DecimalInPortuguese implements DecimalInWords {
     }
 
     private String getDecimalPartDescription(long decimalPart, int numberOfDecimalPlaces) {
+        if (this.useOnlyIntegerPart)
+            return "";
+
         long numberOfDecimalPlacesMultiplier = (long) Math.pow(10, numberOfDecimalPlaces);
         long validNumber = (long) (decimalPart % Math.pow(10, numberOfDecimalPlacesMultiplier));
 
@@ -108,6 +118,20 @@ public class DecimalInPortuguese implements DecimalInWords {
 
     public static class Builder {
         private boolean useCommaSeparator;
+        private boolean useOnlyDecimalPart = false;
+        private boolean useOnlyIntegerPart = false;
+
+        public Builder withOnlyDecimalPart() {
+            this.useOnlyDecimalPart = true;
+            this.useOnlyIntegerPart = false;
+            return this;
+        }
+
+        public Builder withOnlyIntegerPart() {
+            this.useOnlyDecimalPart = false;
+            this.useOnlyIntegerPart = true;
+            return this;
+        }
 
         public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;

@@ -1,6 +1,6 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
-import numberinwords.money.RealInWords;
+import numberinwords.moneyinwords.RealInPortuguese;
 import numberinwords.portuguese.CardinalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
@@ -186,10 +186,10 @@ public class Main {
                 .build()
                 .inWords(-2555L);
 
-        RealInWords realInWords = new RealInWords.Builder()
+        RealInPortuguese realInPortuguese = new RealInPortuguese.Builder()
                 .build();
 
-        System.out.println(realInWords.inWords(new BigDecimal("2.125")));
+        System.out.println(realInPortuguese.inWords(new BigDecimal("2.125")));
 
 
         var decimalInPortuguese = NumberInWordsFactory.createDecimalInWordsBuilder()

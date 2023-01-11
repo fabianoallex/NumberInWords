@@ -1,4 +1,4 @@
-package numberinwords.money;
+package numberinwords.moneyinwords;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-class RealInWordsTest {
+class RealInPortugueseTest {
     @Test
     @DisplayName("inWords")
     void inWords() {
@@ -29,6 +29,10 @@ class RealInWordsTest {
         testCases.put(new BigDecimal("1.10"), "um real e dez centavos");
         testCases.put(new BigDecimal("0.2"), "vinte centavos de real");
         testCases.put(new BigDecimal("20.2"), "vinte reais e vinte centavos");
+        testCases.put(new BigDecimal("1000000"), "um milhão de reais");
+        testCases.put(new BigDecimal("1100000"), "um milhão e cem mil reais");
+        testCases.put(new BigDecimal("1000000000"), "um bilhão de reais");
+        testCases.put(new BigDecimal("1000000001"), "um bilhão e um reais");
         testCases.put(new BigDecimal("1234567890"),
                 "um bilhão duzentos e trinta e quatro milhões " +
                         "quinhentos e sessenta e sete mil oitocentos e noventa reais");
@@ -36,7 +40,7 @@ class RealInWordsTest {
                 "um bilhão duzentos e trinta e quatro milhões " +
                         "quinhentos e sessenta e sete mil oitocentos e noventa reais e um milionésimo");
 
-        RealInWords decimalNumber = new RealInWords.Builder()
+        RealInPortuguese decimalNumber = new RealInPortuguese.Builder()
                 .build();
 
         testCases.forEach((number, expectedResult) ->
@@ -59,7 +63,7 @@ class RealInWordsTest {
                 "um bilhão, duzentos e trinta e quatro milhões, " +
                         "quinhentos e sessenta e sete mil, oitocentos e noventa reais e um milionésimo");
 
-        RealInWords decimalNumber = new RealInWords.Builder()
+        RealInPortuguese decimalNumber = new RealInPortuguese.Builder()
                 .withCommaSeparator()
                 .build();
 

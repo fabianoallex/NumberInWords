@@ -1,4 +1,4 @@
-package numberinwords.money;
+package numberinwords.moneyinwords;
 
 import numberinwords.NumberInWords;
 import java.math.BigDecimal;

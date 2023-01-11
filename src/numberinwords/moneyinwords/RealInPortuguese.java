@@ -1,30 +1,35 @@
-package numberinwords.money;
+package numberinwords.moneyinwords;
 
 import numberinwords.CardinalInWords;
+import numberinwords.DecimalInWords;
 import numberinwords.NumberInWordsFactory;
 import java.math.BigDecimal;
 
-public class RealInWords implements MoneyInWords {
+public class RealInPortuguese implements MoneyInWords {
+    private final CardinalInWords cardinalInWords;
+    private final DecimalInWords decimalInWords;
     private final String singularCurrencyName;
     private final String pluralCurrencyName;
-    private final CardinalInWords cardinalInWords;
+    private final String singularCurrencyNameWithPreposition;
+    private final String pluralCurrencyNameWithPreposition;
     private final String singularCentsDescription;
     private final String pluralCentsDescritpion;
     private final String singularCentsDescriptionWhenLessOne;
     private final String pluralCentsDescritpionWhenLessOne;
     private final String conjuction;
-    private final boolean useCommaSeparator;
 
-    private RealInWords(Builder builder) {
+    private RealInPortuguese(Builder builder) {
+        this.cardinalInWords = builder.cardinalInWords;
+        this.decimalInWords = builder.decimalInWords;
         this.singularCurrencyName = builder.singularCurrencyName;
         this.pluralCurrencyName = builder.pluralCurrencyName;
-        this.cardinalInWords = builder.cardinalInWords;
+        this.singularCurrencyNameWithPreposition = builder.singularCurrencyNameWithPreposition;
+        this.pluralCurrencyNameWithPreposition = builder.pluralCurrencyNameWithPreposition;
         this.singularCentsDescription = builder.singularCentsDescription;
         this.pluralCentsDescritpion = builder.pluralCentsDescritpion;
         this.singularCentsDescriptionWhenLessOne = builder.singularCentsDescriptionWhenLessOne;
         this.pluralCentsDescritpionWhenLessOne = builder.pluralCentsDescritpionWhenLessOne;
         this.conjuction = builder.conjuction;
-        this.useCommaSeparator = builder.useCommaSeparator;
     }
 
     @Override
@@ -63,13 +68,7 @@ public class RealInWords implements MoneyInWords {
 
         //mais de duas casas decimais
         if (numberOfDecimalPlaces > 2)
-            return NumberInWordsFactory.createDecimalInWordsBuilder()
-                    .forPortugueseLanguage()
-                    .withOnlyDecimalPart()
-                    .withCommaSeparator(this.useCommaSeparator)
-                    .build()
-                    .inWords(value) +
-                        (integerPart == 0 ? " de " + this.singularCurrencyName : "");
+            return decimalInWords.inWords(value) + (integerPart == 0 ? " " + this.singularCurrencyNameWithPreposition : "");
 
         if (numberOfDecimalPlaces == 1)
             centsPart = centsPart * 10;
@@ -111,6 +110,7 @@ public class RealInWords implements MoneyInWords {
             return cardinalInWords.inWords(0L) + " " + this.singularCurrencyName;
 
         long integerPart = this.getIntegerPart(value);
+        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0; //milhão de real, bilhão de real
 
         String currencyDescription = "";
 
@@ -118,24 +118,41 @@ public class RealInWords implements MoneyInWords {
             currencyDescription = cardinalInWords.inWords(integerPart);
 
         if (integerPart == 1)
-            currencyDescription += " " + this.singularCurrencyName;
+            currencyDescription += " " +
+                    (useCurrencyNameWithPreposition ?
+                            this.singularCurrencyNameWithPreposition : this.singularCurrencyName);
 
         if (integerPart > 1)
-            currencyDescription += " " + this.pluralCurrencyName;
+            currencyDescription += " " +
+                    (useCurrencyNameWithPreposition ?
+                            this.pluralCurrencyNameWithPreposition : this.pluralCurrencyName);;
 
         return currencyDescription;
     }
 
     public static class Builder {
         private CardinalInWords cardinalInWords;
+        private DecimalInWords decimalInWords;
         private String singularCurrencyName = "real";
         private String pluralCurrencyName = "reais";
+        private String singularCurrencyNameWithPreposition = "de real";
+        private String pluralCurrencyNameWithPreposition = "de reais";
         private String singularCentsDescription = "centavo";
         private String pluralCentsDescritpion = "centavos";
         private String singularCentsDescriptionWhenLessOne = "centavo de real";
         private String pluralCentsDescritpionWhenLessOne = "centavos de real";
         private String conjuction = "e";
         private boolean useCommaSeparator = false;
+
+        public Builder withSingularCurrencyNameWithPreposition(String description) {
+            this.singularCurrencyNameWithPreposition = description;
+            return this;
+        }
+
+        public Builder withPluralCurrencyNameWithPreposition(String description) {
+            this.pluralCurrencyNameWithPreposition = description;
+            return this;
+        }
 
         public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;
@@ -178,14 +195,21 @@ public class RealInWords implements MoneyInWords {
             return this;
         }
 
-        public RealInWords build() {
+        public RealInPortuguese build() {
             if (cardinalInWords == null)
                 this.cardinalInWords = NumberInWordsFactory.createCardinalInWordsBuilder()
                         .forPortugueseLanguage()
                         .withCommaSeparator(this.useCommaSeparator)
                         .build();
 
-            return new RealInWords(this);
+            if (decimalInWords == null)
+                this.decimalInWords = NumberInWordsFactory.createDecimalInWordsBuilder()
+                        .forPortugueseLanguage()
+                        .withOnlyDecimalPart()
+                        .withCommaSeparator(this.useCommaSeparator)
+                        .build();
+
+            return new RealInPortuguese(this);
         }
     }
 }

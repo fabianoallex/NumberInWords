@@ -20,6 +20,7 @@ class RealInPortugueseTest {
         testCases.put(new BigDecimal("1.00"), "um real");
         testCases.put(new BigDecimal("2.00"), "dois reais");
         testCases.put(new BigDecimal("1.001"), "um real e um milésimo");
+        testCases.put(new BigDecimal("1.009"), "um real e nove milésimos");
         testCases.put(new BigDecimal("1.0001"), "um real e um décimo de milésimo");
         testCases.put(new BigDecimal("1.00001"), "um real e um centésimo de milésimo");
         testCases.put(new BigDecimal("1.000001"), "um real e um milionésimo");
@@ -29,8 +30,10 @@ class RealInPortugueseTest {
         testCases.put(new BigDecimal("1.10"), "um real e dez centavos");
         testCases.put(new BigDecimal("0.2"), "vinte centavos de real");
         testCases.put(new BigDecimal("20.2"), "vinte reais e vinte centavos");
+        testCases.put(new BigDecimal("1000"), "mil reais");
         testCases.put(new BigDecimal("1000000"), "um milhão de reais");
         testCases.put(new BigDecimal("1100000"), "um milhão e cem mil reais");
+        testCases.put(new BigDecimal("2000000"), "dois milhões de reais");
         testCases.put(new BigDecimal("1000000000"), "um bilhão de reais");
         testCases.put(new BigDecimal("1000000001"), "um bilhão e um reais");
         testCases.put(new BigDecimal("1234567890"),

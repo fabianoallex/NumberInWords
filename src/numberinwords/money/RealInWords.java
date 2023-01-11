@@ -29,13 +29,13 @@ public class RealInWords implements MoneyInWords {
 
     @Override
     public String inWords(BigDecimal value) {
-        long placesMultiplyer = (long) Math.pow(10, this.numberOfDecimalPlacesToCents);
+        long placesMultiplier = (long) Math.pow(10, this.numberOfDecimalPlacesToCents);
         long centsValue = value
-                .multiply(BigDecimal.valueOf(placesMultiplyer))  // multiplica por 100 para ter a quantidade de centavos
+                .multiply(BigDecimal.valueOf(placesMultiplier))  // multiplica por 100 para ter a quantidade de centavos
                 .intValue();
 
-        long integerPart = centsValue / placesMultiplyer;
-        long centsPart = centsValue % placesMultiplyer;
+        long integerPart = centsValue / placesMultiplier;
+        long centsPart = centsValue % placesMultiplier;
 
         String currencyDescription = this.getCurrencyDescription(integerPart, centsPart);
         String centsDescription = this.getCentsDescription(integerPart, centsPart);

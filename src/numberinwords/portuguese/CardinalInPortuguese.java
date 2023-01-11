@@ -1,5 +1,6 @@
 package numberinwords.portuguese;
 
+import numberinwords.Block;
 import numberinwords.CardinalInWords;
 import numberinwords.Gender;
 
@@ -105,6 +106,11 @@ public class CardinalInPortuguese implements CardinalInWords {
 
         public Builder withFemaleGender() {
             this.gender = Gender.FEMALE;
+            return this;
+        }
+
+        public Builder withGender(Gender gender) {
+            this.gender = gender;
             return this;
         }
 

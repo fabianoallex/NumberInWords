@@ -1,7 +1,4 @@
-import numberinwords.CardinalInWords;
-import numberinwords.NumberInWords;
-import numberinwords.NumberInWordsFactory;
-import numberinwords.OrdinalInWords;
+import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.money.RealInWords;
 import numberinwords.portuguese.CardinalInPortuguese;
@@ -132,6 +129,7 @@ public class Main {
 
         System.out.println(cardinalInEnglish.inWords(2000L));
         System.out.println(cardinalInEnglish.inWords(2002L));
+        System.out.println(cardinalInEnglish.inWords(2010L));
         System.out.println(cardinalInEnglish.inWords(2022L));
         System.out.println(cardinalInEnglish.inWords(2099L));
 
@@ -198,9 +196,10 @@ public class Main {
         System.out.println(realInWords.inWords(new BigDecimal("2.996")));
 
 
-        DecimalInPortuguese decimalInPortuguese = new DecimalInPortuguese.Builder()
+        var decimalInPortuguese = NumberInWordsFactory.createDecimalInWords()
+                .forPortugueseLanguage()
                 .build();
 
-        System.out.println(decimalInPortuguese.inWords(new BigDecimal("35.66669")));
+        System.out.println(decimalInPortuguese.inWords(new BigDecimal("32.100001")));
     }
 }

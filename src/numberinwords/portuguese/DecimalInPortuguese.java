@@ -1,7 +1,6 @@
 package numberinwords.portuguese;
 
 import numberinwords.DecimalInWords;
-import numberinwords.Gender;
 import numberinwords.NumberInWordsFactory;
 
 import java.math.BigDecimal;
@@ -50,7 +49,7 @@ public class DecimalInPortuguese implements DecimalInWords {
         if (integerPart > 0)
             integerSiffix = (integerPart == 1) ? " inteiro" : " inteiros";
 
-        return NumberInWordsFactory.createCardinalInWords()
+        return NumberInWordsFactory.createCardinalInWordsBuilder()
                 .forPortugueseLanguage()
                 .withZeroDescription(zeroDescription)
                 .withCommaSeparator(this.useCommaSeparator)
@@ -73,7 +72,7 @@ public class DecimalInPortuguese implements DecimalInWords {
             validNumberOfDecimalPlaces--;
         }
 
-        return NumberInWordsFactory.createCardinalInWords()
+        return NumberInWordsFactory.createCardinalInWordsBuilder()
                 .forPortugueseLanguage()
                 .withCommaSeparator(this.useCommaSeparator)
                 .build()

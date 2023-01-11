@@ -2,7 +2,6 @@ import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.money.RealInWords;
 import numberinwords.portuguese.CardinalInPortuguese;
-import numberinwords.portuguese.DecimalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
@@ -164,13 +163,13 @@ public class Main {
         System.out.println(cardinalInEnglish.inWords(Long.MAX_VALUE));
         System.out.println(cardinalInEnglish.inWords(-Long.MAX_VALUE));
 
-        CardinalInWords cardinalInEnglish2 = NumberInWordsFactory.createCardinalInWords()
+        CardinalInWords cardinalInEnglish2 = NumberInWordsFactory.createCardinalInWordsBuilder()
                 .forEnglishLanguage()
                 .build();
 
         System.out.println(cardinalInEnglish2.inWords(123456789L));
 
-        CardinalInWords cardinalInPortugues = NumberInWordsFactory.createCardinalInWords()
+        CardinalInWords cardinalInPortugues = NumberInWordsFactory.createCardinalInWordsBuilder()
                 .forPortugueseLanguage()
                 .withCommaSeparator()
                 .build();
@@ -178,7 +177,7 @@ public class Main {
         System.out.println(cardinalInPortugues.inWords(123456789L));
 
         var s = NumberInWordsFactory
-                .createCardinalInWords()
+                .createCardinalInWordsBuilder()
                 .forEnglishLanguage()
                 .withCommaSeparator()
                 .withZeroDescription("Nenhuma")
@@ -194,7 +193,7 @@ public class Main {
         System.out.println(realInWords.inWords(new BigDecimal("2.996")));
 
 
-        var decimalInPortuguese = NumberInWordsFactory.createDecimalInWords()
+        var decimalInPortuguese = NumberInWordsFactory.createDecimalInWordsBuilder()
                 .forPortugueseLanguage()
                 .build();
 

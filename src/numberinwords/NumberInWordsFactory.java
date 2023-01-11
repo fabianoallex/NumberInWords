@@ -7,15 +7,15 @@ import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.spanish.CardinalInSpanish;
 
 public class NumberInWordsFactory {
-    public static CardinalInWordsBuilder createCardinalInWords() {
+    public static CardinalInWordsBuilder createCardinalInWordsBuilder() {
         return new CardinalInWordsBuilder();
     }
 
-    public static OrdinalInWordsBuilder createOrdinalInWords() {
+    public static OrdinalInWordsBuilder createOrdinalInWordsBuilder() {
         return new OrdinalInWordsBuilder();
     }
 
-    public static DecimalInWordsBuilder createDecimalInWords() {
+    public static DecimalInWordsBuilder createDecimalInWordsBuilder() {
         return new DecimalInWordsBuilder();
     }
 

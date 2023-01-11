@@ -143,7 +143,7 @@ public class RealInWords implements MoneyInWords {
 
         public RealInWords build() {
             if (cardinalInWords == null)
-                this.cardinalInWords = NumberInWordsFactory.createCardinalInWords()
+                this.cardinalInWords = NumberInWordsFactory.createCardinalInWordsBuilder()
                         .forPortugueseLanguage()
                         .withCommaSeparator()
                         .build();

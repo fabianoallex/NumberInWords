@@ -1,16 +1,12 @@
 package numberinwords.portuguese;
 
-import numberinwords.CardinalInWords;
+import static org.junit.jupiter.api.Assertions.*;
 import numberinwords.DecimalInWords;
-import numberinwords.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DecimalInPortugueseTest {
     @Test
@@ -41,6 +37,10 @@ class DecimalInPortugueseTest {
         testCases.put(new BigDecimal("10.0000001"), "dez inteiros e um décimo de milionésimo");
         testCases.put(new BigDecimal("10.0000002"), "dez inteiros e dois décimos de milionésimo");
 
+        testCases.put(new BigDecimal("1258963.125045038"),
+                "um milhão duzentos e cinquenta e oito mil novecentos e sessenta e três inteiros e " +
+                        "cento e vinte e cinco milhões quarenta e cinco mil e trinta e oito bilionésimos");
+
         DecimalInWords decimalNumber = new DecimalInPortuguese.Builder()
                 .build();
 
@@ -62,6 +62,9 @@ class DecimalInPortugueseTest {
         testCases.put(new BigDecimal("1258963.000000038"),
                 "um milhão, duzentos e cinquenta e oito mil, novecentos e sessenta e três inteiros e " +
                         "trinta e oito bilionésimos");
+        testCases.put(new BigDecimal("1258963.125045038"),
+                "um milhão, duzentos e cinquenta e oito mil, novecentos e sessenta e três inteiros e " +
+                        "cento e vinte e cinco milhões, quarenta e cinco mil e trinta e oito bilionésimos");
 
         DecimalInWords decimalNumber = new DecimalInPortuguese.Builder()
                 .withCommaSeparator(true)

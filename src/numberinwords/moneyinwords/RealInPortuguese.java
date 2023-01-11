@@ -34,8 +34,8 @@ public class RealInPortuguese implements MoneyInWords {
 
     @Override
     public String inWords(BigDecimal value) {
-        String currencyDescription = this.getCurrencyDescription(value);
-        String centsDescription = this.getCentsDescription(value);
+        String currencyDescription = this.getIntegerPartDescription(value);
+        String centsDescription = this.getCentsPartDescription(value);
         String conjuction = this.getConjuction(value);
 
         return currencyDescription + conjuction + centsDescription;
@@ -59,7 +59,7 @@ public class RealInPortuguese implements MoneyInWords {
         return centsValue % placesMultiplier;
     }
 
-    private String getCentsDescription(BigDecimal value) {
+    private String getCentsPartDescription(BigDecimal value) {
         String centsDescription = "";
 
         int numberOfDecimalPlaces = getNumberOfDecimalPlaces(value);
@@ -105,12 +105,12 @@ public class RealInPortuguese implements MoneyInWords {
         return "";
     }
 
-    private String getCurrencyDescription(BigDecimal value) {
+    private String getIntegerPartDescription(BigDecimal value) {
         if (value.doubleValue() == 0)
             return cardinalInWords.inWords(0L) + " " + this.singularCurrencyName;
 
         long integerPart = this.getIntegerPart(value);
-        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0; //milhão de real, bilhão de real
+        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0; //um milhão de real, um bilhão de real
 
         String currencyDescription = "";
 

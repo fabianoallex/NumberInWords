@@ -105,8 +105,6 @@ public class Main {
                 .withCommaSeparator()
                 .build();
 
-
-
         System.out.println(cardinalInEnglish.inWords(0L));
         System.out.println(cardinalInEnglish.inWords(30L));
         System.out.println(cardinalInEnglish.inWords(230L));

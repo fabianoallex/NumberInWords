@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RealInPortuguese_novoTest {
+class RealInPortugueseNovoTest {
     @Test
     @DisplayName("inWords")
     void inWords() {

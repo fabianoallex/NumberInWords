@@ -3,6 +3,7 @@ package numberinwords;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
 import numberinwords.portuguese.DecimalInPortuguese;
+import numberinwords.portuguese.DecimalUnitInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.spanish.CardinalInSpanish;
 
@@ -17,6 +18,16 @@ public class NumberInWordsFactory {
 
     public static DecimalInWordsBuilder createDecimalInWordsBuilder() {
         return new DecimalInWordsBuilder();
+    }
+
+    public static DecimalUnitInWordsBuilder createDecimalUnitInWordsBuilder() {
+        return new DecimalUnitInWordsBuilder();
+    }
+
+    public static class DecimalUnitInWordsBuilder {
+        public DecimalUnitInPortuguese.Builder forPortugueseLanguage() {
+            return new DecimalUnitInPortuguese.Builder();
+        }
     }
 
     public static class CardinalInWordsBuilder {

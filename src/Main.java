@@ -113,34 +113,6 @@ public class Main {
         System.out.println(cardinalInEnglish.inWords(40L));
         System.out.println(cardinalInEnglish.inWords(90L));
 
-        System.out.println(cardinalInEnglish.inWords(100L));
-        System.out.println(cardinalInEnglish.inWords(101L));
-        System.out.println(cardinalInEnglish.inWords(110L));
-        System.out.println(cardinalInEnglish.inWords(111L));
-        System.out.println(cardinalInEnglish.inWords(120L));
-        System.out.println(cardinalInEnglish.inWords(121L));
-
-        System.out.println(cardinalInEnglish.inWords(200L));
-        System.out.println(cardinalInEnglish.inWords(202L));
-        System.out.println(cardinalInEnglish.inWords(222L));
-
-        System.out.println(cardinalInEnglish.inWords(2000L));
-        System.out.println(cardinalInEnglish.inWords(2002L));
-        System.out.println(cardinalInEnglish.inWords(2010L));
-        System.out.println(cardinalInEnglish.inWords(2022L));
-        System.out.println(cardinalInEnglish.inWords(2099L));
-
-        System.out.println(cardinalInEnglish.inWords(2100L));
-        System.out.println(cardinalInEnglish.inWords(2101L));
-        System.out.println(cardinalInEnglish.inWords(2111L));
-        System.out.println(cardinalInEnglish.inWords(2200L));
-        System.out.println(cardinalInEnglish.inWords(2202L));
-
-        System.out.println(cardinalInEnglish.inWords(5000100L));
-        System.out.println(cardinalInEnglish.inWords(5000101L));
-        System.out.println(cardinalInEnglish.inWords(5100000L));
-        System.out.println(cardinalInEnglish.inWords(5100001L));
-
         System.out.println(cardinalInEnglish.inWords(5002100L));
         System.out.println(cardinalInEnglish.inWords(5002101L));
         System.out.println(cardinalInEnglish.inWords(5002111L));
@@ -197,5 +169,30 @@ public class Main {
                 .build();
 
         System.out.println(decimalInPortuguese.inWords(new BigDecimal("32.100001")));
+
+
+        var maleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+                .forPortugueseLanguage()
+                .withMaleGender()
+                .withCommaSeparator()
+                .withUnitDescriptions("Carro", "Carros")
+                .build();
+
+        System.out.println(maleDecimalUnitInPortuguese.inWords(new BigDecimal("2000")));
+        System.out.println(maleDecimalUnitInPortuguese.inWords(new BigDecimal("2000000")));
+        System.out.println(maleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
+        System.out.println(maleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
+
+
+        var femaleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+                .forPortugueseLanguage()
+                .withCommaSeparator()
+                .withUnitDescriptions("Casa", "Casas")
+                .build();
+
+        System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2000")));
+        System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2223456")));
+        System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
+        System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
     }
 }

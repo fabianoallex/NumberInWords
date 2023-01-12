@@ -90,6 +90,7 @@ class CardinalInPortugueseTest {
         testCases.put(2002L, "duas mil e duas");
         testCases.put(202002002L, "duzentos e dois milhões duas mil e duas");
         testCases.put(500202002002L, "quinhentos bilhões duzentos e dois milhões duas mil e duas");
+        testCases.put(1258963L, "um milhão duzentas e cinquenta e oito mil novecentas e sessenta e três");
 
         CardinalInWords cardinalNumber = new CardinalInPortuguese.Builder()
                 .withFemaleGender()

@@ -105,6 +105,7 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
             return this;
         }
 
+        @Override
         public Builder withZeroDescription(String zeroDescription) {
             return (Builder) super.withZeroDescription(zeroDescription);
         }

@@ -60,7 +60,6 @@ class DecimalUnitInPortugueseTest {
         testCases.put(new BigDecimal("1.0000"), "uma casa");
         testCases.put(new BigDecimal("2.2"), "duas casas e dois décimos");
 
-
         DecimalUnitInWords decimalNumber = new DecimalUnitInPortuguese.Builder()
                 .withZeroDescription("Nenhuma")
                 .withUnitDescription("casa")

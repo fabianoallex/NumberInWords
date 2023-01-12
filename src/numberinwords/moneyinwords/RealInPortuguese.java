@@ -5,6 +5,7 @@ import numberinwords.DecimalInWords;
 import numberinwords.NumberInWordsFactory;
 import java.math.BigDecimal;
 
+
 public class RealInPortuguese implements MoneyInWords {
     private final CardinalInWords cardinalInWords;
     private final DecimalInWords decimalInWords;
@@ -34,11 +35,11 @@ public class RealInPortuguese implements MoneyInWords {
 
     @Override
     public String inWords(BigDecimal value) {
-        String currencyDescription = this.getIntegerPartDescription(value);
-        String centsDescription = this.getCentsPartDescription(value);
+        String integerPartDescription = this.getIntegerPartDescription(value);
+        String centsPartDescription = this.getCentsPartDescription(value);
         String conjuction = this.getConjuction(value);
 
-        return currencyDescription + conjuction + centsDescription;
+        return integerPartDescription + conjuction + centsPartDescription;
     }
 
     private long getIntegerPart(BigDecimal value) {

@@ -12,6 +12,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
     protected final String singularCentsNameWhenLessOne;
     protected final String pluralCenstNameWhenLessOne;
     protected final boolean useCommaSeparator;
+    protected final Gender gender;
 
     protected MoneyInWords(Builder builder) {
         this.subdivisionDecimalPlaces = builder.subdivisionDecimalPlaces;
@@ -22,6 +23,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         this.singularCentsNameWhenLessOne = builder.singularCentsNameWhenLessOne;
         this.pluralCenstNameWhenLessOne = builder.pluralCenstNameWhenLessOne;
         this.useCommaSeparator = builder.useCommaSeparator;
+        this.gender = builder.gender;
     }
 
     @Override
@@ -29,16 +31,16 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         if (DecimalInWords.getNumberOfDecimalPlaces(value) > this.subdivisionDecimalPlaces)
             return this.decimalUnitInWords.inWords(value);
 
-        String integerPartDescription = this.getIntegerPartDescription(value);
-        String decimalPartDescription = this.getCentsDescription(value);
+        String integerPartInWords = this.getIntegerPartInWords(value);
+        String centsInWords = this.getCentsInWords(value);
         String conjuction = this.getConjuction(value);
 
-        return integerPartDescription + conjuction + decimalPartDescription;
+        return integerPartInWords + conjuction + centsInWords;
     }
 
-    protected abstract String getIntegerPartDescription(BigDecimal value);
+    protected abstract String getIntegerPartInWords(BigDecimal value);
 
-    protected abstract String getCentsDescription(BigDecimal value);
+    protected abstract String getCentsInWords(BigDecimal value);
 
     protected abstract String getConjuction(BigDecimal value);
 
@@ -51,6 +53,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         protected String singularCentsNameWhenLessOne;
         protected String pluralCenstNameWhenLessOne;
         protected boolean useCommaSeparator;
+        protected Gender gender = Gender.MALE;
 
         public Integer getSubdivisionDecimalPlaces() {
             return subdivisionDecimalPlaces;
@@ -82,6 +85,11 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
 
         public boolean isUsingCommaSeparator() {
             return useCommaSeparator;
+        }
+
+        public Builder withGender(Gender gender) {
+            this.gender = gender;
+            return this;
         }
 
         public Builder withCommaSeparator() {

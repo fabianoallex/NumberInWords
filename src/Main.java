@@ -87,18 +87,15 @@ public class Main {
         System.out.println(ordinalNumber.inWords(12L));
         System.out.println(ordinalNumber.inWords(16L));
 
-
         NumberInRoman numberInRoman = new NumberInRoman.Builder()
                 .withAdditiveMethod()
                 .build();
-
 
         for (int i = 0; i <= 10; i++) {
             System.out.println(numberInRoman.inRoman(i));
         }
 
         System.out.println(numberInRoman.inRoman(3888));
-
 
         CardinalInWords cardinalInEnglish = new CardinalInEnglish.Builder()
                 .withCommaSeparator()
@@ -221,5 +218,19 @@ public class Main {
         System.out.println(dolarInPortuguese.inWords(new BigDecimal("1000000")));
         System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.255")));
+
+
+        var poundsInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+                .forPoundInPortuguese()
+                .withCommaSeparator()
+                .build();
+
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("2000")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("2223456.33")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("2.001")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("0.1")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("1000000")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.25")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.255")));
     }
 }

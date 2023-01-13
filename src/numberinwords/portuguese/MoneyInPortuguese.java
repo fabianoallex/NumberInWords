@@ -1,6 +1,7 @@
 package numberinwords.portuguese;
 
 import numberinwords.DecimalInWords;
+import numberinwords.Gender;
 import numberinwords.MoneyInWords;
 import numberinwords.NumberInWordsFactory;
 import java.math.BigDecimal;
@@ -10,14 +11,14 @@ public class MoneyInPortuguese extends MoneyInWords {
         super(builder);
         this.decimalUnitInWords = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
                 .forPortugueseLanguage()
-                .withMaleGender()
+                .withGender(this.gender)
                 .withUnitDescriptions(builder.getSingularCurrencyName(), builder.getPluralCurrencyName())
                 .withCommaSeparator(builder.isUsingCommaSeparator())
                 .build();
     }
 
     @Override
-    protected String getIntegerPartDescription(BigDecimal value) {
+    protected String getIntegerPartInWords(BigDecimal value) {
         return this.decimalUnitInWords.getIntegerPartInWords(value);
     }
 
@@ -30,7 +31,7 @@ public class MoneyInPortuguese extends MoneyInWords {
     }
 
     @Override
-    protected String getCentsDescription(BigDecimal value) {
+    protected String getCentsInWords(BigDecimal value) {
         String centsDescription = "";
 
         long integerPart = DecimalInWords.getIntegerPart(value);
@@ -64,6 +65,11 @@ public class MoneyInPortuguese extends MoneyInWords {
     }
 
     public static class Builder extends MoneyInWords.Builder {
+        @Override
+        public Builder withGender(Gender gender) {
+            return (Builder) super.withGender(gender);
+        }
+
         @Override
         public Builder withCommaSeparator() {
             return (Builder) super.withCommaSeparator();

@@ -1,5 +1,6 @@
 package numberinwords.portuguese;
 
+import numberinwords.MoneyInWords;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +47,7 @@ class MoneyInPortugueseTest {
                 "um bilhão duzentos e trinta e quatro milhões " +
                         "quinhentos e sessenta e sete mil oitocentos e noventa reais e um milionésimo");
 
-        MoneyInPortuguese decimalNumber = new MoneyInPortuguese.Builder()
+        MoneyInPortuguese decimalNumber = new MoneyInWords.Builder<>(MoneyInPortuguese.class)
                 .withCurrencyName("real", "reais")
                 .withCentsName("centavo", "centavos")
                 .withCentsNameWhenLessOne("centavo de real", "centavos de real")

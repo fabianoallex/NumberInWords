@@ -3,11 +3,11 @@ package numberinwords;
 import numberinwords.portuguese.MoneyInPortuguese;
 
 public class MoneyInWordsBuilders {
-    public MoneyInPortuguese.Builder forPortugueseLanguage() {
-        return new MoneyInPortuguese.Builder();
+    public MoneyInWords.Builder<MoneyInPortuguese> forPortugueseLanguage() {
+        return new MoneyInWords.Builder<>(MoneyInPortuguese.class);
     }
 
-    public MoneyInPortuguese.Builder forDollarInPortuguese() {
+    public MoneyInPortuguese.Builder<MoneyInPortuguese> forDollarInPortuguese() {
         return this.forPortugueseLanguage()
                 .withSubdivisionDecimalPlaces(2)
                 .withCurrencyName("dólar", "dólares")
@@ -15,15 +15,17 @@ public class MoneyInWordsBuilders {
                 .withCentsNameWhenLessOne("centavo de dólar", "centavos de dólar");
     }
 
-    public MoneyInPortuguese.Builder forRealInPortuguese() {
+    public MoneyInPortuguese.Builder<MoneyInPortuguese> forRealInPortuguese() {
         return this.forPortugueseLanguage()
+                .withSubdivisionDecimalPlaces(2)
                 .withCurrencyName("real", "reais")
                 .withCentsName("centavo", "centavos")
                 .withCentsNameWhenLessOne("centavo de real", "centavos de real");
     }
 
-    public MoneyInPortuguese.Builder forPoundInPortuguese() {
+    public MoneyInPortuguese.Builder<MoneyInPortuguese> forPoundInPortuguese() {
         return this.forPortugueseLanguage()
+                .withSubdivisionDecimalPlaces(2)
                 .withGender(Gender.FEMALE)
                 .withCurrencyName("libra esterlina", "libras esterlinas")
                 .withCentsName("penny", "pence")

@@ -3,8 +3,6 @@ package numberinwords;
 import java.math.BigDecimal;
 
 public interface DecimalInWords extends NumberInWords<BigDecimal> {
-
-
     static int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
         String string = bigDecimal.stripTrailingZeros().toPlainString();
         int index = string.indexOf(".");

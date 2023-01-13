@@ -226,6 +226,7 @@ public class Main {
                 .build();
 
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("2000")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("0.01")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("2223456.33")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("0.1")));

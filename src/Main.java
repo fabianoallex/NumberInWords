@@ -1,7 +1,6 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
-import numberinwords.moneyinwords.RealInPortuguese;
-import numberinwords.moneyinwords.RealInPortuguese_novo;
+import numberinwords.portuguese.RealInPortuguese;
 import numberinwords.portuguese.CardinalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
@@ -196,7 +195,10 @@ public class Main {
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
 
-        var realNovo = new RealInPortuguese_novo.Builder().build();
+        var realNovo = NumberInWordsFactory.createRealInWordsBuilder()
+                .forPortugueseLanguage()
+                .withCommaSeparator()
+                .build();
 
         System.out.println(realNovo.inWords(new BigDecimal("2000")));
         System.out.println(realNovo.inWords(new BigDecimal("2223456")));
@@ -205,5 +207,20 @@ public class Main {
         System.out.println(realNovo.inWords(new BigDecimal("1000000")));
         System.out.println(realNovo.inWords(new BigDecimal("1.25")));
         System.out.println(realNovo.inWords(new BigDecimal("1.255")));
+
+        var money = NumberInWordsFactory.createMoneyInWordsBuilder()
+                .forPortugueseLanguage()
+                .withCentsName("centavo", "centavos")
+                .withCurrencyName("dólar", "dólares")
+                .withCentsNameWhenLessOne("centavo de dólar", "centavos de dólar")
+                .build();
+
+        System.out.println(money.inWords(new BigDecimal("2000")));
+        System.out.println(money.inWords(new BigDecimal("2223456")));
+        System.out.println(money.inWords(new BigDecimal("2.001")));
+        System.out.println(money.inWords(new BigDecimal("0.1")));
+        System.out.println(money.inWords(new BigDecimal("1000000")));
+        System.out.println(money.inWords(new BigDecimal("1.25")));
+        System.out.println(money.inWords(new BigDecimal("1.255")));
     }
 }

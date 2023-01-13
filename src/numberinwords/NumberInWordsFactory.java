@@ -1,10 +1,7 @@
 package numberinwords;
 
 import numberinwords.english.CardinalInEnglish;
-import numberinwords.portuguese.CardinalInPortuguese;
-import numberinwords.portuguese.DecimalInPortuguese;
-import numberinwords.portuguese.DecimalUnitInPortuguese;
-import numberinwords.portuguese.OrdinalInPortuguese;
+import numberinwords.portuguese.*;
 import numberinwords.spanish.CardinalInSpanish;
 
 public class NumberInWordsFactory {
@@ -22,6 +19,26 @@ public class NumberInWordsFactory {
 
     public static DecimalUnitInWordsBuilder createDecimalUnitInWordsBuilder() {
         return new DecimalUnitInWordsBuilder();
+    }
+
+    public static RealInWordsBuilder createRealInWordsBuilder() {
+        return new RealInWordsBuilder();
+    }
+
+    public static MoneyInWordsBuilder createMoneyInWordsBuilder() {
+        return new MoneyInWordsBuilder();
+    }
+
+    public static class MoneyInWordsBuilder {
+        public MoneyInPortuguese.Builder forPortugueseLanguage() {
+            return new MoneyInPortuguese.Builder();
+        }
+    }
+
+    public static class RealInWordsBuilder {
+        public RealInPortuguese.Builder forPortugueseLanguage() {
+            return new RealInPortuguese.Builder();
+        }
     }
 
     public static class DecimalUnitInWordsBuilder {

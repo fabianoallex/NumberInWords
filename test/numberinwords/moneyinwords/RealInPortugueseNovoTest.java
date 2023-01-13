@@ -1,5 +1,6 @@
 package numberinwords.moneyinwords;
 
+import numberinwords.portuguese.RealInPortuguese;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
@@ -43,7 +44,7 @@ class RealInPortugueseNovoTest {
                 "um bilhão duzentos e trinta e quatro milhões " +
                         "quinhentos e sessenta e sete mil oitocentos e noventa reais e um milionésimo");
 
-        RealInPortuguese_novo decimalNumber = new RealInPortuguese_novo.Builder()
+        RealInPortuguese decimalNumber = new RealInPortuguese.Builder()
                 .build();
 
         testCases.forEach((number, expectedResult) ->
@@ -66,7 +67,7 @@ class RealInPortugueseNovoTest {
                 "um bilhão, duzentos e trinta e quatro milhões, " +
                         "quinhentos e sessenta e sete mil, oitocentos e noventa reais e um milionésimo");
 
-        RealInPortuguese_novo decimalNumber = new RealInPortuguese_novo.Builder()
+        var decimalNumber = new RealInPortuguese.Builder()
                 .withCommaSeparator()
                 .build();
 

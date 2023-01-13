@@ -196,30 +196,30 @@ public class Main {
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
 
-        var realNovo = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var realInPortuguese2 = NumberInWordsFactory.createMoneyInWordsBuilder()
                 .forRealInPortuguese()
                 .withCommaSeparator()
                 .build();
 
-        System.out.println(realNovo.inWords(new BigDecimal("2000")));
-        System.out.println(realNovo.inWords(new BigDecimal("2223456")));
-        System.out.println(realNovo.inWords(new BigDecimal("2.001")));
-        System.out.println(realNovo.inWords(new BigDecimal("0.1")));
-        System.out.println(realNovo.inWords(new BigDecimal("1000000")));
-        System.out.println(realNovo.inWords(new BigDecimal("1.25")));
-        System.out.println(realNovo.inWords(new BigDecimal("1.255")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("2000")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("2223456")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("2.001")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("0.1")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("1000000")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("1.25")));
+        System.out.println(realInPortuguese2.inWords(new BigDecimal("1.255")));
 
-        var money = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var dolarInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
                 .forDollarInPortuguese()
                 .withCommaSeparator()
                 .build();
 
-        System.out.println(money.inWords(new BigDecimal("2000")));
-        System.out.println(money.inWords(new BigDecimal("2223456.33")));
-        System.out.println(money.inWords(new BigDecimal("2.001")));
-        System.out.println(money.inWords(new BigDecimal("0.1")));
-        System.out.println(money.inWords(new BigDecimal("1000000")));
-        System.out.println(money.inWords(new BigDecimal("1.25")));
-        System.out.println(money.inWords(new BigDecimal("1.255")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("2000")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("2223456.33")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("2.001")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("0.1")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("1000000")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.25")));
+        System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.255")));
     }
 }

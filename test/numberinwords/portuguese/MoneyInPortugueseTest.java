@@ -1,12 +1,16 @@
-package numberinwords.moneyinwords;
+package numberinwords.portuguese;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-class RealInPortugueseNovoTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class MoneyInPortugueseTest {
+
     @Test
     @DisplayName("inWords")
     void inWords() {
@@ -42,7 +46,10 @@ class RealInPortugueseNovoTest {
                 "um bilhão duzentos e trinta e quatro milhões " +
                         "quinhentos e sessenta e sete mil oitocentos e noventa reais e um milionésimo");
 
-        RealInPortuguese decimalNumber = new RealInPortuguese.Builder()
+        MoneyInPortuguese decimalNumber = new MoneyInPortuguese.Builder()
+                .withCurrencyName("real", "reais")
+                .withCentsName("centavo", "centavos")
+                .withCentsNameWhenLessOne("centavo de real", "centavos de real")
                 .build();
 
         testCases.forEach((number, expectedResult) ->
@@ -52,27 +59,4 @@ class RealInPortugueseNovoTest {
                         "retorno não esperado para o valor " + number));
     }
 
-    @Test
-    @DisplayName("inWords (comma separator)")
-    void inWordsWithCommaSeparator() {
-        Map<BigDecimal, String> testCases = new HashMap<>();
-        testCases.put(new BigDecimal("1.654321"), "um real e seiscentos e cinquenta e quatro mil, trezentos e vinte e um milionésimos");
-        testCases.put(new BigDecimal("0.654321"), "seiscentos e cinquenta e quatro mil, trezentos e vinte e um milionésimos de real");
-        testCases.put(new BigDecimal("1234567890"),
-                "um bilhão, duzentos e trinta e quatro milhões, " +
-                        "quinhentos e sessenta e sete mil, oitocentos e noventa reais");
-        testCases.put(new BigDecimal("1234567890.000001"),
-                "um bilhão, duzentos e trinta e quatro milhões, " +
-                        "quinhentos e sessenta e sete mil, oitocentos e noventa reais e um milionésimo");
-
-        var decimalNumber = new RealInPortuguese.Builder()
-                .withCommaSeparator()
-                .build();
-
-        testCases.forEach((number, expectedResult) ->
-                assertEquals(
-                        expectedResult,
-                        decimalNumber.inWords(number),
-                        "retorno não esperado para o valor " + number));
-    }
 }

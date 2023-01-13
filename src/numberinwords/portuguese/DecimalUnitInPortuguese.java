@@ -1,5 +1,6 @@
 package numberinwords.portuguese;
 
+import numberinwords.DecimalInWords;
 import numberinwords.DecimalUnitInWords;
 import numberinwords.Gender;
 import numberinwords.NumberInWordsFactory;
@@ -25,20 +26,20 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
 
     @Override
     public String inWords(BigDecimal value) {
-        String integerPartDescription = this.getIntegerPartDescription(value);
-        String decimalPartDescription = this.getDecimalPartDescription(value);
+        String integerPartDescription = this.getIntegerPartInWords(value);
+        String decimalPartDescription = this.getDecimalPartInWords(value);
         String conjuction = this.getConjuction(value);
 
         return integerPartDescription + conjuction + decimalPartDescription;
     }
 
     @Override
-    protected String getIntegerPartDescription(BigDecimal value) {
+    public String getIntegerPartInWords(BigDecimal value) {
         if (value.doubleValue() == 0)
             return integerPartInWords.inWords(0L) + " " + this.singularUnit;
 
-        long integerPart = this.getIntegerPart(value);
-        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0; //um milhão de real, um bilhão de real
+        long integerPart = DecimalInWords.getIntegerPart(value);
+        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0;
 
         String currencyDescription = "";
 
@@ -54,24 +55,23 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
             currencyDescription += " " +
                     (useCurrencyNameWithPreposition ?
                             this.pluralUnitWithPreposition : this.pluralUnit);
-        ;
 
         return currencyDescription;
     }
 
     @Override
-    protected String getDecimalPartDescription(BigDecimal value) {
-        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(value);
+    public String getDecimalPartInWords(BigDecimal value) {
+        int numberOfDecimalPlaces = DecimalInWords.getNumberOfDecimalPlaces(value);
         if (numberOfDecimalPlaces > 0)
             return decimalPartInWords.inWords(value) +
-                    (this.getIntegerPart(value) == 0 ? " " + this.singularUnitWithPreposition : "");
+                    (DecimalInWords.getIntegerPart(value) == 0 ? " " + this.singularUnitWithPreposition : "");
 
         return "";
     }
 
     @Override
-    protected String getConjuction(BigDecimal value) {
-        if (this.getIntegerPart(value) > 0 && this.getDecimalPart(value) > 0)
+    public String getConjuction(BigDecimal value) {
+        if (DecimalInWords.getIntegerPart(value) > 0 && DecimalInWords.getDecimalPart(value) > 0)
             return " " + this.conjuction + " ";
 
         return "";

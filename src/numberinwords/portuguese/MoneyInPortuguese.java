@@ -1,37 +1,41 @@
 package numberinwords.portuguese;
 
-import numberinwords.Gender;
+import numberinwords.DecimalInWords;
+import numberinwords.MoneyInWords;
 import numberinwords.NumberInWordsFactory;
 import java.math.BigDecimal;
 
-public class MoneyInPortuguese extends DecimalUnitInPortuguese {
-    private final String singularCentsName;
-    private final String pluralCenstName;
-    private final String singularCentsNameWhenLessOne;
-    private final String pluralCenstNameWhenLessOne;
-
-    public MoneyInPortuguese(Builder builder) {
-        super(builder.superBuilder);
-        this.singularCentsName = builder.singularCentsName;
-        this.pluralCenstName = builder.pluralCenstName;
-        this.singularCentsNameWhenLessOne = builder.singularCentsNameWhenLessOne;
-        this.pluralCenstNameWhenLessOne = builder.pluralCenstNameWhenLessOne;
+public class MoneyInPortuguese extends MoneyInWords {
+    protected MoneyInPortuguese(Builder builder) {
+        super(builder);
+        this.decimalUnitInWords = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+                .forPortugueseLanguage()
+                .withMaleGender()
+                .withUnitDescriptions(builder.getSingularCurrencyName(), builder.getPluralCurrencyName())
+                .withCommaSeparator(builder.isUsingCommaSeparator())
+                .build();
     }
 
     @Override
-    protected String getDecimalPartDescription(BigDecimal value) {
-        if (this.getNumberOfDecimalPlaces(value) > 2)
-            return super.getDecimalPartDescription(value);
-
-        return this.getCentsDescription(value);
+    protected String getIntegerPartDescription(BigDecimal value) {
+        return this.decimalUnitInWords.getIntegerPartInWords(value);
     }
 
-    private String getCentsDescription(BigDecimal value) {
+    @Override
+    protected String getConjuction(BigDecimal value) {
+        if (DecimalInWords.getIntegerPart(value) > 0 && DecimalInWords.getDecimalPart(value) > 0)
+            return decimalUnitInWords.getConjuction(value);
+
+        return "";
+    }
+
+    @Override
+    protected String getCentsDescription(BigDecimal value) {
         String centsDescription = "";
 
-        long integerPart = this.getIntegerPart(value);
-        long centsPart = this.getDecimalPart(value);
-        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(value);
+        long integerPart = DecimalInWords.getIntegerPart(value);
+        long centsPart = DecimalInWords.getDecimalPart(value);
+        int numberOfDecimalPlaces = DecimalInWords.getNumberOfDecimalPlaces(value);
 
         if (numberOfDecimalPlaces == 1)
             centsPart = centsPart * 10;
@@ -59,45 +63,38 @@ public class MoneyInPortuguese extends DecimalUnitInPortuguese {
         return centsDescription;
     }
 
-    public static class Builder {
-        private final DecimalUnitInPortuguese.Builder superBuilder;
-        private String singularCentsName;
-        private String pluralCenstName;
-        private String singularCentsNameWhenLessOne;
-        private String pluralCenstNameWhenLessOne;
-
-        public Builder() {
-            superBuilder = new DecimalUnitInPortuguese.Builder();
-            superBuilder.withMaleGender();
-        }
-
-        public Builder withCurrencyName(String singularCurrencyName, String pluralCurrencyName) {
-            superBuilder.withUnitDescriptions(singularCurrencyName, pluralCurrencyName);
-            return this;
-        }
-
-        public Builder withCentsName(String singularCentsName, String pluralCentsName) {
-            this.singularCentsName = singularCentsName;
-            this.pluralCenstName = pluralCentsName;
-            return this;
-        }
-
-        public Builder withCentsNameWhenLessOne(String singularCentsName, String pluralCentsName) {
-            this.singularCentsNameWhenLessOne = singularCentsName;
-            this.pluralCenstNameWhenLessOne = pluralCentsName;
-            return this;
-        }
-
+    public static class Builder extends MoneyInWords.Builder {
+        @Override
         public Builder withCommaSeparator() {
-            this.superBuilder.withCommaSeparator();
-            return this;
+            return (Builder) super.withCommaSeparator();
         }
 
-        public Builder withGender(Gender gender) {
-            this.superBuilder.withGender(gender);
-            return this;
+        @Override
+        public Builder withCommaSeparator(boolean useCommaSeparator) {
+            return (Builder) super.withCommaSeparator(useCommaSeparator);
         }
 
+        @Override
+        public Builder withSubdivisionDecimalPlaces(Integer decimalPlaces) {
+            return (Builder) super.withSubdivisionDecimalPlaces(decimalPlaces);
+        }
+
+        @Override
+        public Builder withCurrencyName(String singularCurrencyName, String pluralCurrencyName) {
+            return (Builder) super.withCurrencyName(singularCurrencyName, pluralCurrencyName);
+        }
+
+        @Override
+        public Builder withCentsName(String singularCentsName, String pluralCentsName) {
+            return (Builder) super.withCentsName(singularCentsName, pluralCentsName);
+        }
+
+        @Override
+        public Builder withCentsNameWhenLessOne(String singularCentsName, String pluralCentsName) {
+            return (Builder) super.withCentsNameWhenLessOne(singularCentsName, pluralCentsName);
+        }
+
+        @Override
         public MoneyInPortuguese build() {
             return new MoneyInPortuguese(this);
         }

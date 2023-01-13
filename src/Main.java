@@ -1,7 +1,7 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
-import numberinwords.portuguese.RealInPortuguese;
 import numberinwords.portuguese.CardinalInPortuguese;
+import numberinwords.portuguese.MoneyInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
@@ -158,7 +158,8 @@ public class Main {
                 .build()
                 .inWords(-2555L);
 
-        RealInPortuguese realInPortuguese = new RealInPortuguese.Builder()
+        MoneyInWords realInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+                .forRealInPortuguese()
                 .build();
 
         System.out.println(realInPortuguese.inWords(new BigDecimal("2.125")));
@@ -195,8 +196,8 @@ public class Main {
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
 
-        var realNovo = NumberInWordsFactory.createRealInWordsBuilder()
-                .forPortugueseLanguage()
+        var realNovo = NumberInWordsFactory.createMoneyInWordsBuilder()
+                .forRealInPortuguese()
                 .withCommaSeparator()
                 .build();
 
@@ -209,14 +210,12 @@ public class Main {
         System.out.println(realNovo.inWords(new BigDecimal("1.255")));
 
         var money = NumberInWordsFactory.createMoneyInWordsBuilder()
-                .forPortugueseLanguage()
-                .withCentsName("centavo", "centavos")
-                .withCurrencyName("dólar", "dólares")
-                .withCentsNameWhenLessOne("centavo de dólar", "centavos de dólar")
+                .forDollarInPortuguese()
+                .withCommaSeparator()
                 .build();
 
         System.out.println(money.inWords(new BigDecimal("2000")));
-        System.out.println(money.inWords(new BigDecimal("2223456")));
+        System.out.println(money.inWords(new BigDecimal("2223456.33")));
         System.out.println(money.inWords(new BigDecimal("2.001")));
         System.out.println(money.inWords(new BigDecimal("0.1")));
         System.out.println(money.inWords(new BigDecimal("1000000")));

@@ -25,35 +25,11 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
         this.zeroDescription = builder.zeroDescription;
     }
 
-    protected int getNumberOfDecimalPlaces(BigDecimal bigDecimal) {
-        String string = bigDecimal.stripTrailingZeros().toPlainString();
-        int index = string.indexOf(".");
-        return index < 0 ? 0 : string.length() - index - 1;
-    }
-
-    protected long getIntegerPart(BigDecimal value) {
-        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(value);
-        long placesMultiplier = (long) Math.pow(10, numberOfDecimalPlaces);
-        long centsValue = value
-                .multiply(BigDecimal.valueOf(placesMultiplier))
-                .longValue();
-        return centsValue / placesMultiplier;
-    }
-
-    protected long getDecimalPart(BigDecimal value) {
-        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(value);
-        long placesMultiplier = (long) Math.pow(10, numberOfDecimalPlaces);
-        long centsValue = value
-                .multiply(BigDecimal.valueOf(placesMultiplier))
-                .longValue();
-        return centsValue % placesMultiplier;
-    }
-
     @Override
     public abstract String inWords(BigDecimal value);
-    protected abstract String getIntegerPartDescription(BigDecimal value);
-    protected abstract String getDecimalPartDescription(BigDecimal value);
-    protected abstract String getConjuction(BigDecimal value);
+    public abstract String getIntegerPartInWords(BigDecimal value);
+    public abstract String getDecimalPartInWords(BigDecimal value);
+    public abstract String getConjuction(BigDecimal value);
 
     public static abstract class Builder {
         protected boolean useCommaSeparator = false;

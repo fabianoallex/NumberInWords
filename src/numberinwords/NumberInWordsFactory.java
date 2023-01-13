@@ -21,24 +21,8 @@ public class NumberInWordsFactory {
         return new DecimalUnitInWordsBuilder();
     }
 
-    public static RealInWordsBuilder createRealInWordsBuilder() {
-        return new RealInWordsBuilder();
-    }
-
-    public static MoneyInWordsBuilder createMoneyInWordsBuilder() {
-        return new MoneyInWordsBuilder();
-    }
-
-    public static class MoneyInWordsBuilder {
-        public MoneyInPortuguese.Builder forPortugueseLanguage() {
-            return new MoneyInPortuguese.Builder();
-        }
-    }
-
-    public static class RealInWordsBuilder {
-        public RealInPortuguese.Builder forPortugueseLanguage() {
-            return new RealInPortuguese.Builder();
-        }
+    public static MoneyInWordsBuilders createMoneyInWordsBuilder() {
+        return new MoneyInWordsBuilders();
     }
 
     public static class DecimalUnitInWordsBuilder {
@@ -73,3 +57,5 @@ public class NumberInWordsFactory {
         }
     }
 }
+
+

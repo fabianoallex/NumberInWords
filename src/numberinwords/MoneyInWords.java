@@ -51,14 +51,14 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
             return "";
 
         long integerPart = DecimalInWords.getIntegerPart(value);
-        var decimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+        var centsInWords = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
                 .forPortugueseLanguage()
                 .withGender(Gender.MALE)
                 .withUnitDescriptions(this.getSingularCentsName(integerPart), this.getPluralCentsName(integerPart))
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();
 
-        return decimalUnitInPortuguese.inWords(BigDecimal.valueOf(centsPart));
+        return centsInWords.inWords(BigDecimal.valueOf(centsPart));
     }
 
     public long calcCentsPart(BigDecimal value) {

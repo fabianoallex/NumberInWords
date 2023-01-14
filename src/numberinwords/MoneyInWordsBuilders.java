@@ -12,9 +12,10 @@ public class MoneyInWordsBuilders {
                 .withSubdivisionDecimalPlaces(8)
                 .withCurrencyName("bitcoin", "bitcoins")
                 .withCentsName("satoshi", "satoshis")
-                .withCentsNameWhenLessOne("satoshi de bitcoin", "satoshis de bitcoin")
+                .withCentsNameWhenLessOne("satoshi", "satoshis")
                 .withCommaSeparator()
-                .withGender(Gender.MALE);
+                .withGenderForIntegerPart(Gender.MALE)
+                .withGenderForCentsPart(Gender.MALE);
     }
 
     public MoneyInPortuguese.Builder<MoneyInPortuguese> forDollarInPortuguese() {
@@ -36,7 +37,8 @@ public class MoneyInWordsBuilders {
     public MoneyInPortuguese.Builder<MoneyInPortuguese> forPoundInPortuguese() {
         return this.forPortugueseLanguage()
                 .withSubdivisionDecimalPlaces(2)
-                .withGender(Gender.FEMALE)
+                .withGenderForIntegerPart(Gender.FEMALE)
+                .withGenderForCentsPart(Gender.MALE)
                 .withCurrencyName("libra esterlina", "libras esterlinas")
                 .withCentsName("penny", "pence")
                 .withCentsNameWhenLessOne("penny de libra esterlina", "pence de libra esterlina");

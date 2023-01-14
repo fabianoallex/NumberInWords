@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 
 public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
-    protected DecimalUnitInWords decimalUnitInWords;
+    protected DecimalUnitInWords decimalUnitInWordsForIntegerPart;
+    protected DecimalUnitInWords decimalUnitInWordsForCentsPart;
+
     protected final Integer subdivisionDecimalPlaces;
     protected final String singularCurrencyName;
     protected final String pluralCurrencyName;
@@ -14,7 +16,8 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
     protected final String singularCentsNameWhenLessOne;
     protected final String pluralCenstNameWhenLessOne;
     protected final boolean useCommaSeparator;
-    protected final Gender gender;
+    protected final Gender genderForIntegerPart;
+    protected final Gender genderForCentsPart;
 
     protected MoneyInWords(Builder<? extends MoneyInWords> builder) {
         this.subdivisionDecimalPlaces = builder.subdivisionDecimalPlaces;
@@ -23,15 +26,16 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         this.singularCentsName = builder.singularCentsName;
         this.pluralCenstName = builder.pluralCenstName;
         this.singularCentsNameWhenLessOne = builder.singularCentsNameWhenLessOne;
-        this.pluralCenstNameWhenLessOne = builder.pluralCenstNameWhenLessOne;
+        this.pluralCenstNameWhenLessOne = builder.pluralCentsNameWhenLessOne;
         this.useCommaSeparator = builder.useCommaSeparator;
-        this.gender = builder.gender;
+        this.genderForIntegerPart = builder.genderForIntegerPart;
+        this.genderForCentsPart =  builder.genderForCentsPart;
     }
 
     @Override
     public String inWords(BigDecimal value) {
         if (DecimalInWords.getNumberOfDecimalPlaces(value) > this.subdivisionDecimalPlaces)
-            return this.decimalUnitInWords.inWords(value);
+            return this.decimalUnitInWordsForIntegerPart.inWords(value);
 
         String integerPartInWords = this.getIntegerPartInWords(value);
         String centsInWords = this.getCentsInWords(value);
@@ -41,7 +45,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
     }
 
     protected String getIntegerPartInWords(BigDecimal value) {
-        return this.decimalUnitInWords.getIntegerPartInWords(value);
+        return this.decimalUnitInWordsForIntegerPart.getIntegerPartInWords(value);
     }
 
     protected String getCentsInWords(BigDecimal value) {
@@ -51,18 +55,15 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
             return "";
 
         long integerPart = DecimalInWords.getIntegerPart(value);
-        var centsInWords = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
-                .forPortugueseLanguage()
-                .withGender(Gender.MALE)
-                .withUnitDescriptions(this.getSingularCentsName(integerPart), this.getPluralCentsName(integerPart))
-                .withCommaSeparator(this.useCommaSeparator)
-                .build();
 
-        return centsInWords.inWords(BigDecimal.valueOf(centsPart));
+        this.decimalUnitInWordsForCentsPart.setUnit(getSingularCentsName(integerPart), this.getPluralCentsName(integerPart));
+        this.decimalUnitInWordsForCentsPart.setUnitWithPreposition(getSingularCentsName(integerPart), this.getPluralCentsName(integerPart));
+
+        return this.decimalUnitInWordsForCentsPart.inWords(BigDecimal.valueOf(centsPart));
     }
 
     public long calcCentsPart(BigDecimal value) {
-        int differenceDecimalPlaces = subdivisionDecimalPlaces - DecimalInWords.getNumberOfDecimalPlaces(value);
+        long differenceDecimalPlaces = subdivisionDecimalPlaces - DecimalInWords.getNumberOfDecimalPlaces(value);
         return  (long) (DecimalInWords.getDecimalPart(value) * Math.pow(10, differenceDecimalPlaces));
     }
 
@@ -82,7 +83,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
 
     protected String getConjuction(BigDecimal value) {
         if (DecimalInWords.getIntegerPart(value) > 0 && DecimalInWords.getDecimalPart(value) > 0)
-            return decimalUnitInWords.getConjuction(value);
+            return decimalUnitInWordsForIntegerPart.getConjuction(value);
 
         return "";
     }
@@ -95,9 +96,10 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         protected String singularCentsName;
         protected String pluralCenstName;
         protected String singularCentsNameWhenLessOne;
-        protected String pluralCenstNameWhenLessOne;
+        protected String pluralCentsNameWhenLessOne;
         protected boolean useCommaSeparator;
-        protected Gender gender = Gender.MALE;
+        protected Gender genderForIntegerPart = Gender.MALE;
+        protected Gender genderForCentsPart = Gender.MALE;
 
         public Builder(Class<T> clazz) {
             this.clazz = clazz;
@@ -127,16 +129,21 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
             return singularCentsNameWhenLessOne;
         }
 
-        public String getPluralCenstNameWhenLessOne() {
-            return pluralCenstNameWhenLessOne;
+        public String getPluralCentsNameWhenLessOne() {
+            return pluralCentsNameWhenLessOne;
         }
 
         public boolean isUsingCommaSeparator() {
             return useCommaSeparator;
         }
 
-        public Builder<T> withGender(Gender gender) {
-            this.gender = gender;
+        public Builder<T> withGenderForIntegerPart(Gender gender) {
+            this.genderForIntegerPart = gender;
+            return this;
+        }
+
+        public Builder<T> withGenderForCentsPart(Gender gender) {
+            this.genderForCentsPart = gender;
             return this;
         }
 
@@ -164,12 +171,19 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         public Builder<T> withCentsName(String singularCentsName, String pluralCentsName) {
             this.singularCentsName = singularCentsName;
             this.pluralCenstName = pluralCentsName;
+
+            if (this.singularCentsNameWhenLessOne == null)
+                this.singularCentsNameWhenLessOne = this.singularCentsName;
+
+            if (this.pluralCentsNameWhenLessOne == null)
+                this.pluralCentsNameWhenLessOne = this.pluralCenstName;
+
             return this;
         }
 
         public Builder<T> withCentsNameWhenLessOne(String singularCentsName, String pluralCentsName) {
             this.singularCentsNameWhenLessOne = singularCentsName;
-            this.pluralCenstNameWhenLessOne = pluralCentsName;
+            this.pluralCentsNameWhenLessOne = pluralCentsName;
             return this;
         }
 

@@ -1,6 +1,7 @@
 package numberinwords.portuguese;
 
 import numberinwords.DecimalInWords;
+import numberinwords.Gender;
 import numberinwords.NumberInWordsFactory;
 
 import java.math.BigDecimal;
@@ -13,11 +14,13 @@ public class DecimalInPortuguese implements DecimalInWords {
             "septilionésimo", "octilionésimo", "nonilionésimo", "decilionésimo"
     };
 
+    private final Gender gender;
     private final boolean useCommaSeparator;
     private final boolean useOnlyDecimalPart;
     private final boolean useOnlyIntegerPart;
 
     private DecimalInPortuguese(Builder builder) {
+        this.gender = builder.gender;
         this.useCommaSeparator = builder.useCommaSeparator;
         this.useOnlyIntegerPart = builder.useOnlyIntegerPart;
         this.useOnlyDecimalPart = builder.useOnlyDecimalPart;
@@ -58,6 +61,7 @@ public class DecimalInPortuguese implements DecimalInWords {
 
         return NumberInWordsFactory.createCardinalInWordsBuilder()
                 .forPortugueseLanguage()
+                .withGender(this.gender)
                 .withZeroDescription(zeroDescription)
                 .withCommaSeparator(this.useCommaSeparator)
                 .build()
@@ -117,9 +121,15 @@ public class DecimalInPortuguese implements DecimalInWords {
     }
 
     public static class Builder {
+        private Gender gender = Gender.MALE;
         private boolean useCommaSeparator;
         private boolean useOnlyDecimalPart = false;
         private boolean useOnlyIntegerPart = false;
+
+        public Builder withGender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
 
         public Builder withOnlyDecimalPart() {
             this.useOnlyDecimalPart = true;

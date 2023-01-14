@@ -2,6 +2,7 @@ package numberinwords.portuguese;
 
 import static org.junit.jupiter.api.Assertions.*;
 import numberinwords.DecimalInWords;
+import numberinwords.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
@@ -68,6 +69,7 @@ class DecimalInPortugueseTest {
 
         DecimalInWords decimalNumber = new DecimalInPortuguese.Builder()
                 .withCommaSeparator(true)
+                .withGender(Gender.MALE)
                 .build();
 
         testCases.forEach((number, expectedResult) ->

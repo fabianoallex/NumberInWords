@@ -229,6 +229,7 @@ public class Main {
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("2223456.33")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("0.1")));
+        System.out.println(poundsInPortuguese.inWords(new BigDecimal("2.02")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("1000000")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.255")));
@@ -239,10 +240,11 @@ public class Main {
 
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("2000")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("0.01")));
-        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("2223456.33")));
+        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("2223456.32")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("2.001")));
-        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("0.1")));
-        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1000000")));
+        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("0.00000001")));
+        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("0.01")));
+        System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1000000.0")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.255")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.00000001")));

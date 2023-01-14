@@ -19,6 +19,7 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
 
         this.decimalPartInWords = NumberInWordsFactory.createDecimalInWordsBuilder()
                 .forPortugueseLanguage()
+                .withGender(Gender.FEMALE)
                 .withOnlyDecimalPart()
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();
@@ -61,7 +62,7 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
 
     @Override
     public String getDecimalPartInWords(BigDecimal value) {
-        int numberOfDecimalPlaces = DecimalInWords.getNumberOfDecimalPlaces(value);
+        long numberOfDecimalPlaces = DecimalInWords.getNumberOfDecimalPlaces(value);
         if (numberOfDecimalPlaces > 0)
             return decimalPartInWords.inWords(value) +
                     (DecimalInWords.getIntegerPart(value) == 0 ? " " + this.singularUnitWithPreposition : "");
@@ -75,6 +76,12 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
             return " " + this.conjuction + " ";
 
         return "";
+    }
+
+    @Override
+    public void setUnitWithPreposition(String singularUnit, String pluralUnit) {
+        this.singularUnitWithPreposition = Builder.PREPOSITION + " " + singularUnit;
+        this.pluralUnitWithPreposition = Builder.PREPOSITION + " " + pluralUnit;
     }
 
     public static class Builder extends DecimalUnitInWords.Builder {
@@ -99,8 +106,8 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
         public Builder withUnitDescriptions(String singularUnit, String pluralUnit) {
             this.singularUnit = singularUnit;
             this.pluralUnit = pluralUnit;
-            this.singularUnitWithPreposition = "de " + singularUnit;
-            this.pluralUnitWithPreposition = "de " + pluralUnit;
+            this.singularUnitWithPreposition = PREPOSITION + " " + singularUnit;
+            this.pluralUnitWithPreposition = PREPOSITION + " " + pluralUnit;
 
             return this;
         }

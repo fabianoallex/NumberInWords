@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 public abstract class DecimalUnitInWords implements DecimalInWords {
     protected CardinalInWords integerPartInWords;
     protected DecimalInWords decimalPartInWords;
+
+    protected String singularUnit;
+    protected String pluralUnit;
+    protected String singularUnitWithPreposition;
+    protected String pluralUnitWithPreposition;
+
     protected final String zeroDescription;
     protected final boolean useCommaSeparator;
-    protected final String singularUnit;
-    protected final String pluralUnit;
-    protected final String singularUnitWithPreposition;
-    protected final String pluralUnitWithPreposition;
+
     protected final String conjuction;
     protected final Gender gender;
 
@@ -30,6 +33,13 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
     public abstract String getIntegerPartInWords(BigDecimal value);
     public abstract String getDecimalPartInWords(BigDecimal value);
     public abstract String getConjuction(BigDecimal value);
+
+    public void setUnit(String singularUnit, String pluralUnit) {
+        this.singularUnit = singularUnit;
+        this.pluralUnit = pluralUnit;
+    }
+
+    public abstract void setUnitWithPreposition(String singularUnit, String pluralUnit);
 
     public static abstract class Builder {
         protected boolean useCommaSeparator = false;

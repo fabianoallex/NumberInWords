@@ -7,6 +7,16 @@ public class MoneyInWordsBuilders {
         return new MoneyInWords.Builder<>(MoneyInPortuguese.class);
     }
 
+    public MoneyInPortuguese.Builder<MoneyInPortuguese> forBitcoinInPortuguese() {
+        return this.forPortugueseLanguage()
+                .withSubdivisionDecimalPlaces(8)
+                .withCurrencyName("bitcoin", "bitcoins")
+                .withCentsName("satoshi", "satoshis")
+                .withCentsNameWhenLessOne("satoshi de bitcoin", "satoshis de bitcoin")
+                .withCommaSeparator()
+                .withGender(Gender.MALE);
+    }
+
     public MoneyInPortuguese.Builder<MoneyInPortuguese> forDollarInPortuguese() {
         return this.forPortugueseLanguage()
                 .withSubdivisionDecimalPlaces(2)

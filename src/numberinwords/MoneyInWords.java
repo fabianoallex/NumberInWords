@@ -45,36 +45,39 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
     }
 
     protected String getCentsInWords(BigDecimal value) {
-        String centsDescription = "";
-
         long integerPart = DecimalInWords.getIntegerPart(value);
-        long centsPart = DecimalInWords.getDecimalPart(value);
-        int numberOfDecimalPlaces = DecimalInWords.getNumberOfDecimalPlaces(value);
+        long centsPart = this.calcCentsPart(value);
 
-        if (numberOfDecimalPlaces == 1)
-            centsPart = centsPart * 10;
-
-        var cardinalInWords = NumberInWordsFactory.createCardinalInWordsBuilder()
+        var decimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
                 .forPortugueseLanguage()
+                .withGender(Gender.MALE)
+                .withUnitDescriptions(this.getSingularCentsName(integerPart), this.getPluralCentsName(integerPart))
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();
 
         if (centsPart > 0)
-            centsDescription = cardinalInWords.inWords(centsPart);
+            return decimalUnitInPortuguese.inWords(BigDecimal.valueOf(centsPart));
 
-        if (integerPart == 0 && centsPart == 1)
-            centsDescription += " " + this.singularCentsNameWhenLessOne;
+        return "";
+    }
 
-        if (integerPart == 0 && centsPart > 1)
-            centsDescription += " " + this.pluralCenstNameWhenLessOne;
+    public long calcCentsPart(BigDecimal value) {
+        int differenceDecimalPlaces = subdivisionDecimalPlaces - DecimalInWords.getNumberOfDecimalPlaces(value);
+        return  (long) (DecimalInWords.getDecimalPart(value) * Math.pow(10, differenceDecimalPlaces));
+    }
 
-        if (integerPart > 0 && centsPart == 1)
-            centsDescription += " " + this.singularCentsName;
+    private String getSingularCentsName(long integerPart) {
+        if (integerPart == 0)
+            return this.singularCentsNameWhenLessOne;
 
-        if (integerPart > 0 && centsPart > 1)
-            centsDescription += " " + this.pluralCenstName;
+        return this.singularCentsName;
+    }
 
-        return centsDescription;
+    private String getPluralCentsName(long integerPart) {
+        if (integerPart == 0)
+            return  this.pluralCenstNameWhenLessOne;
+
+        return this.pluralCenstName;
     }
 
     protected String getConjuction(BigDecimal value) {

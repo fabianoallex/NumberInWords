@@ -34,6 +34,7 @@ class DecimalUnitInPortugueseTest {
         testCases.put(new BigDecimal("10.000002"), "dez unidades e dois milionésimos");
         testCases.put(new BigDecimal("10.0000001"), "dez unidades e um décimo de milionésimo");
         testCases.put(new BigDecimal("10.0000002"), "dez unidades e dois décimos de milionésimo");
+        testCases.put(new BigDecimal("0.00000001"), "um centésimo de milionésimo de unidade");
         testCases.put(new BigDecimal("1258963.125045038"),
                 "um milhão duzentas e cinquenta e oito mil novecentas e sessenta e três unidades e " +
                         "cento e vinte e cinco milhões quarenta e cinco mil e trinta e oito bilionésimos");

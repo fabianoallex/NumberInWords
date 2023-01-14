@@ -45,9 +45,12 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
     }
 
     protected String getCentsInWords(BigDecimal value) {
-        long integerPart = DecimalInWords.getIntegerPart(value);
         long centsPart = this.calcCentsPart(value);
 
+        if (centsPart == 0)
+            return "";
+
+        long integerPart = DecimalInWords.getIntegerPart(value);
         var decimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
                 .forPortugueseLanguage()
                 .withGender(Gender.MALE)
@@ -55,10 +58,7 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();
 
-        if (centsPart > 0)
-            return decimalUnitInPortuguese.inWords(BigDecimal.valueOf(centsPart));
-
-        return "";
+        return decimalUnitInPortuguese.inWords(BigDecimal.valueOf(centsPart));
     }
 
     public long calcCentsPart(BigDecimal value) {

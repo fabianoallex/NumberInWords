@@ -1,5 +1,6 @@
 package numberinwords.english;
 
+import numberinwords.Block;
 import numberinwords.CardinalInWords;
 
 public class CardinalInEnglish implements CardinalInWords {
@@ -7,12 +8,14 @@ public class CardinalInEnglish implements CardinalInWords {
     private final String zeroDescription;
     private final String negativeSignalDescription;
     private final String positiveSignalDescription;
+    private final boolean useAndInHundred;
 
     protected CardinalInEnglish(Builder builder) {
         this.useCommaSeparator = builder.useCommaSeparator;
         this.zeroDescription = builder.zeroDescription;
         this.negativeSignalDescription = builder.negativeSignalDescription;
         this.positiveSignalDescription = builder.positiveSignalDescription;
+        this.useAndInHundred = builder.useAndInHundred;
     }
 
     public boolean isUsingCommaSeparator() {
@@ -38,6 +41,7 @@ public class CardinalInEnglish implements CardinalInWords {
 
         EnglishCardinalBlock block = new EnglishCardinalBlock.Builder(number)
                 .withCardinalInEnglish(this)
+                .withAndInHundred(this.useAndInHundred)
                 .build();
 
         while (block != null) {
@@ -68,6 +72,7 @@ public class CardinalInEnglish implements CardinalInWords {
         public String negativeSignalDescription = EnglishCardinalDescriptions.DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION;
         public String positiveSignalDescription = EnglishCardinalDescriptions.DEFAULT_POSITIVE_SIGNAL_DESCRIPTION;
         private boolean useCommaSeparator = false;
+        private boolean useAndInHundred = false;
         private String zeroDescription;
 
         public Builder withNegativeSignalDescription(String description) {
@@ -88,6 +93,15 @@ public class CardinalInEnglish implements CardinalInWords {
         public Builder withZeroDescription(String zeroDescription) {
             this.zeroDescription = zeroDescription;
             return this;
+        }
+
+        public Builder withAndInHundred(boolean useAndInHundred) {
+            this.useAndInHundred = useAndInHundred;
+            return this;
+        }
+
+        public Builder withAndInHundred() {
+            return this.withAndInHundred(true);
         }
 
         public CardinalInEnglish build() {

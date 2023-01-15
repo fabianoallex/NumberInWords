@@ -9,15 +9,18 @@ import java.util.Map;
 
 public class EnglishCardinalBlock extends Block {
     private final CardinalInEnglish cardinalInEnglish;
+    private final boolean useAndInHundred;
 
     private EnglishCardinalBlock(Builder builder) {
         super(builder);
         this.cardinalInEnglish = builder.cardinalInEnglish;
+        this.useAndInHundred = builder.useAndInHundred;
     }
 
     private EnglishCardinalBlock(Long value, EnglishCardinalBlock next) {
         super(value, next);
         this.cardinalInEnglish = next.cardinalInEnglish;
+        this.useAndInHundred = next.useAndInHundred;
     }
 
     @Override
@@ -43,8 +46,10 @@ public class EnglishCardinalBlock extends Block {
             int hundred = (int) (this.getValue() / 100);
             int dozens = (int) (this.getValue() % 100);
 
+            String and = this.useAndInHundred ? " and " : " ";
+
             if (hundred > 0)
-                result += numberDescriptionMap.get(hundred) + " " + numberDescriptionMap.get(100) + ((dozens > 0) ? " and " : " ");
+                result += numberDescriptionMap.get(hundred) + " " + numberDescriptionMap.get(100) + ((dozens > 0) ? and : " ");
 
             if (dozens > 0 && dozens < 20)
                     result += numberDescriptionMap.get(dozens) + " ";
@@ -102,8 +107,19 @@ public class EnglishCardinalBlock extends Block {
     public static class Builder extends Block.Builder {
         CardinalInEnglish cardinalInEnglish;
 
+        private boolean useAndInHundred = false;
+
         public Builder(Long number) {
             super(number);
+        }
+
+        public Builder withAndInHundred() {
+            return this.withAndInHundred(true);
+        }
+
+        public Builder withAndInHundred(boolean useAndInHundred) {
+            this.useAndInHundred = useAndInHundred;
+            return this;
         }
 
         public Builder withCardinalInEnglish(CardinalInEnglish cardinalInEnglish) {

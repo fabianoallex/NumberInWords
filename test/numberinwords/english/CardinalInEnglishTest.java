@@ -3,7 +3,6 @@ package numberinwords.english;
 import numberinwords.CardinalInWords;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,19 +20,21 @@ class CardinalInEnglishTest {
         testCases.put(11L, "eleven");
         testCases.put(20L, "twenty");
         testCases.put(100L, "one hundred");
-        testCases.put(202L, "two hundred and two");
-        testCases.put(220L, "two hundred and twenty");
-        testCases.put(349L, "three hundred and forty-nine");
+        testCases.put(202L, "two hundred two");
+        testCases.put(220L, "two hundred twenty");
+        testCases.put(234L, "two hundred thirty-four");
+        testCases.put(349L, "three hundred forty-nine");
         testCases.put(1000L, "one thousand");
+        testCases.put(1001L, "one thousand and one");
         testCases.put(1017L, "one thousand and seventeen");
         testCases.put(2099L, "two thousand and ninety-nine");
         testCases.put(30000L, "thirty thousand");
         testCases.put(80009L, "eighty thousand and nine");
         testCases.put(100000L, "one hundred thousand");
-        testCases.put(482000L, "four hundred and eighty-two thousand");
+        testCases.put(482000L, "four hundred eighty-two thousand");
         testCases.put(1000000L, "one million");
         testCases.put(50000200L, "fifty million two hundred");
-        testCases.put(60933300L, "sixty million nine hundred and thirty-three thousand three hundred");
+        testCases.put(60933300L, "sixty million nine hundred thirty-three thousand three hundred");
         testCases.put(1000000000L, "one billion");
         testCases.put(2000000000L, "two billion");
         testCases.put(20000000000L, "twenty billion");
@@ -61,11 +62,11 @@ class CardinalInEnglishTest {
                 assertEquals(
                         expectedResult,
                         cardinalNumber.inWords(number),
-                        "retorno não esperado para o numero " + number));
+                        "retorno não esperado para o número " + number));
     }
 
     @Test
-    @DisplayName("inWords (Comma)")
+    @DisplayName("inWords (Comma and 'and' in hundred)")
     void inWordsWithCommaSeparator() {
         Map<Long, String> testCases = new HashMap<>();
         testCases.put(1000L, "one thousand");
@@ -90,12 +91,13 @@ class CardinalInEnglishTest {
 
         CardinalInWords cardinalNumber = new CardinalInEnglish.Builder()
                 .withCommaSeparator()
+                .withAndInHundred()
                 .build();
 
         testCases.forEach((number, expectedResult) ->
                 assertEquals(
                         expectedResult,
                         cardinalNumber.inWords(number),
-                        "retorno não esperado para o numero " + number));
+                        "retorno não esperado para o número " + number));
     }
 }

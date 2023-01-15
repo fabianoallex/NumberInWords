@@ -5,15 +5,12 @@ import java.math.BigDecimal;
 public abstract class DecimalUnitInWords implements DecimalInWords {
     protected CardinalInWords integerPartInWords;
     protected DecimalInWords decimalPartInWords;
-
     protected String singularUnit;
     protected String pluralUnit;
     protected String singularUnitWithPreposition;
     protected String pluralUnitWithPreposition;
-
     protected final String zeroDescription;
     protected final boolean useCommaSeparator;
-
     protected final String conjuction;
     protected final Gender gender;
 
@@ -33,15 +30,16 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
     public abstract String getIntegerPartInWords(BigDecimal value);
     public abstract String getDecimalPartInWords(BigDecimal value);
     public abstract String getConjuction(BigDecimal value);
+    public abstract void setUnitWithPreposition(String singularUnit, String pluralUnit);
 
     public void setUnit(String singularUnit, String pluralUnit) {
         this.singularUnit = singularUnit;
         this.pluralUnit = pluralUnit;
+
+        this.setUnitWithPreposition(singularUnit, pluralUnit);
     }
 
-    public abstract void setUnitWithPreposition(String singularUnit, String pluralUnit);
-
-    public static abstract class Builder {
+    public static abstract class Builder<T extends Builder<T>> {
         protected boolean useCommaSeparator = false;
         protected Gender gender;
         protected String zeroDescription;
@@ -51,8 +49,13 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
         protected String pluralUnitWithPreposition;
         protected String conjuction;
 
-        public Builder(String singularUnit, String pluralUnit,
-                       String singularUnitWithPreposition, String pluralUnitWithPreposition,
+        public abstract T getThis();
+        public abstract DecimalInWords build();
+
+        public Builder(String singularUnit,
+                       String pluralUnit,
+                       String singularUnitWithPreposition,
+                       String pluralUnitWithPreposition,
                        String conjuction) {
             this.singularUnit = singularUnit;
             this.pluralUnit = pluralUnit;
@@ -61,36 +64,34 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
             this.conjuction = conjuction;
         }
 
-        public Builder withZeroDescription(String zeroDescription) {
+        public T withZeroDescription(String zeroDescription) {
             this.zeroDescription = zeroDescription;
-            return this;
+            return getThis();
         }
 
-        public Builder withCommaSeparator(boolean useCommaSeparator) {
+        public T withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;
-            return this;
+            return getThis();
         }
 
-        public Builder withCommaSeparator() {
+        public T withCommaSeparator() {
             this.useCommaSeparator = true;
-            return this;
+            return getThis();
         }
 
-        public Builder withFemaleGender() {
+        public T withFemaleGender() {
             this.gender = Gender.FEMALE;
-            return this;
+            return getThis();
         }
 
-        public Builder withMaleGender() {
+        public T withMaleGender() {
             this.gender = Gender.MALE;
-            return this;
+            return getThis();
         }
 
-        public Builder withGender(Gender gender) {
+        public T withGender(Gender gender) {
             this.gender = gender;
-            return this;
+            return getThis();
         }
-
-        public abstract DecimalInWords build();
     }
 }

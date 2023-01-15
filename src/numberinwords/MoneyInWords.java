@@ -57,7 +57,6 @@ public abstract class MoneyInWords implements NumberInWords<BigDecimal> {
         long integerPart = DecimalInWords.getIntegerPart(value);
 
         this.decimalUnitInWordsForCentsPart.setUnit(getSingularCentsName(integerPart), this.getPluralCentsName(integerPart));
-        this.decimalUnitInWordsForCentsPart.setUnitWithPreposition(getSingularCentsName(integerPart), this.getPluralCentsName(integerPart));
 
         return this.decimalUnitInWordsForCentsPart.inWords(BigDecimal.valueOf(centsPart));
     }

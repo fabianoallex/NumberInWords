@@ -84,7 +84,7 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
         this.pluralUnitWithPreposition = Builder.PREPOSITION + " " + pluralUnit;
     }
 
-    public static class Builder extends DecimalUnitInWords.Builder {
+    public static class Builder extends DecimalUnitInWords.Builder<Builder> {
         private static final String SINGULAR_UNIT_NAME = "unidade";
         private static final String PLURAL_UNIT_NAME = "unidades";
         private static final String PREPOSITION = "de";
@@ -93,8 +93,10 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
         private static final String PLURAL_UNIT_NAME_WITH_PREPOSITION = PREPOSITION + " " + PLURAL_UNIT_NAME;
 
         public Builder() {
-            super(SINGULAR_UNIT_NAME, PLURAL_UNIT_NAME,
-                    SINGULAR_UNIT_NAME_WITH_PREPOSITION, PLURAL_UNIT_NAME_WITH_PREPOSITION,
+            super(SINGULAR_UNIT_NAME,
+                    PLURAL_UNIT_NAME,
+                    SINGULAR_UNIT_NAME_WITH_PREPOSITION,
+                    PLURAL_UNIT_NAME_WITH_PREPOSITION,
                     CONJUCTION);
             this.gender = Gender.FEMALE;
         }
@@ -109,37 +111,12 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
             this.singularUnitWithPreposition = PREPOSITION + " " + singularUnit;
             this.pluralUnitWithPreposition = PREPOSITION + " " + pluralUnit;
 
+            return getThis();
+        }
+
+        @Override
+        public Builder getThis() {
             return this;
-        }
-
-        @Override
-        public Builder withZeroDescription(String zeroDescription) {
-            return (Builder) super.withZeroDescription(zeroDescription);
-        }
-
-        @Override
-        public Builder withCommaSeparator(boolean useCommaSeparator) {
-            return (Builder) super.withCommaSeparator(useCommaSeparator);
-        }
-
-        @Override
-        public Builder withCommaSeparator() {
-            return (Builder) super.withCommaSeparator();
-        }
-
-        @Override
-        public Builder withFemaleGender() {
-            return (Builder) super.withFemaleGender();
-        }
-
-        @Override
-        public Builder withMaleGender() {
-            return (Builder) super.withMaleGender();
-        }
-
-        @Override
-        public Builder withGender(Gender gender) {
-            return (Builder) super.withGender(gender);
         }
 
         @Override

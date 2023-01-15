@@ -39,8 +39,6 @@ public class MoneyInWordsBuilders {
                 .withGenderForIntegerPart(Gender.FEMALE)
                 .withGenderForCentsPart(Gender.MALE)
                 .withCurrencyName("libra esterlina", "libras esterlinas")
-                .withCentsName("penny", "pence")
-                //.withCentsNameWhenLessOne("penny de libra esterlina", "pence de libra esterlina")
-        ;
+                .withCentsName("penny", "pence");
     }
 }

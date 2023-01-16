@@ -235,3 +235,28 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //mil satoshis
         System.out.println(bitcoin.inWords(new BigDecimal("0.00001")));
 ````
+
+## Exemplo Moeda Customizada em português
+
+````java
+        var lira = NumberInWordsFactory.createMoneyInWordsBuilder()
+            .forPortugueseLanguage()
+            .withCurrencyName("lira turca", "liras turca")
+            .withCentsName("kuruş", "kuruş")
+            .withSubdivisionDecimalPlaces(2)
+            .withGenderForIntegerPart(Gender.FEMALE)
+            .withGenderForCentsPart(Gender.MALE)
+            .build();
+
+        //uma lira turca
+        System.out.println(lira.inWords(new BigDecimal("1.00")));
+        
+        //duas liras turca
+        System.out.println(lira.inWords(new BigDecimal("2.00")));
+        
+        //uma lira turca e vinte e cinco kuruş
+        System.out.println(lira.inWords(new BigDecimal("1.25")));
+        
+        //um kuruş
+        System.out.println(lira.inWords(new BigDecimal("0.01")));
+```` 

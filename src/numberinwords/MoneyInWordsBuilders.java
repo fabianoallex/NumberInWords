@@ -12,7 +12,6 @@ public class MoneyInWordsBuilders {
                 .withSubdivisionDecimalPlaces(8)
                 .withCurrencyName("bitcoin", "bitcoins")
                 .withCentsName("satoshi", "satoshis")
-                .withCommaSeparator()
                 .withGenderForIntegerPart(Gender.MALE)
                 .withGenderForCentsPart(Gender.MALE);
     }

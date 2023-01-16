@@ -198,9 +198,9 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Moeda (Bitcoin) em português
 
 ````java
-var bitcoin = NumberInWordsFactory.createMoneyInWordsBuilder()
-                .forBitcoinInPortuguese()
-                .build();
+        var bitcoin = NumberInWordsFactory.createMoneyInWordsBuilder()
+            .forBitcoinInPortuguese()
+            .build();
 
         //um bitcoin
         System.out.println(bitcoin.inWords(new BigDecimal("1")));

@@ -1,11 +1,15 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
-import numberinwords.portuguese.MoneyInPortuguese;
+import numberinwords.portuguese.DateInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import static java.lang.String.join;
 
@@ -263,5 +267,16 @@ public class Main {
         System.out.println(lira.inWords(new BigDecimal("2.00")));
         System.out.println(lira.inWords(new BigDecimal("1.25")));
         System.out.println(lira.inWords(new BigDecimal("0.01")));
+
+        var date = NumberInWordsFactory.createDateInWordsBuilder()
+                .forPortugueseLanguage()
+                .usingMonthAndYear()
+                .build();
+
+
+        System.out.println(date.inWords(LocalDate.of(2023, 12, 31)));
+
+        //primeiro de janeiro de dois mil e vinte e três
+        System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
     }
 }

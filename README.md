@@ -7,11 +7,12 @@ Biblioteca java para escrever números por extenso para os seguintes tipos de n�
 - Números Decimais
 - Números Decimais com unidades
 - Números Romanos
-- Moeda
+- Moedas
+- Datas
 
 Atualmente estão disponíveis funcionalidades para os seguintes idiomas:
 
-- Português (Cardinais, Ordinais, Decimais, Moeda)
+- Português (Cardinais, Ordinais, Decimais, Moeda, Datas)
 - Inglês (Cardinais)
 - Espanhol (Cardinais)
 
@@ -26,6 +27,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 - Uso de 'and' para separar valores em centenas (inglês);
 - Definir o nome da moeda e das subdivisões (centavo);
 - Definir a quantidade de casas decimais das subdivisões de moedas (ex. Real 2. Bitcoin 8);
+- Definir apenas dia e mês ou mês e ano para Datas
 
 ## Exemplo Cardinal em portugês
 
@@ -260,3 +262,47 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //um kuruş
         System.out.println(lira.inWords(new BigDecimal("0.01")));
 ```` 
+
+## Exemplo Data em português
+
+````java
+        var date = NumberInWordsFactory.createDateInWordsBuilder()
+            .forPortugueseLanguage()
+            .build();
+
+        //trinta e um de dezembro de dois mil e vinte e três
+        System.out.println(date.inWords(LocalDate.of(2023, 12, 31)));
+
+        //primeiro de janeiro de dois mil e vinte e três
+        System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando apenas dia e mês
+
+````java
+        var date = NumberInWordsFactory.createDateInWordsBuilder()
+            .forPortugueseLanguage()
+            .usingDayAndMonth()
+            .build();
+
+        //trinta e um de dezembro
+        System.out.println(date.inWords(LocalDate.of(2023, 12, 31)));
+
+        //primeiro de janeiro
+        System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando apenas mês e ano
+
+````java
+        var date = NumberInWordsFactory.createDateInWordsBuilder()
+            .forPortugueseLanguage()
+            .usingMonthAndYear()
+            .build();
+
+        //dezembro de dois mil e vinte e três
+        System.out.println(date.inWords(LocalDate.of(2023, 12, 31)));
+
+        //janeiro de dois mil e vinte e três
+        System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
+````

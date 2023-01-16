@@ -25,6 +25,16 @@ public class NumberInWordsFactory {
         return new MoneyInWordsBuilders();
     }
 
+    public static DateInWordsBuilder createDateInWordsBuilder() {
+        return new DateInWordsBuilder();
+    }
+
+    public static class DateInWordsBuilder {
+        public DateInPortuguese.Builder forPortugueseLanguage() {
+            return new DateInPortuguese.Builder();
+        }
+    }
+
     public static class DecimalUnitInWordsBuilder {
         public DecimalUnitInPortuguese.Builder forPortugueseLanguage() {
             return new DecimalUnitInPortuguese.Builder();

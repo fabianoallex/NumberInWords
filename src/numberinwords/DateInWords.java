@@ -6,18 +6,6 @@ import java.time.LocalDate;
 
 public interface DateInWords extends NumberInWords<LocalDate> {
     abstract class Builder<T extends Builder<T>> {
-        public boolean isUsingDay() {
-            return useDay;
-        }
-
-        public boolean isUsingMonth() {
-            return useMonth;
-        }
-
-        public boolean isUsingYear() {
-            return useYear;
-        }
-
         protected boolean useDay = true;
         protected boolean useMonth = true;
         protected boolean useYear = true;
@@ -37,6 +25,18 @@ public interface DateInWords extends NumberInWords<LocalDate> {
             this.useMonth = true;
             this.useYear = true;
             return getThis();
+        }
+
+        public boolean isUsingDay() {
+            return useDay;
+        }
+
+        public boolean isUsingMonth() {
+            return useMonth;
+        }
+
+        public boolean isUsingYear() {
+            return useYear;
         }
     }
 }

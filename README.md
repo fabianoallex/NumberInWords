@@ -33,7 +33,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 
 ```java
         var inPortuguese = NumberInWordsFactory
-            .createCardinalInWordsBuilder()
+            .createCardinalInWordsBuilderChooser()
             .forPortugueseLanguage()
             .build();
 
@@ -45,7 +45,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 
 ```java
         var inPortuguese = NumberInWordsFactory
-            .createCardinalInWordsBuilder()
+            .createCardinalInWordsBuilderChooser()
             .forPortugueseLanguage()
             .withFemaleGender()
             .build();

@@ -131,6 +131,14 @@ public class DecimalInPortuguese implements DecimalInWords {
             return this;
         }
 
+        public Builder withFemaleGender() {
+            return this.withGender(Gender.FEMALE);
+        }
+
+        public Builder withMaleGender() {
+            return this.withGender(Gender.MALE);
+        }
+
         public Builder withOnlyDecimalPart() {
             this.useOnlyDecimalPart = true;
             this.useOnlyIntegerPart = false;
@@ -146,6 +154,10 @@ public class DecimalInPortuguese implements DecimalInWords {
         public Builder withCommaSeparator(boolean useCommaSeparator) {
             this.useCommaSeparator = useCommaSeparator;
             return this;
+        }
+
+        public Builder withCommaSeparator() {
+            return this.withCommaSeparator(true);
         }
 
         public DecimalInPortuguese build() {

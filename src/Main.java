@@ -248,5 +248,43 @@ public class Main {
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.255")));
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.00000001")));
+
+
+        var bitcoin = NumberInWordsFactory.createMoneyInWordsBuilder()
+                .forBitcoinInPortuguese()
+                .build();
+
+        //um bitcoin
+        System.out.println(bitcoin.inWords(new BigDecimal("1")));
+
+        //um bitcoin e vinte milhões de satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("1.2")));
+
+        //mil, oitocentos e oitenta e oito bitcoins e vinte e dois milhões, duzentos e trinta mil satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("1888.2223")));
+
+        //vinte milhões de satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("0.2")));
+
+        //duzentos mil satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("0.002")));
+
+        //dois bitcoins e um satoshi
+        System.out.println(bitcoin.inWords(new BigDecimal("2.00000001")));
+
+        //um satoshi
+        System.out.println(bitcoin.inWords(new BigDecimal("0.00000001")));
+
+        //dois satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("0.00000002")));
+
+        //um bilionésimo de bitcoin
+        System.out.println(bitcoin.inWords(new BigDecimal("0.000000001")));
+
+        //um milhão de satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("0.01")));
+
+        //mil satoshis
+        System.out.println(bitcoin.inWords(new BigDecimal("0.00001")));
     }
 }

@@ -20,6 +20,7 @@ class MoneyInWordsBuildersTest {
         testCases.put(new BigDecimal("2.1"), "dois bitcoins e dez milhões de satoshis");
         testCases.put(new BigDecimal("2.00000001"), "dois bitcoins e um satoshi");
         testCases.put(new BigDecimal("0.00000001"), "um satoshi");
+        testCases.put(new BigDecimal("0.00000002"), "dois satoshis");
         testCases.put(new BigDecimal("0.000000001"), "um bilionésimo de bitcoin");
         testCases.put(new BigDecimal("0.01"), "um milhão de satoshis");
         testCases.put(new BigDecimal("0.00001"), "mil satoshis");

@@ -23,7 +23,7 @@ public interface DateInWords extends NumberInWords<LocalDate> {
         protected boolean useYear = true;
 
         protected abstract T getThis();
-        public abstract DateInPortuguese build();
+        public abstract DateInWords build();
 
         public T usingDayAndMonth() {
             this.useDay = true;

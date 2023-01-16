@@ -1,15 +1,11 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
-import numberinwords.portuguese.DateInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 import static java.lang.String.join;
 
@@ -136,13 +132,13 @@ public class Main {
         System.out.println(cardinalInEnglish.inWords(Long.MAX_VALUE));
         System.out.println(cardinalInEnglish.inWords(-Long.MAX_VALUE));
 
-        CardinalInWords cardinalInEnglish2 = NumberInWordsFactory.createCardinalInWordsBuilder()
+        CardinalInWords cardinalInEnglish2 = NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forEnglishLanguage()
                 .build();
 
         System.out.println(cardinalInEnglish2.inWords(123456789L));
 
-        CardinalInWords cardinalInPortugues = NumberInWordsFactory.createCardinalInWordsBuilder()
+        CardinalInWords cardinalInPortugues = NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withCommaSeparator()
                 .build();
@@ -150,7 +146,7 @@ public class Main {
         System.out.println(cardinalInPortugues.inWords(123456789L));
 
         var s = NumberInWordsFactory
-                .createCardinalInWordsBuilder()
+                .createCardinalInWordsBuilderChooser()
                 .forEnglishLanguage()
                 .withCommaSeparator()
                 .withZeroDescription("Nenhuma")
@@ -159,21 +155,21 @@ public class Main {
                 .build()
                 .inWords(-2555L);
 
-        MoneyInWords realInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+        MoneyInWords realInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forRealInPortuguese()
                 .build();
 
         System.out.println(realInPortuguese.inWords(new BigDecimal("2.125")));
 
 
-        var decimalInPortuguese = NumberInWordsFactory.createDecimalInWordsBuilder()
+        var decimalInPortuguese = NumberInWordsFactory.createDecimalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .build();
 
         System.out.println(decimalInPortuguese.inWords(new BigDecimal("32.100001")));
 
 
-        var maleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+        var maleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withMaleGender()
                 .withCommaSeparator()
@@ -186,7 +182,7 @@ public class Main {
         System.out.println(maleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
 
 
-        var femaleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+        var femaleDecimalUnitInPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withCommaSeparator()
                 .withUnitDescriptions("Casa", "Casas")
@@ -197,7 +193,7 @@ public class Main {
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("2.001")));
         System.out.println(femaleDecimalUnitInPortuguese.inWords(new BigDecimal("0.1")));
 
-        var realInPortuguese2 = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var realInPortuguese2 = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forRealInPortuguese()
                 .withCommaSeparator()
                 .build();
@@ -210,7 +206,7 @@ public class Main {
         System.out.println(realInPortuguese2.inWords(new BigDecimal("1.25")));
         System.out.println(realInPortuguese2.inWords(new BigDecimal("1.255")));
 
-        var dolarInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var dolarInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forDollarInPortuguese()
                 .withCommaSeparator()
                 .build();
@@ -223,7 +219,7 @@ public class Main {
         System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(dolarInPortuguese.inWords(new BigDecimal("1.255")));
 
-        var poundsInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var poundsInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forPoundInPortuguese()
                 .withCommaSeparator()
                 .build();
@@ -238,7 +234,7 @@ public class Main {
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.25")));
         System.out.println(poundsInPortuguese.inWords(new BigDecimal("1.255")));
 
-        var bitcoisInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var bitcoisInPortuguese = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forBitcoinInPortuguese()
                 .build();
 
@@ -254,7 +250,7 @@ public class Main {
         System.out.println(bitcoisInPortuguese.inWords(new BigDecimal("1.00000001")));
 
 
-        var lira = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var lira = NumberInWordsFactory.createMoneyInWordsBuilderChoosers()
                 .forPortugueseLanguage()
                 .withCurrencyName("lira turca", "liras turca")
                 .withCentsName("kuruş", "kuruş")

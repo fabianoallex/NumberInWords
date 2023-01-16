@@ -60,7 +60,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Cardinal em inglês
 
 ```java
-        var inEnglish = NumberInWordsFactory.createCardinalInWordsBuilder()
+        var inEnglish = NumberInWordsFactory.createCardinalInWordsBuilderChooser()
             .forEnglishLanguage()
             .build();
 
@@ -74,7 +74,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando 'and' para separar valores nas centenas e vírgula para milhares
 
 ```java
-        var inEnglish = NumberInWordsFactory.createCardinalInWordsBuilder()
+        var inEnglish = NumberInWordsFactory.createCardinalInWordsBuilderChooser()
             .forEnglishLanguage()
             .withAndInHundred()
             .withCommaSeparator()
@@ -90,7 +90,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Ordinal em português
 
 ````java
-        var inPortuguese = NumberInWordsFactory.createOrdinalInWordsBuilder()
+        var inPortuguese = NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
             .forPortugueseLanguage()
             .build();
 
@@ -107,7 +107,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando gênero femenino e vírgula
 
 ````java
-        var inPortuguese = NumberInWordsFactory.createOrdinalInWordsBuilder()
+        var inPortuguese = NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
             .forPortugueseLanguage()
             .withFemaleGender()
             .withCommaSeparator()
@@ -126,7 +126,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Decimal em português
 
 ````java
-        var inPortuguese = NumberInWordsFactory.createDecimalInWordsBuilder()
+        var inPortuguese = NumberInWordsFactory.createDecimalInWordsBuilderChooser()
             .forPortugueseLanguage()
             .withCommaSeparator()
             .build();
@@ -141,7 +141,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Decimal com Unidade em português
 
 ````java
-        var inPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+        var inPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilderChooser()
             .forPortugueseLanguage()
             .build();
 
@@ -157,7 +157,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 
 ### Especificando a descrição da unidade
 ````java
-        var inPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilder()
+        var inPortuguese = NumberInWordsFactory.createDecimalUnitInWordsBuilderChooser()
             .forPortugueseLanguage()
             .withUnitDescription("metro")
             .withGender(Gender.MALE) //defaul is FEMALE
@@ -176,7 +176,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Moeda (Real) em português
 
 ````java
-        var real = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var real = NumberInWordsFactory.createMoneyInWordsBuilderChooser()
             .forRealInPortuguese()
             .withCommaSeparator()
             .build();
@@ -200,7 +200,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Moeda (Bitcoin) em português
 
 ````java
-        var bitcoin = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var bitcoin = NumberInWordsFactory.createMoneyInWordsBuilderChooser()
             .forBitcoinInPortuguese()
             .build();
 
@@ -241,7 +241,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Moeda Customizada em português
 
 ````java
-        var lira = NumberInWordsFactory.createMoneyInWordsBuilder()
+        var lira = NumberInWordsFactory.createMoneyInWordsBuilderChooser()
             .forPortugueseLanguage()
             .withCurrencyName("lira turca", "liras turca")
             .withCentsName("kuruş", "kuruş")
@@ -266,7 +266,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ## Exemplo Data em português
 
 ````java
-        var date = NumberInWordsFactory.createDateInWordsBuilder()
+        var date = NumberInWordsFactory.createDateInWordsBuilderChooser()
             .forPortugueseLanguage()
             .build();
 
@@ -280,7 +280,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando apenas dia e mês
 
 ````java
-        var date = NumberInWordsFactory.createDateInWordsBuilder()
+        var date = NumberInWordsFactory.createDateInWordsBuilderChooser()
             .forPortugueseLanguage()
             .usingDayAndMonth()
             .build();
@@ -295,7 +295,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando apenas mês e ano
 
 ````java
-        var date = NumberInWordsFactory.createDateInWordsBuilder()
+        var date = NumberInWordsFactory.createDateInWordsBuilderChooser()
             .forPortugueseLanguage()
             .usingMonthAndYear()
             .build();

@@ -59,7 +59,7 @@ public class DecimalInPortuguese implements DecimalInWords {
         if (integerPart > 0)
             integerSiffix = (integerPart == 1) ? " inteiro" : " inteiros";
 
-        return NumberInWordsFactory.createCardinalInWordsBuilder()
+        return NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withGender(this.gender)
                 .withZeroDescription(zeroDescription)
@@ -86,7 +86,7 @@ public class DecimalInPortuguese implements DecimalInWords {
             validNumberOfDecimalPlaces--;
         }
 
-        return NumberInWordsFactory.createCardinalInWordsBuilder()
+        return NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withCommaSeparator(this.useCommaSeparator)
                 .build()

@@ -28,11 +28,11 @@ public class DateInPortuguese implements DateInWords {
             return "";
 
         if (day > 1)
-            return NumberInWordsFactory.createCardinalInWordsBuilder()
+            return NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                     .forPortugueseLanguage()
                     .build().inWords((long) day) + " de ";
 
-        return NumberInWordsFactory.createOrdinalInWordsBuilder()
+        return NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
                     .forPortugueseLanguage()
                     .build()
                     .inWords((long) day) + " de ";
@@ -46,7 +46,7 @@ public class DateInPortuguese implements DateInWords {
         if (!this.useYear)
             return "";
 
-        return " de " + NumberInWordsFactory.createCardinalInWordsBuilder()
+        return " de " + NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .build()
                 .inWords((long) year);

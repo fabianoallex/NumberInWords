@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MoneyInWordsBuildersTest {
+class MoneyInWordsBuilderChossersTest {
     @Test
     void forBitcoinInPortuguese() {
-        var bitcoin = new MoneyInWordsBuilders()
+        var bitcoin = new MoneyInWordsBuilderChossers()
                 .forBitcoinInPortuguese()
                 .build();
 
@@ -34,7 +34,7 @@ class MoneyInWordsBuildersTest {
 
     @Test
     void forDollarInPortuguese() {
-        var dollar = new MoneyInWordsBuilders()
+        var dollar = new MoneyInWordsBuilderChossers()
                 .forDollarInPortuguese()
                 .build();
 
@@ -57,7 +57,7 @@ class MoneyInWordsBuildersTest {
 
     @Test
     void forRealInPortuguese() {
-        var real = new MoneyInWordsBuilders()
+        var real = new MoneyInWordsBuilderChossers()
                 .forRealInPortuguese()
                 .build();
 
@@ -80,7 +80,7 @@ class MoneyInWordsBuildersTest {
 
     @Test
     void forPoundInPortuguese() {
-        var pound = new MoneyInWordsBuilders()
+        var pound = new MoneyInWordsBuilderChossers()
                 .forPoundInPortuguese()
                 .build();
 

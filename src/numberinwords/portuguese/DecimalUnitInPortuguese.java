@@ -10,14 +10,14 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
     public DecimalUnitInPortuguese(Builder builder) {
         super(builder);
 
-        this.integerPartInWords = NumberInWordsFactory.createCardinalInWordsBuilder()
+        this.integerPartInWords = NumberInWordsFactory.createCardinalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withGender(this.gender)
                 .withZeroDescription(this.zeroDescription)
                 .withCommaSeparator(this.useCommaSeparator)
                 .build();
 
-        this.decimalPartInWords = NumberInWordsFactory.createDecimalInWordsBuilder()
+        this.decimalPartInWords = NumberInWordsFactory.createDecimalInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .withGender(Gender.FEMALE)
                 .withOnlyDecimalPart()

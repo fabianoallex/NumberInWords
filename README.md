@@ -123,6 +123,38 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         System.out.println(inPortuguese.inWords(2252000L));
 ````
 
+## Exemplo Ordinal em Inglês
+
+````java
+        var ordinalInEnglish = NumberInWordsFactory.createOrdinalInEnglishBuilderChooser()
+            .forEnglishLanguage()
+            .build();
+
+        //first
+        System.out.println(ordinalInEnglish.inWords(1L));
+
+        //tenth
+        System.out.println(ordinalInEnglish.inWords(10L));
+
+        //twenty-fifth
+        System.out.println(ordinalInEnglish.inWords(25L));
+
+        //eighty-eighth
+        System.out.println(ordinalInEnglish.inWords(88L));
+
+        //one hundredth
+        System.out.println(ordinalInEnglish.inWords(100L));
+
+        //one hundred first
+        System.out.println(ordinalInEnglish.inWords(101L));
+
+        //one thousandth
+        System.out.println(ordinalInEnglish.inWords(1000L));
+
+        //one thousand and second
+        System.out.println(ordinalInEnglish.inWords(1002L));
+````
+
 ## Exemplo Decimal em português
 
 ````java

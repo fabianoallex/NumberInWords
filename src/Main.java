@@ -264,7 +264,7 @@ public class Main {
         System.out.println(lira.inWords(new BigDecimal("1.25")));
         System.out.println(lira.inWords(new BigDecimal("0.01")));
 
-        var date = NumberInWordsFactory.createDateInWordsBuilder()
+        var date = NumberInWordsFactory.createDateInWordsBuilderChooser()
                 .forPortugueseLanguage()
                 .usingMonthAndYear()
                 .build();
@@ -274,5 +274,34 @@ public class Main {
 
         //primeiro de janeiro de dois mil e vinte e três
         System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
+
+        var ordinalInEnglish = NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
+                .forEnglishLanguage()
+                .build();
+
+
+        //first
+        System.out.println(ordinalInEnglish.inWords(1L));
+
+        //tenth
+        System.out.println(ordinalInEnglish.inWords(10L));
+
+        //twenty-fifth
+        System.out.println(ordinalInEnglish.inWords(25L));
+
+        //eighty-eighth
+        System.out.println(ordinalInEnglish.inWords(88L));
+
+        //one hundredth
+        System.out.println(ordinalInEnglish.inWords(100L));
+
+        //one hundred first
+        System.out.println(ordinalInEnglish.inWords(101L));
+
+        //one thousandth
+        System.out.println(ordinalInEnglish.inWords(1000L));
+
+        //one thousand and second
+        System.out.println(ordinalInEnglish.inWords(1002L));
     }
 }

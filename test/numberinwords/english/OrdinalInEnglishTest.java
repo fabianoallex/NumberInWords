@@ -1,7 +1,6 @@
 package numberinwords.english;
 
 import numberinwords.OrdinalInWords;
-import numberinwords.portuguese.OrdinalInPortuguese;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

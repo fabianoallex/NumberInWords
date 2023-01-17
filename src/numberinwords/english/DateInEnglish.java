@@ -46,12 +46,12 @@ public class DateInEnglish  implements DateInWords {
         String finalSpace = useMonthFirst ? "" : " ";
 
         if (this.useCardinalForDay)
-            return initialSpace + the + NumberInWordsFactory.createCardinalInWordsBuilderChooser()
+            return initialSpace + the + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
                     .inWords((long) day) + of + finalSpace;
 
-        return initialSpace + the + NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
+        return initialSpace + the + NumberInWordsFactory.createOrdinalBuilderChooser()
                 .forEnglishLanguage()
                 .build()
                 .inWords((long) day) + of + finalSpace;
@@ -65,7 +65,7 @@ public class DateInEnglish  implements DateInWords {
         if (!this.useYear)
             return "";
 
-        return " " + NumberInWordsFactory.createCardinalInWordsBuilderChooser()
+        return " " + NumberInWordsFactory.createCardinalBuilderChooser()
                 .forEnglishLanguage()
                 .build()
                 .inWords((long) year);

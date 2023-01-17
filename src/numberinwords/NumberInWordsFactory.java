@@ -7,32 +7,31 @@ import numberinwords.portuguese.*;
 import numberinwords.spanish.CardinalInSpanish;
 
 public class NumberInWordsFactory {
-    public static CardinalInWordsBuilderChooser createCardinalInWordsBuilderChooser() {
-        return new CardinalInWordsBuilderChooser();
+    public static CardinalBuilderChooser createCardinalBuilderChooser() {
+        return new CardinalBuilderChooser();
     }
 
-    public static OrdinalInWordsBuilderChooser createOrdinalInWordsBuilderChooser() {
-        return new OrdinalInWordsBuilderChooser();
+    public static OrdinalBuilderChooser createOrdinalBuilderChooser() {
+        return new OrdinalBuilderChooser();
     }
 
-    public static DecimalInWordsBuilderChooser createDecimalInWordsBuilderChooser() {
-        return new DecimalInWordsBuilderChooser();
+    public static DecimalBuilderChooser createDecimalBuilderChooser() {
+        return new DecimalBuilderChooser();
     }
 
-    public static DecimalUnitInWordsBuilderChooser createDecimalUnitInWordsBuilderChooser() {
-        return new DecimalUnitInWordsBuilderChooser();
+    public static DecimalUnitBuilderChooser createDecimalUnitBuilderChooser() {
+        return new DecimalUnitBuilderChooser();
     }
 
-    public static MoneyInWordsBuilderChoosers createMoneyInWordsBuilderChoosers() {
-        return new MoneyInWordsBuilderChoosers();
+    public static MoneyBuilderChoosers createMoneyBuilderChoosers() {
+        return new MoneyBuilderChoosers();
     }
 
-    public static DateInWordsBuilderChooser createDateInWordsBuilderChooser() {
-        return new DateInWordsBuilderChooser();
+    public static DateBuilderChooser createDateBuilderChooser() {
+        return new DateBuilderChooser();
     }
 
-
-    public static class DateInWordsBuilderChooser {
+    public static class DateBuilderChooser {
         public DateInPortuguese.Builder forPortugueseLanguage() {
             return new DateInPortuguese.Builder();
         }
@@ -41,13 +40,13 @@ public class NumberInWordsFactory {
         }
     }
 
-    public static class DecimalUnitInWordsBuilderChooser {
+    public static class DecimalUnitBuilderChooser {
         public DecimalUnitInPortuguese.Builder forPortugueseLanguage() {
             return new DecimalUnitInPortuguese.Builder();
         }
     }
 
-    public static class CardinalInWordsBuilderChooser {
+    public static class CardinalBuilderChooser {
         public CardinalInPortuguese.Builder forPortugueseLanguage() {
             return new CardinalInPortuguese.Builder();
         }
@@ -61,7 +60,7 @@ public class NumberInWordsFactory {
         }
     }
 
-    public static class OrdinalInWordsBuilderChooser {
+    public static class OrdinalBuilderChooser {
         public OrdinalInPortuguese.Builder forPortugueseLanguage() {
             return new OrdinalInPortuguese.Builder();
         }
@@ -71,7 +70,7 @@ public class NumberInWordsFactory {
         }
     }
 
-    public static class DecimalInWordsBuilderChooser {
+    public static class DecimalBuilderChooser {
         public DecimalInPortuguese.Builder forPortugueseLanguage() {
             return new DecimalInPortuguese.Builder();
         }

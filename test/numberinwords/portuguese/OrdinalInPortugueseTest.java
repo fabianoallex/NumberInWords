@@ -165,4 +165,51 @@ class OrdinalInPortugueseTest {
                         ordinalNumber.inWords(number),
                         "retorno não esperado para o numero " + number));
     }
+
+    @Test
+    @DisplayName("inWords (Number Representation)")
+    void inWordsNumberRepresentation() {
+        Map<Long, String> testCases = new HashMap<>();
+        testCases.put(0L, ""); //zero
+        testCases.put(-1L, ""); //negativo
+        testCases.put(1L, "1º");
+        testCases.put(2L, "2º");
+        testCases.put(3L, "3º");
+        testCases.put(29L, "29º");
+        testCases.put(100L, "100º");
+
+        OrdinalInWords ordinalNumber = new OrdinalInPortuguese.Builder()
+                .withNumberRepresentation()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        ordinalNumber.inWords(number),
+                        "retorno não esperado para o numero " + number));
+    }
+
+    @Test
+    @DisplayName("inWords (Female Number Representation)")
+    void inWordsFemaleNumberRepresentation() {
+        Map<Long, String> testCases = new HashMap<>();
+        testCases.put(0L, ""); //zero
+        testCases.put(-1L, ""); //negativo
+        testCases.put(1L, "1ª");
+        testCases.put(2L, "2ª");
+        testCases.put(3L, "3ª");
+        testCases.put(29L, "29ª");
+        testCases.put(100L, "100ª");
+
+        OrdinalInWords ordinalNumber = new OrdinalInPortuguese.Builder()
+                .withNumberRepresentation()
+                .withFemaleGender()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        ordinalNumber.inWords(number),
+                        "retorno não esperado para o numero " + number));
+    }
 }

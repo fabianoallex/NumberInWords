@@ -277,31 +277,29 @@ public class Main {
 
         var ordinalInEnglish = NumberInWordsFactory.createOrdinalInWordsBuilderChooser()
                 .forEnglishLanguage()
+                .withNumberRepresentation()
                 .build();
 
 
-        //first
+        //1st
         System.out.println(ordinalInEnglish.inWords(1L));
 
-        //tenth
+        //2st
+        System.out.println(ordinalInEnglish.inWords(2L));
+
+        //3rd
+        System.out.println(ordinalInEnglish.inWords(3L));
+
+        //10th
         System.out.println(ordinalInEnglish.inWords(10L));
 
-        //twenty-fifth
+        //25th
         System.out.println(ordinalInEnglish.inWords(25L));
 
-        //eighty-eighth
-        System.out.println(ordinalInEnglish.inWords(88L));
-
-        //one hundredth
-        System.out.println(ordinalInEnglish.inWords(100L));
-
-        //one hundred first
-        System.out.println(ordinalInEnglish.inWords(101L));
-
-        //one thousandth
+        //1000th
         System.out.println(ordinalInEnglish.inWords(1000L));
 
-        //one thousand and second
+        //1002nd
         System.out.println(ordinalInEnglish.inWords(1002L));
     }
 }

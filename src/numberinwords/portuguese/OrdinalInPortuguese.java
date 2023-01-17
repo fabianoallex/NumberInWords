@@ -6,10 +6,12 @@ import numberinwords.OrdinalInWords;
 public class OrdinalInPortuguese implements OrdinalInWords {
     private final Gender gender;
     private final boolean useCommaSeparator;
+    private final boolean useNumberRepresentation;
 
     private OrdinalInPortuguese(Builder builder) {
         this.gender = builder.gender;
         this.useCommaSeparator = builder.useCommaSeparator;
+        this.useNumberRepresentation = builder.useNumberRepresentation;
     }
 
     public Gender getGender() {
@@ -20,12 +22,22 @@ public class OrdinalInPortuguese implements OrdinalInWords {
         return useCommaSeparator;
     }
 
+    private String getNumberRepresentation(Long number) {
+        if (gender.equals(Gender.MALE))
+            return number.toString() + "º";
+
+        return number.toString() + "ª";
+    }
+
     @Override
     public String inWords(Long number) {
-        StringBuilder result = new StringBuilder();
-
         if (number <= 0)
             return "";
+
+        if (this.useNumberRepresentation)
+            return this.getNumberRepresentation(number);
+
+        StringBuilder result = new StringBuilder();
 
         PortugueseOrdinalBlock numberBlock = new PortugueseOrdinalBlock.Builder(number)
                 .withOrdinalInPortuguese(this)
@@ -46,6 +58,16 @@ public class OrdinalInPortuguese implements OrdinalInWords {
     public static class Builder {
         private Gender gender = Gender.MALE;
         private boolean useCommaSeparator = false;
+        private boolean useNumberRepresentation = false;
+
+        public Builder withNumberRepresentation(boolean useNumberRepresentation) {
+            this.useNumberRepresentation = useNumberRepresentation;
+            return this;
+        }
+
+        public Builder withNumberRepresentation() {
+            return this.withNumberRepresentation(true);
+        }
 
         public Builder withMaleGender() {
             this.gender = Gender.MALE;

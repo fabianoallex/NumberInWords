@@ -2,7 +2,7 @@ package numberinwords;
 
 import numberinwords.portuguese.MoneyInPortuguese;
 
-public class MoneyInWordsBuilderChossers {
+public class MoneyInWordsBuilderChoosers {
     public MoneyInWords.Builder<MoneyInPortuguese> forPortugueseLanguage() {
         return new MoneyInWords.Builder<>(MoneyInPortuguese.class);
     }

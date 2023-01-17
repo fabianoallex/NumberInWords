@@ -3,7 +3,6 @@ package numberinwords.portuguese;
 import numberinwords.Block;
 import numberinwords.Gender;
 import numberinwords.Suffix;
-
 import java.util.Map;
 
 public class PortugueseOrdinalBlock extends Block {

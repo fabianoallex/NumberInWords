@@ -1,15 +1,15 @@
 package numberinwords.english;
 
 import numberinwords.Suffix;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class EnglishCardinalDescriptions {
-    static final String[] suffixes = new String[]{
+    static final String[] suffixes = new String[] {
             "", "thousand", "million", "billion", "trillion", "quadrillion",
             "quintillion", "sextillion", "septillion", "octillion",
-            "nonillion", "decillion"};
+            "nonillion", "decillion"
+    };
 
     static final String DEFAULT_NEGATIVE_SIGNAL_DESCRIPTION = "negative";
     static final String DEFAULT_POSITIVE_SIGNAL_DESCRIPTION = "";

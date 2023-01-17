@@ -21,8 +21,8 @@ public class NumberInWordsFactory {
         return new DecimalUnitInWordsBuilderChooser();
     }
 
-    public static MoneyInWordsBuilderChossers createMoneyInWordsBuilderChoosers() {
-        return new MoneyInWordsBuilderChossers();
+    public static MoneyInWordsBuilderChoosers createMoneyInWordsBuilderChoosers() {
+        return new MoneyInWordsBuilderChoosers();
     }
 
     public static DateInWordsBuilderChooser createDateInWordsBuilder() {

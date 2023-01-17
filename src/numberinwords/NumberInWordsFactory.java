@@ -1,6 +1,7 @@
 package numberinwords;
 
 import numberinwords.english.CardinalInEnglish;
+import numberinwords.english.DateInEnglish;
 import numberinwords.english.OrdinalInEnglish;
 import numberinwords.portuguese.*;
 import numberinwords.spanish.CardinalInSpanish;
@@ -34,6 +35,9 @@ public class NumberInWordsFactory {
     public static class DateInWordsBuilderChooser {
         public DateInPortuguese.Builder forPortugueseLanguage() {
             return new DateInPortuguese.Builder();
+        }
+        public DateInEnglish.Builder forEnglishLanguage() {
+            return new DateInEnglish.Builder();
         }
     }
 

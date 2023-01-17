@@ -12,8 +12,8 @@ Biblioteca java para escrever números por extenso para os seguintes tipos de n�
 
 Atualmente estão disponíveis funcionalidades para os seguintes idiomas:
 
-- Português (Cardinais, Ordinais, Decimais, Moeda, Datas)
-- Inglês (Cardinais)
+- Português (Cardinais, Ordinais, Decimais, Moeda e Datas)
+- Inglês (Cardinais, Ordinais e Datas)
 - Espanhol (Cardinais)
 
 A biblioteca oferece configurações especiais para cada tipo de conversão, como por exemplo:
@@ -368,4 +368,79 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 
         //janeiro de dois mil e vinte e três
         System.out.println(date.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+## Exemplo Data em inglês
+
+````java
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+            .forEnglishLanguage()
+            .build();
+
+        //thirty-first December two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+        
+        //first January two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando 'the' antes do dia
+
+````java
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+        .forEnglishLanguage()
+        .withTheBeforeDay()
+        .build();
+
+        //the thirty-first December two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+
+        //the first January two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando 'the' antes e 'of' depois do dia
+
+````java
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+            .forEnglishLanguage()
+            .withTheBeforeDay()
+            .withOfAfterDay()
+            .build();
+
+        //the thirty-first of December two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+        
+        //the first of January two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando mês antes do dia
+
+````java
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+        .forEnglishLanguage()
+        .withMonthFirst()
+        .build();
+
+        //December thirty-first two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+
+        //January first two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
+````
+
+### Usando dia no formato cardinal
+
+````java
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+            .forEnglishLanguage()
+            .withCardinalForDay()
+            .build();
+
+        //thirty-one December two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+        
+        //one January two thousand and twenty-three
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
 ````

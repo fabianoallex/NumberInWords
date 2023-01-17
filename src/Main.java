@@ -301,5 +301,15 @@ public class Main {
 
         //1002nd
         System.out.println(ordinalInEnglish.inWords(1002L));
+
+
+
+        var dateInEnglish = NumberInWordsFactory.createDateInWordsBuilderChooser()
+                .forEnglishLanguage()
+                .withCardinalForDay()
+                .build();
+
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
+        System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
     }
 }

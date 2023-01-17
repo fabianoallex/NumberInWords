@@ -31,32 +31,33 @@ public class PortugueseOrdinalBlock extends Block {
 
     @Override
     public String getNumberDescription() {
-        var numberDescriptionMap = getNumberDescriptionsMapForGender(this.ordinalInPortuguese.getGender());
+        if (this.getValue() == 0)
+            return "";
 
+        int hundred = (int) (this.getValue() / 100);
+        int dozens = (int) (this.getValue() % 100);
+
+        var numberDescriptionMap = getNumberDescriptionsMapForGender(this.ordinalInPortuguese.getGender());
         String result = "";
 
-        if (this.getValue() != 0) {
-            int hundred = (int) (this.getValue() / 100);
-            int dozens = (int) (this.getValue() % 100);
+        if (hundred > 0)
+            result = numberDescriptionMap.get(hundred * 100) + " ";
 
-            if (hundred > 0)
-                result += numberDescriptionMap.get(hundred * 100) + " ";
+        if (dozens > 0 && dozens < 10)
+            //ex. 1200. previne 'primeiro milésimo ducentésimo'. fica 'milésimo ducentésimo'
+            if (!(dozens == 1 && this.getSuffix().compareTo(Suffix.NO_SUFFIX) > 0))
+                result += numberDescriptionMap.get(dozens) + " ";
 
-            if (dozens > 0 && dozens < 10)
-                //ex. 1200. previne 'primeiro milésimo ducentésimo'. fica 'milésimo ducentésimo'
-                if (!(dozens == 1 && this.getSuffix().compareTo(Suffix.NO_SUFFIX) > 0))
-                    result += numberDescriptionMap.get(dozens) + " ";
+        if (dozens < 10)
+            return result;
 
-            if (dozens >= 10) {
-                int ten = dozens / 10;
-                int one = dozens % 10;
+        int ten = dozens / 10;
+        int one = dozens % 10;
 
-                result += numberDescriptionMap.get(ten * 10) + " ";
+        result += numberDescriptionMap.get(ten * 10) + " ";
 
-                if (one > 0)
-                    result += numberDescriptionMap.get(one) + " ";
-            }
-        }
+        if (one > 0)
+            result += numberDescriptionMap.get(one) + " ";
 
         return result;
     }

@@ -5,6 +5,12 @@ import numberinwords.OrdinalInWords;
 
 public class OrdinalInPortuguese implements OrdinalInWords {
     private final Gender gender;
+    private final boolean useCommaSeparator;
+
+    private OrdinalInPortuguese(Builder builder) {
+        this.gender = builder.gender;
+        this.useCommaSeparator = builder.useCommaSeparator;
+    }
 
     public Gender getGender() {
         return gender;
@@ -12,13 +18,6 @@ public class OrdinalInPortuguese implements OrdinalInWords {
 
     public boolean isUsingCommaSeparator() {
         return useCommaSeparator;
-    }
-
-    private final boolean useCommaSeparator;
-
-    private OrdinalInPortuguese(Builder builder) {
-        this.gender = builder.gender;
-        this.useCommaSeparator = builder.useCommaSeparator;
     }
 
     @Override

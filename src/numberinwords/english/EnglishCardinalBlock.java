@@ -1,9 +1,7 @@
 package numberinwords.english;
 
 import numberinwords.Block;
-import numberinwords.Gender;
 import numberinwords.Suffix;
-import numberinwords.portuguese.PortugueseCardinalDescriptions;
 
 import java.util.Map;
 

@@ -6,13 +6,14 @@ Biblioteca java para escrever números por extenso para os seguintes tipos de n�
 - Números Ordinais
 - Números Decimais
 - Números Decimais com unidades
+- Números Fracionários
 - Números Romanos
 - Moedas
 - Datas
 
 Atualmente estão disponíveis funcionalidades para os seguintes idiomas:
 
-- Português (Cardinais, Ordinais, Decimais, Moeda e Datas)
+- Português (Cardinais, Ordinais, Decimais, Fracionários, Moedas e Datas)
 - Inglês (Cardinais, Ordinais e Datas)
 - Espanhol (Cardinais)
 

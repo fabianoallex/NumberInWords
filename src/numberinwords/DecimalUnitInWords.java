@@ -49,7 +49,7 @@ public abstract class DecimalUnitInWords implements DecimalInWords {
         protected String pluralUnitWithPreposition;
         protected String conjuction;
 
-        public abstract T getThis();
+        protected abstract T getThis();
         public abstract DecimalInWords build();
 
         public Builder(String singularUnit,

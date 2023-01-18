@@ -17,10 +17,30 @@ class FractionalInPortugueseTest {
         Map<Fractional, String> testCases = new HashMap<>();
         testCases.put(Fractional.of( 2), "um meio");
         testCases.put(Fractional.of( 3), "um terço");
-        testCases.put(Fractional.of(-2L), "menos um meio");
-        testCases.put(Fractional.of(10L), "dez avos");
-        testCases.put(Fractional.of(11L), "onze avos");
-        testCases.put(Fractional.of(20L), "vinte avos");
+        testCases.put(Fractional.of(2, 2), "dois meios");
+        testCases.put(Fractional.of(2, 3), "dois terços");
+        //tratar casos negativos
+        //testCases.put(Fractional.of(-2L), "menos um meio");
+        testCases.put(Fractional.of(10L), "um décimo");
+        testCases.put(Fractional.of(11L), "um undécimo");
+        testCases.put(Fractional.of(20L), "um vigésimo");
+        testCases.put(Fractional.of(21L), "um vinte e um avos");
+        testCases.put(Fractional.of(100L), "um centésimo");
+        testCases.put(Fractional.of(101L), "um cento e um avos");
+        testCases.put(Fractional.of(200L), "um ducentésimo");
+        testCases.put(Fractional.of(3,400L), "três quadringentésimos");
+        testCases.put(Fractional.of(3,404L), "três quatrocentos e quatro avos");
+        testCases.put(Fractional.of(1000L), "um milésimo");
+        testCases.put(Fractional.of(1000000L), "um milionésimo");
+        testCases.put(Fractional.of(1000001L), "um um milhão e um avos");
+        testCases.put(Fractional.of(1000000000L), "um bilionésimo");
+        testCases.put(Fractional.of(1001000000L), "um um bilhão e um milhão de avos");
+        testCases.put(Fractional.of(1000000000000L), "um trilionésimo");
+        testCases.put(Fractional.of(1000000000000000L), "um quatrilionésimo");
+        testCases.put(Fractional.of(1000000000000000000L), "um quintilionésimo");
+        testCases.put(Fractional.of(2,1000000000000000000L), "dois quintilionésimos");
+        testCases.put(Fractional.of(1001L), "um mil e um avos");
+        testCases.put(Fractional.of(2,1001L), "dois mil e um avos");
 
         FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
                 .build();

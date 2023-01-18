@@ -115,7 +115,7 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
         }
 
         @Override
-        public Builder getThis() {
+        protected Builder getThis() {
             return this;
         }
 

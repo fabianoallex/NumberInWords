@@ -1,6 +1,7 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
+import numberinwords.portuguese.FractionalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
@@ -311,5 +312,10 @@ public class Main {
 
         System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
         System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
+
+        var fractional = new FractionalInPortuguese.Builder()
+                .build();
+
+        System.out.println(fractional.inWords(Fractional.of(101)));
     }
 }

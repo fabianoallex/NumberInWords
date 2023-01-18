@@ -12,17 +12,27 @@ public class FractionalInPortuguese implements FractionalInWords {
     private final Gender gender;
     private final boolean useDecimalResult;
     private final int maxDecimalPlacesForDecimalResult;
+    private final boolean forceToImproper;
+    private final boolean forceToMixed;
 
     private FractionalInPortuguese(Builder builder) {
         this.gender = builder.gender;
         this.useDecimalResult = builder.useDecimalResult;
         this.maxDecimalPlacesForDecimalResult = builder.maxDecimalPlacesForDecimalResult;
+        this.forceToImproper = builder.forceToImproper;
+        this.forceToMixed = builder.forceToMixed;
     }
 
     @Override
     public String inWords(Fractional number) {
         if (this.useDecimalResult)
             return inWordsForDecimalResult(number);
+
+        if (this.forceToMixed)
+            number = number.toMixed();
+
+        if (this.forceToImproper)
+            number = number.toImproper();
 
         String wholePartInWords =
                 Math.abs(number.getWholePart()) <= 1 ? "" :
@@ -84,6 +94,24 @@ public class FractionalInPortuguese implements FractionalInWords {
         private Gender gender = Gender.MALE;
         private boolean useDecimalResult = false;
         private int maxDecimalPlacesForDecimalResult = 2;
+        private boolean forceToImproper = false;
+        private boolean forceToMixed = false;
+
+        public Builder withForcingToImproper(boolean forceToImproper) {
+            this.forceToImproper = forceToImproper;
+            if (this.forceToImproper)
+                this.forceToMixed = false;
+
+            return this;
+        }
+
+        public Builder withForcingToMixed(boolean forceToMixed) {
+            this.forceToMixed = forceToMixed;
+            if (this.forceToMixed)
+                this.forceToImproper = false;
+
+            return this;
+        }
 
         public Builder withDecimalResult(boolean useDecimalResult, int maxDecimalPlacesForDecimalResult) {
             this.useDecimalResult = useDecimalResult;

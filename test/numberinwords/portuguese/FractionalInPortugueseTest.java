@@ -58,6 +58,8 @@ class FractionalInPortugueseTest {
     void inWordsWithDecimalResult() {
         Map<Fractional, String> testCases = new HashMap<>();
         testCases.put(Fractional.of( 2), "cinco décimos");
+        testCases.put(Fractional.of(1,1, 2), "um inteiro e cinco décimos");
+        testCases.put(Fractional.of(2,1, 2), "dois inteiros e cinco décimos");
         testCases.put(Fractional.of( 3), "trinta e três milhões trezentos e trinta e três mil trezentos e trinta e três centésimos de milionésimo");
         testCases.put(Fractional.of(2, 2), "um inteiro");
         testCases.put(Fractional.of(2, 3), "sessenta e seis milhões seiscentos e sessenta e seis mil seiscentos e sessenta e sete centésimos de milionésimo");
@@ -78,6 +80,7 @@ class FractionalInPortugueseTest {
         testCases.put(Fractional.of(1000000000000L), "zero");
         testCases.put(Fractional.of(1000000000000000L), "zero");
         testCases.put(Fractional.of(1000000000000000000L), "zero");
+                                             //1000000000000000
         testCases.put(Fractional.of(2,1000000000000000000L), "zero");
         testCases.put(Fractional.of(1001L), "novecentos e noventa e nove milionésimos");
         testCases.put(Fractional.of(2,1001L), "mil novecentos e noventa e oito milionésimos");

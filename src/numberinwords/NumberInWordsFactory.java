@@ -31,6 +31,16 @@ public class NumberInWordsFactory {
         return new DateBuilderChooser();
     }
 
+    public static FractionalBuilderChooser createFractionalBuilderChooser() {
+        return new FractionalBuilderChooser();
+    }
+
+    public static class FractionalBuilderChooser {
+        public FractionalInPortuguese.Builder forPortugueseLanguage() {
+            return new FractionalInPortuguese.Builder();
+        }
+    }
+
     public static class DateBuilderChooser {
         public DateInPortuguese.Builder forPortugueseLanguage() {
             return new DateInPortuguese.Builder();

@@ -313,9 +313,21 @@ public class Main {
         System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 12, 31)));
         System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
 
-        var fractional = new FractionalInPortuguese.Builder()
+        var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
+                .forPortugueseLanguage()
+                .withFemaleGender()
                 .build();
 
+        //um meio
+        System.out.println(fractional.inWords(Fractional.of(2)));
+
+        //dois terços
+        System.out.println(fractional.inWords(Fractional.of(2, 3)));
+
+        //um cento e um avos
         System.out.println(fractional.inWords(Fractional.of(101)));
+
+        //um centésimo
+        System.out.println(fractional.inWords(Fractional.of(100)));
     }
 }

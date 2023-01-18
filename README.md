@@ -444,3 +444,44 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //one January two thousand and twenty-three
         System.out.println(dateInEnglish.inWords(LocalDate.of(2023, 1, 1)));
 ````
+
+## Exemplo Número Fracionário em Português
+
+````java
+        var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
+        .forPortugueseLanguage()
+        .build();
+
+        //um meio
+        System.out.println(fractional.inWords(Fractional.of(2)));
+
+        //dois terços
+        System.out.println(fractional.inWords(Fractional.of(2, 3)));
+
+        //um cento e um avos
+        System.out.println(fractional.inWords(Fractional.of(101)));
+
+        //um centésimo
+        System.out.println(fractional.inWords(Fractional.of(100)));
+````
+
+### Usando gênero femenino
+
+````java
+        var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
+            .forPortugueseLanguage()
+            .withFemaleGender()
+            .build();
+
+        //uma metade
+        System.out.println(fractional.inWords(Fractional.of(2)));
+
+        //duas terças partes
+        System.out.println(fractional.inWords(Fractional.of(2, 3)));
+
+        //uma cento e uma parte
+        System.out.println(fractional.inWords(Fractional.of(101)));
+
+        //uma centésima parte
+        System.out.println(fractional.inWords(Fractional.of(100)));
+````

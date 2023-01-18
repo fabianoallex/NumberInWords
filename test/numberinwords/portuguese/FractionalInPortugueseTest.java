@@ -3,6 +3,7 @@ package numberinwords.portuguese;
 import numberinwords.CardinalInWords;
 import numberinwords.Fractional;
 import numberinwords.FractionalInWords;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -43,6 +44,46 @@ class FractionalInPortugueseTest {
         testCases.put(Fractional.of(2,1001L), "dois mil e um avos");
 
         FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        fractionalInWords.inWords(number),
+                        "retorno não esperado para o numero " + number));
+    }
+
+    @Test
+    @DisplayName("inWords (Female)")
+    void inWordsWithFemaleGender() {
+        Map<Fractional, String> testCases = new HashMap<>();
+        testCases.put(Fractional.of( 2), "uma metade");
+        testCases.put(Fractional.of( 3), "uma terça parte");
+        testCases.put(Fractional.of(2, 2), "duas metades");
+        testCases.put(Fractional.of(2, 3), "duas terças partes");
+        testCases.put(Fractional.of(10L), "uma décima parte");
+        testCases.put(Fractional.of(11L), "uma undécima parte");
+        testCases.put(Fractional.of(20L), "uma vigésima parte");
+        testCases.put(Fractional.of(21L), "uma vinte e uma parte");
+        testCases.put(Fractional.of(100L), "uma centésima parte");
+        testCases.put(Fractional.of(101L), "uma cento e uma parte");
+        testCases.put(Fractional.of(200L), "uma ducentésima parte");
+        testCases.put(Fractional.of(3,400L), "três quadringentésimas partes");
+        testCases.put(Fractional.of(3,404L), "três quatrocentas e quatro partes");
+        testCases.put(Fractional.of(1000L), "uma milésima parte");
+        testCases.put(Fractional.of(1000000L), "uma milionésima parte");
+        testCases.put(Fractional.of(1000001L), "uma um milhão e uma parte");
+        testCases.put(Fractional.of(1000000000L), "uma bilionésima parte");
+        testCases.put(Fractional.of(1001000000L), "uma um bilhão e um milhão de parte");
+        testCases.put(Fractional.of(1000000000000L), "uma trilionésima parte");
+        testCases.put(Fractional.of(1000000000000000L), "uma quatrilionésima parte");
+        testCases.put(Fractional.of(1000000000000000000L), "uma quintilionésima parte");
+        testCases.put(Fractional.of(2,1000000000000000000L), "duas quintilionésimas partes");
+        testCases.put(Fractional.of(1001L), "uma mil e uma parte");
+        testCases.put(Fractional.of(2,1001L), "duas mil e uma partes");
+
+        FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
+                .withFemaleGender()
                 .build();
 
         testCases.forEach((number, expectedResult) ->

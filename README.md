@@ -453,17 +453,20 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         .forPortugueseLanguage()
         .build();
 
-        //um meio
+        //um meio (1/2)
         System.out.println(fractional.inWords(Fractional.of(2)));
 
-        //dois terços
+        //dois terços (2/3)
         System.out.println(fractional.inWords(Fractional.of(2, 3)));
 
-        //um cento e um avos
+        //um cento e um avos (1/101)
         System.out.println(fractional.inWords(Fractional.of(101)));
 
-        //um centésimo
+        //um centésimo (1/100)
         System.out.println(fractional.inWords(Fractional.of(100)));
+
+        //vinte e um e dois terços (21 * 2/3)
+        System.out.println(fractional.inWords(Fractional.of(21, 2, 3)));
 ````
 
 ### Usando gênero femenino
@@ -474,15 +477,40 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
             .withFemaleGender()
             .build();
 
-        //uma metade
+        //uma metade (1/2)
         System.out.println(fractional.inWords(Fractional.of(2)));
 
-        //duas terças partes
+        //duas terças partes (2/3)
         System.out.println(fractional.inWords(Fractional.of(2, 3)));
 
-        //uma cento e uma parte
+        //uma cento e uma parte (1/101)
         System.out.println(fractional.inWords(Fractional.of(101)));
 
-        //uma centésima parte
+        //uma centésima parte (1/100)
+        System.out.println(fractional.inWords(Fractional.of(100)));
+
+        //vinte e uma e duas terças partes (21 * 2/3)
+        System.out.println(fractional.inWords(Fractional.of(21, 2, 3)));
+````
+
+### Convertendo o resultado da fração para decimal
+````java
+        var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
+            .forPortugueseLanguage()
+            .withDecimalResult() //default 2 casas decimas. 
+            //.withDecimalResult(3) //para diferentes casas decimais passar parametro
+            .withFemaleGender()
+            .build();
+
+        //cinco décimos (1/2 = 0.5)
+        System.out.println(fractional.inWords(Fractional.of(2)));
+
+        //dezenove inteiros e trinta e três centésimos (29 * 2/3 --> 19.33)
+        System.out.println(fractional.inWords(Fractional.of(29,2, 3)));
+
+        //dois centésimos (1/50 --> 0.02)
+        System.out.println(fractional.inWords(Fractional.of(50)));
+
+        //um centésimo (1/100 --> 0.01)
         System.out.println(fractional.inWords(Fractional.of(100)));
 ````

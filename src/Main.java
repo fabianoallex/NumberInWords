@@ -303,8 +303,6 @@ public class Main {
         //1002nd
         System.out.println(ordinalInEnglish.inWords(1002L));
 
-
-
         var dateInEnglish = NumberInWordsFactory.createDateBuilderChooser()
                 .forEnglishLanguage()
                 .withCardinalForDay()
@@ -315,19 +313,21 @@ public class Main {
 
         var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
                 .forPortugueseLanguage()
+                .withDecimalResult() //default 2 casas decimas. use: .withDecimalResult(3) para 3
+                //.withDecimalResult(3) //para diferentes casas decimais passar parametro
                 .withFemaleGender()
                 .build();
 
-        //um meio
+        //cinco décimos (1/2 = 0.5)
         System.out.println(fractional.inWords(Fractional.of(2)));
 
-        //dois terços
-        System.out.println(fractional.inWords(Fractional.of(2, 3)));
+        //dezenove inteiros e trinta e três centésimos (29 * 2/3 --> 19.33)
+        System.out.println(fractional.inWords(Fractional.of(29,2, 3)));
 
-        //um cento e um avos
-        System.out.println(fractional.inWords(Fractional.of(101)));
+        //dois centésimos (1/50 --> 0.02)
+        System.out.println(fractional.inWords(Fractional.of(50)));
 
-        //um centésimo
+        //um centésimo (1/100 --> 0.01)
         System.out.println(fractional.inWords(Fractional.of(100)));
     }
 }

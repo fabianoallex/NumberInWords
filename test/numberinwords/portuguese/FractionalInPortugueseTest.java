@@ -54,6 +54,46 @@ class FractionalInPortugueseTest {
     }
 
     @Test
+    @DisplayName("inWords (Decimal result)")
+    void inWordsWithDecimalResult() {
+        Map<Fractional, String> testCases = new HashMap<>();
+        testCases.put(Fractional.of( 2), "cinco décimos");
+        testCases.put(Fractional.of( 3), "trinta e três milhões trezentos e trinta e três mil trezentos e trinta e três centésimos de milionésimo");
+        testCases.put(Fractional.of(2, 2), "um inteiro");
+        testCases.put(Fractional.of(2, 3), "sessenta e seis milhões seiscentos e sessenta e seis mil seiscentos e sessenta e sete centésimos de milionésimo");
+        testCases.put(Fractional.of(10L), "um décimo");
+        testCases.put(Fractional.of(11L), "nove milhões noventa mil novecentos e nove centésimos de milionésimo");
+        testCases.put(Fractional.of(20L), "cinco centésimos");
+        testCases.put(Fractional.of(21L), "quatro milhões setecentos e sessenta e um mil novecentos e cinco centésimos de milionésimo");
+        testCases.put(Fractional.of(100L), "um centésimo");
+        testCases.put(Fractional.of(101L), "novecentos e noventa mil e noventa e nove centésimos de milionésimo");
+        testCases.put(Fractional.of(200L), "cinco milésimos");
+        testCases.put(Fractional.of(3,400L), "setenta e cinco décimos de milésimo");
+        testCases.put(Fractional.of(3,404L), "setecentos e quarenta e dois mil quinhentos e setenta e quatro centésimos de milionésimo");
+        testCases.put(Fractional.of(1000L), "um milésimo");
+        testCases.put(Fractional.of(1000000L), "um milionésimo");
+        testCases.put(Fractional.of(1000001L), "um milionésimo");
+        testCases.put(Fractional.of(1000000000L), "zero");
+        testCases.put(Fractional.of(1001000000L), "zero");
+        testCases.put(Fractional.of(1000000000000L), "zero");
+        testCases.put(Fractional.of(1000000000000000L), "zero");
+        testCases.put(Fractional.of(1000000000000000000L), "zero");
+        testCases.put(Fractional.of(2,1000000000000000000L), "zero");
+        testCases.put(Fractional.of(1001L), "novecentos e noventa e nove milionésimos");
+        testCases.put(Fractional.of(2,1001L), "mil novecentos e noventa e oito milionésimos");
+
+        FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
+                .withDecimalResult(8)
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        fractionalInWords.inWords(number),
+                        "retorno não esperado para o numero " + number));
+    }
+
+    @Test
     @DisplayName("inWords (Female)")
     void inWordsWithFemaleGender() {
         Map<Fractional, String> testCases = new HashMap<>();

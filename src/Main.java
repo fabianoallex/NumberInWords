@@ -315,7 +315,6 @@ public class Main {
                 .forPortugueseLanguage()
                 .withDecimalResult() //default 2 casas decimas. use: .withDecimalResult(3) para 3
                 //.withDecimalResult(3) //para diferentes casas decimais passar parametro
-                .withFemaleGender()
                 .build();
 
         //cinco décimos (1/2 = 0.5)

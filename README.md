@@ -499,7 +499,6 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
             .forPortugueseLanguage()
             .withDecimalResult() //default 2 casas decimas. 
             //.withDecimalResult(3) //para diferentes casas decimais passar parametro
-            .withFemaleGender()
             .build();
 
         //cinco décimos (1/2 = 0.5)

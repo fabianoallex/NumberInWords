@@ -1,6 +1,5 @@
 package numberinwords.portuguese;
 
-import numberinwords.CardinalInWords;
 import numberinwords.Fractional;
 import numberinwords.FractionalInWords;
 import org.junit.jupiter.api.DisplayName;
@@ -86,7 +85,7 @@ class FractionalInPortugueseTest {
         testCases.put(Fractional.of(2,1001L), "mil novecentos e noventa e oito milionésimos");
 
         FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
-                .withDecimalResult(8)
+                .withDecimalPronuntiation(8)
                 .build();
 
         testCases.forEach((number, expectedResult) ->

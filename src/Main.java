@@ -1,8 +1,6 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
-import numberinwords.portuguese.DecimalInPortuguese;
-import numberinwords.portuguese.FractionalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
@@ -314,7 +312,7 @@ public class Main {
 
         var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
                 .forPortugueseLanguage()
-                .withDecimalResult() //default 2 casas decimas. use: .withDecimalResult(3) para 3
+                .withDecimalPronuntiation() //default 2 casas decimas. use: .withDecimalResult(3) para 3
                 //.withDecimalResult(3) //para diferentes casas decimais passar parametro
                 .build();
 

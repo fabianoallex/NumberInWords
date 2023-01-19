@@ -10,23 +10,23 @@ import java.util.Map;
 
 public class FractionalInPortuguese implements FractionalInWords {
     private final Gender gender;
-    private final boolean useDecimalResult;
-    private final int maxDecimalPlacesForDecimalResult;
+    private final boolean useDecimalPronuntiation;
+    private final int maxDecimalPlacesForDecimalPronuntiation;
     private final boolean forceToImproper;
     private final boolean forceToMixed;
 
     private FractionalInPortuguese(Builder builder) {
         this.gender = builder.gender;
-        this.useDecimalResult = builder.useDecimalResult;
-        this.maxDecimalPlacesForDecimalResult = builder.maxDecimalPlacesForDecimalResult;
+        this.useDecimalPronuntiation = builder.useDecimalPronuntiation;
+        this.maxDecimalPlacesForDecimalPronuntiation = builder.maxDecimalPlacesForDecimalPronuntiation;
         this.forceToImproper = builder.forceToImproper;
         this.forceToMixed = builder.forceToMixed;
     }
 
     @Override
     public String inWords(Fractional number) {
-        if (this.useDecimalResult)
-            return inWordsForDecimalResult(number);
+        if (this.useDecimalPronuntiation)
+            return inWordsForDecimalPronuntiation(number);
 
         if (this.forceToMixed)
             number = number.toMixed();
@@ -74,13 +74,13 @@ public class FractionalInPortuguese implements FractionalInWords {
                         .inWords(new BigDecimal(number.getDenominator()));
     }
 
-    private String inWordsForDecimalResult(Fractional number) {
+    private String inWordsForDecimalPronuntiation(Fractional number) {
         return NumberInWordsFactory.createDecimalBuilderChooser()
                 .forPortugueseLanguage()
                 .withGender(this.gender)
                 .build()
                 .inWords(BigDecimal.valueOf(number.toDouble())
-                        .setScale(this.maxDecimalPlacesForDecimalResult, RoundingMode.HALF_UP));
+                        .setScale(this.maxDecimalPlacesForDecimalPronuntiation, RoundingMode.HALF_UP));
     }
 
     private Map<Long, String> getDescriptionMap() {
@@ -92,8 +92,8 @@ public class FractionalInPortuguese implements FractionalInWords {
 
     public static class Builder {
         private Gender gender = Gender.MALE;
-        private boolean useDecimalResult = false;
-        private int maxDecimalPlacesForDecimalResult = 2;
+        private boolean useDecimalPronuntiation = false;
+        private int maxDecimalPlacesForDecimalPronuntiation = 2;
         private boolean forceToImproper = false;
         private boolean forceToMixed = false;
 
@@ -113,18 +113,18 @@ public class FractionalInPortuguese implements FractionalInWords {
             return this;
         }
 
-        public Builder withDecimalResult(boolean useDecimalResult, int maxDecimalPlacesForDecimalResult) {
-            this.useDecimalResult = useDecimalResult;
-            this.maxDecimalPlacesForDecimalResult = maxDecimalPlacesForDecimalResult;
+        public Builder withDecimalPronuntiation(boolean useDecimalPronuntiation, int maxDecimalPlacesForDecimalPronuntiation) {
+            this.useDecimalPronuntiation = useDecimalPronuntiation;
+            this.maxDecimalPlacesForDecimalPronuntiation = maxDecimalPlacesForDecimalPronuntiation;
             return this;
         }
 
-        public Builder withDecimalResult(int maxDecimalPlacesForDecimalResult) {
-            return this.withDecimalResult(true, maxDecimalPlacesForDecimalResult);
+        public Builder withDecimalPronuntiation(int maxDecimalPlacesForDecimalPronuntiation) {
+            return this.withDecimalPronuntiation(true, maxDecimalPlacesForDecimalPronuntiation);
         }
 
-        public Builder withDecimalResult() {
-            return this.withDecimalResult(true, this.maxDecimalPlacesForDecimalResult);
+        public Builder withDecimalPronuntiation() {
+            return this.withDecimalPronuntiation(true, this.maxDecimalPlacesForDecimalPronuntiation);
         }
 
         public Builder withGender(Gender gender) {

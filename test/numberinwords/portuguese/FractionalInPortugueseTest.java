@@ -53,6 +53,31 @@ class FractionalInPortugueseTest {
     }
 
     @Test
+    @DisplayName("inWords (over pronuntiation)")
+    void inWordsWithOverPronuntiations() {
+        Map<Fractional, String> testCases = new HashMap<>();
+        testCases.put(Fractional.of( 2), "um sobre dois");
+        testCases.put(Fractional.of( 3), "um sobre três");
+        testCases.put(Fractional.of(2, 2), "dois sobre dois");
+        testCases.put(Fractional.of(2, 3), "dois sobre três");
+        testCases.put(Fractional.of(10L), "um sobre dez");
+        testCases.put(Fractional.of(11L), "um sobre onze");
+        testCases.put(Fractional.of(30,11L), "trinta sobre onze");
+        testCases.put(Fractional.of(20L), "um sobre vinte");
+        testCases.put(Fractional.of(5, 500, 2001L), "cinco e quinhentos sobre dois mil e um");
+
+        FractionalInWords fractionalInWords = new FractionalInPortuguese.Builder()
+                .withOverPronuntiation()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        fractionalInWords.inWords(number),
+                        "retorno não esperado para o numero " + number));
+    }
+
+    @Test
     @DisplayName("inWords (Decimal result)")
     void inWordsWithDecimalResult() {
         Map<Fractional, String> testCases = new HashMap<>();

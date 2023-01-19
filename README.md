@@ -465,8 +465,8 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 
 ````java
         var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
-        .forPortugueseLanguage()
-        .build();
+            .forPortugueseLanguage()
+            .build();
 
         //um meio (1/2)
         System.out.println(fractional.inWords(Fractional.of(2)));
@@ -480,7 +480,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //um centésimo (1/100)
         System.out.println(fractional.inWords(Fractional.of(100)));
 
-        //vinte e um e dois terços (21 * 2/3)
+        //vinte e um e dois terços (21 + 2/3)
         System.out.println(fractional.inWords(Fractional.of(21, 2, 3)));
 ````
 
@@ -504,11 +504,32 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //uma centésima parte (1/100)
         System.out.println(fractional.inWords(Fractional.of(100)));
 
-        //vinte e uma e duas terças partes (21 * 2/3)
+        //vinte e uma e duas terças partes (21 + 2/3)
         System.out.println(fractional.inWords(Fractional.of(21, 2, 3)));
 ````
 
-### Convertendo o resultado da fração para decimal
+### Usando pronúncia 'sobre' (1/2 = 'um sobre dois')
+
+````java
+        var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
+            .forPortugueseLanguage()
+            .withOverPronuntiation()
+            .build();
+
+        //um sobre dois (1/2)
+        System.out.println(fractional.inWords(Fractional.of(2)));
+
+        //vinte e nove e dois sobre três (29 + 2/3)
+        System.out.println(fractional.inWords(Fractional.of(29, 2, 3)));
+
+        //um sobre cinquenta (1/50)
+        System.out.println(fractional.inWords(Fractional.of(50)));
+
+        //trinta e três sobre cem (33/100)
+        System.out.println(fractional.inWords(Fractional.of(33,100)));
+````
+
+### Usando pronúncia Decimal
 ````java
         var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
             .forPortugueseLanguage()

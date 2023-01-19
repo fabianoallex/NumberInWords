@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class FractionalInPortuguese implements FractionalInWords {
     private final Gender gender;
+    private final boolean userOverPronuntiation;
     private final boolean useDecimalPronuntiation;
     private final int maxDecimalPlacesForDecimalPronuntiation;
     private final boolean forceToImproper;
@@ -17,6 +18,7 @@ public class FractionalInPortuguese implements FractionalInWords {
 
     private FractionalInPortuguese(Builder builder) {
         this.gender = builder.gender;
+        this.userOverPronuntiation = builder.useOverPronuntiation;
         this.useDecimalPronuntiation = builder.useDecimalPronuntiation;
         this.maxDecimalPlacesForDecimalPronuntiation = builder.maxDecimalPlacesForDecimalPronuntiation;
         this.forceToImproper = builder.forceToImproper;
@@ -25,8 +27,11 @@ public class FractionalInPortuguese implements FractionalInWords {
 
     @Override
     public String inWords(Fractional number) {
+        if (this.userOverPronuntiation)
+            return this.inWordsForOverPronuntiation(number);
+
         if (this.useDecimalPronuntiation)
-            return inWordsForDecimalPronuntiation(number);
+            return this.inWordsForDecimalPronuntiation(number);
 
         if (this.forceToMixed)
             number = number.toMixed();
@@ -74,6 +79,20 @@ public class FractionalInPortuguese implements FractionalInWords {
                         .inWords(new BigDecimal(number.getDenominator()));
     }
 
+    private String inWordsForOverPronuntiation(Fractional number) {
+        var inPortuguese = NumberInWordsFactory.createCardinalBuilderChooser()
+                .forPortugueseLanguage()
+                .withGender(this.gender)
+                .build();
+
+        String wholeInWords = Math.abs(number.getWholePart()) <= 1 ? "" :
+                inPortuguese.inWords(number.getWholePart()) + " e ";
+        String numeratorInWords = inPortuguese.inWords(number.getNumerator());
+        String denominatorInWords = inPortuguese.inWords(number.getDenominator());
+
+        return wholeInWords + numeratorInWords + " sobre " + denominatorInWords;
+    }
+
     private String inWordsForDecimalPronuntiation(Fractional number) {
         return NumberInWordsFactory.createDecimalBuilderChooser()
                 .forPortugueseLanguage()
@@ -93,9 +112,31 @@ public class FractionalInPortuguese implements FractionalInWords {
     public static class Builder {
         private Gender gender = Gender.MALE;
         private boolean useDecimalPronuntiation = false;
+        private boolean useOverPronuntiation = false;
         private int maxDecimalPlacesForDecimalPronuntiation = 2;
         private boolean forceToImproper = false;
         private boolean forceToMixed = false;
+
+        public Builder withDecimalPronuntiation(boolean useDecimalPronuntiation, int maxDecimalPlacesForDecimalPronuntiation) {
+            this.useOverPronuntiation = false;
+            this.useDecimalPronuntiation = useDecimalPronuntiation;
+            this.maxDecimalPlacesForDecimalPronuntiation = maxDecimalPlacesForDecimalPronuntiation;
+            return this;
+        }
+
+        public Builder withDecimalPronuntiation(int maxDecimalPlacesForDecimalPronuntiation) {
+            return this.withDecimalPronuntiation(true, maxDecimalPlacesForDecimalPronuntiation);
+        }
+
+        public Builder withOverPronuntiation() {
+            return this.withOverPronuntiation(true);
+        }
+
+        public Builder withOverPronuntiation(boolean useOverPronuntiation) {
+            this.useDecimalPronuntiation = false;
+            this.useOverPronuntiation = useOverPronuntiation;
+            return this;
+        }
 
         public Builder withForcingToImproper(boolean forceToImproper) {
             this.forceToImproper = forceToImproper;
@@ -111,16 +152,6 @@ public class FractionalInPortuguese implements FractionalInWords {
                 this.forceToImproper = false;
 
             return this;
-        }
-
-        public Builder withDecimalPronuntiation(boolean useDecimalPronuntiation, int maxDecimalPlacesForDecimalPronuntiation) {
-            this.useDecimalPronuntiation = useDecimalPronuntiation;
-            this.maxDecimalPlacesForDecimalPronuntiation = maxDecimalPlacesForDecimalPronuntiation;
-            return this;
-        }
-
-        public Builder withDecimalPronuntiation(int maxDecimalPlacesForDecimalPronuntiation) {
-            return this.withDecimalPronuntiation(true, maxDecimalPlacesForDecimalPronuntiation);
         }
 
         public Builder withDecimalPronuntiation() {

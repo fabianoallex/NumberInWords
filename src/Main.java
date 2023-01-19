@@ -312,35 +312,21 @@ public class Main {
 
         var fractional = NumberInWordsFactory.createFractionalBuilderChooser()
                 .forPortugueseLanguage()
-                .withDecimalPronuntiation() //default 2 casas decimas. use: .withDecimalResult(3) para 3
-                //.withDecimalResult(3) //para diferentes casas decimais passar parametro
+                .withOverPronuntiation()
                 .build();
 
-        //cinco décimos (1/2 = 0.5)
+        //um sobre dois (1/2)
         System.out.println(fractional.inWords(Fractional.of(2)));
 
-        //dezenove inteiros e trinta e três centésimos (29 * 2/3 --> 19.33)
+        //vinte e nove e dois sobre três (29 * 2/3)
         System.out.println(fractional.inWords(Fractional.of(29,2, 3)));
 
-        //dois centésimos (1/50 --> 0.02)
+        //um sobre cinquenta (1/50)
         System.out.println(fractional.inWords(Fractional.of(50)));
 
-        //um centésimo (1/100 --> 0.01)
-        System.out.println(fractional.inWords(Fractional.of(100)));
+        //trinta e três sobre cem (33/100)
+        System.out.println(fractional.inWords(Fractional.of(33,100)));
 
 
-        DecimalInWords decimalNumber = NumberInWordsFactory.createDecimalBuilderChooser()
-                .forPortugueseLanguage()
-                .withFloatPointPronuntiation()
-                .build();
-
-        //dez ponto um
-        System.out.println(decimalNumber.inWords(new BigDecimal("10.1")));
-
-        //zero ponto cinquenta e cinco
-        System.out.println(decimalNumber.inWords(new BigDecimal("0.55")));
-
-        //vinte e dois ponto zero zero dezoito
-        System.out.println(decimalNumber.inWords(new BigDecimal("22.0018")));
     }
 }

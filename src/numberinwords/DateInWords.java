@@ -1,7 +1,5 @@
 package numberinwords;
 
-import numberinwords.portuguese.DateInPortuguese;
-
 import java.time.LocalDate;
 
 public interface DateInWords extends NumberInWords<LocalDate> {

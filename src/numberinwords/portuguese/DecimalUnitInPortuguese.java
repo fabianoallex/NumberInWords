@@ -7,8 +7,12 @@ import numberinwords.NumberInWordsFactory;
 import java.math.BigDecimal;
 
 public class DecimalUnitInPortuguese extends DecimalUnitInWords {
+    private final boolean useFloatPointPronuntiation;
+
     public DecimalUnitInPortuguese(Builder builder) {
         super(builder);
+
+        this.useFloatPointPronuntiation = builder.useFloatPointPronuntiation;
 
         this.integerPartInWords = NumberInWordsFactory.createCardinalBuilderChooser()
                 .forPortugueseLanguage()
@@ -27,11 +31,37 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
 
     @Override
     public String inWords(BigDecimal value) {
+        if (this.useFloatPointPronuntiation)
+            return this.inWordsForFloatPointPronuntiation(value);
+
         String integerPartDescription = this.getIntegerPartInWords(value);
         String decimalPartDescription = this.getDecimalPartInWords(value);
         String conjuction = this.getConjuction(value);
 
         return integerPartDescription + conjuction + decimalPartDescription;
+    }
+
+    private String inWordsForFloatPointPronuntiation(BigDecimal value) {
+        long integerPart = DecimalInWords.getIntegerPart(value);
+        boolean useIntegerPartNameWithPreposition = integerPart > 0 && (integerPart % 1000000) == 0; //
+
+        String unit = "";
+
+        if (integerPart <= 1)
+            unit += " " + (useIntegerPartNameWithPreposition ?
+                            this.singularUnitWithPreposition : this.singularUnit);
+
+        if (integerPart > 1)
+            unit += " " + (useIntegerPartNameWithPreposition ?
+                            this.pluralUnitWithPreposition : this.pluralUnit);
+
+        return NumberInWordsFactory.createDecimalBuilderChooser()
+                .forPortugueseLanguage()
+                .withCommaSeparator(this.useCommaSeparator)
+                .withGender(this.gender)
+                .withFloatPointPronuntiation()
+                .build()
+                .inWords(value) + unit;
     }
 
     @Override
@@ -40,24 +70,24 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
             return integerPartInWords.inWords(0L) + " " + this.singularUnit;
 
         long integerPart = DecimalInWords.getIntegerPart(value);
-        boolean useCurrencyNameWithPreposition = (integerPart % 1000000) == 0;
+        boolean useIntegerPartNameWithPreposition = (integerPart % 1000000) == 0; //
 
-        String currencyDescription = "";
+        String integerPartDescription = "";
 
         if (integerPart > 0)
-            currencyDescription = integerPartInWords.inWords(integerPart);
+            integerPartDescription = integerPartInWords.inWords(integerPart);
 
         if (integerPart == 1)
-            currencyDescription += " " +
-                    (useCurrencyNameWithPreposition ?
+            integerPartDescription += " " +
+                    (useIntegerPartNameWithPreposition ?
                             this.singularUnitWithPreposition : this.singularUnit);
 
         if (integerPart > 1)
-            currencyDescription += " " +
-                    (useCurrencyNameWithPreposition ?
+            integerPartDescription += " " +
+                    (useIntegerPartNameWithPreposition ?
                             this.pluralUnitWithPreposition : this.pluralUnit);
 
-        return currencyDescription;
+        return integerPartDescription;
     }
 
     @Override
@@ -91,6 +121,17 @@ public class DecimalUnitInPortuguese extends DecimalUnitInWords {
         private static final String CONJUCTION = "e";
         private static final String SINGULAR_UNIT_NAME_WITH_PREPOSITION = PREPOSITION + " " + SINGULAR_UNIT_NAME;
         private static final String PLURAL_UNIT_NAME_WITH_PREPOSITION = PREPOSITION + " " + PLURAL_UNIT_NAME;
+
+        private boolean useFloatPointPronuntiation = false;
+
+        public Builder withFloatPointPronuntiation(boolean useFloatPointPronuntiation) {
+            this.useFloatPointPronuntiation = useFloatPointPronuntiation;
+            return getThis();
+        }
+
+        public Builder withFloatPointPronuntiation() {
+            return this.withFloatPointPronuntiation(true);
+        }
 
         public Builder() {
             super(SINGULAR_UNIT_NAME,

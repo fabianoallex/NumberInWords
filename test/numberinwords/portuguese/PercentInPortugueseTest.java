@@ -23,6 +23,7 @@ class PercentInPortugueseTest {
         testCases.put(new BigDecimal("1.0000"), "um por cento");
         testCases.put(new BigDecimal("6.678"), "seis ponto seiscentos e setenta e oito por cento");
         testCases.put(new BigDecimal("31.01"), "trinta e um ponto zero um por cento");
+        testCases.put(new BigDecimal("1000000"), "um milhão por cento");
 
         DecimalInWords decimalNumber = new PercentInPortuguese();
 

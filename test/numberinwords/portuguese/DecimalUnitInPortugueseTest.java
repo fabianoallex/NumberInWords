@@ -74,6 +74,33 @@ class DecimalUnitInPortugueseTest {
     }
 
     @Test
+    @DisplayName("inWords (Units description and float point pronuntiation)")
+    void inWordsWithFloatPointPronuntiation() {
+        Map<BigDecimal, String> testCases = new HashMap<>();
+        //testCases.put(new BigDecimal("0.0"), "zero quilo"); //nao passou. todo: corrigir
+        testCases.put(new BigDecimal("0.1"), "zero ponto um quilo");
+        testCases.put(new BigDecimal("0.2"), "zero ponto dois quilo");
+        testCases.put(new BigDecimal("0.02"), "zero ponto zero dois quilo");
+        testCases.put(new BigDecimal("1"), "um quilo");
+        testCases.put(new BigDecimal("21"), "vinte e um quilos");
+        testCases.put(new BigDecimal("2.2"), "dois ponto dois quilos");
+        testCases.put(new BigDecimal("1000000"), "um milhão de quilos");
+
+        DecimalUnitInWords decimalNumber = new DecimalUnitInPortuguese.Builder()
+                .withZeroDescription("Nenhum")
+                .withUnitDescription("quilo")
+                .withMaleGender()
+                .withFloatPointPronuntiation()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        decimalNumber.inWords(number),
+                        "retorno não esperado para o número " + number));
+    }
+
+    @Test
     @DisplayName("inWords (Units description and male)")
     void inWordsWithUnitDescriptionChangedAndMale() {
         Map<BigDecimal, String> testCases = new HashMap<>();

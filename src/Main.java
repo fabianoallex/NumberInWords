@@ -1,6 +1,7 @@
 import numberinwords.*;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.portuguese.CardinalInPortuguese;
+import numberinwords.portuguese.DecimalInPortuguese;
 import numberinwords.portuguese.FractionalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
@@ -328,5 +329,20 @@ public class Main {
 
         //um centésimo (1/100 --> 0.01)
         System.out.println(fractional.inWords(Fractional.of(100)));
+
+
+        DecimalInWords decimalNumber = NumberInWordsFactory.createDecimalBuilderChooser()
+                .forPortugueseLanguage()
+                .withFloatPointPronuntiation()
+                .build();
+
+        //dez ponto um
+        System.out.println(decimalNumber.inWords(new BigDecimal("10.1")));
+
+        //zero ponto cinquenta e cinco
+        System.out.println(decimalNumber.inWords(new BigDecimal("0.55")));
+
+        //vinte e dois ponto zero zero dezoito
+        System.out.println(decimalNumber.inWords(new BigDecimal("22.0018")));
     }
 }

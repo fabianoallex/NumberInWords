@@ -18,16 +18,21 @@ public class DecimalInPortuguese implements DecimalInWords {
     private final boolean useCommaSeparator;
     private final boolean useOnlyDecimalPart;
     private final boolean useOnlyIntegerPart;
+    private boolean useFloatPointPronuntiation = false;
 
     private DecimalInPortuguese(Builder builder) {
         this.gender = builder.gender;
         this.useCommaSeparator = builder.useCommaSeparator;
         this.useOnlyIntegerPart = builder.useOnlyIntegerPart;
         this.useOnlyDecimalPart = builder.useOnlyDecimalPart;
+        this.useFloatPointPronuntiation = builder.useFloatPointPronuntiation;
     }
 
     @Override
     public String inWords(BigDecimal number) {
+        if (this.useFloatPointPronuntiation)
+            return inWordsForFloatPointPronuntiation(number);
+
         int numberOfDecimalPlaces = getNumberOfDecimalPlaces(number);
         long numberOfDecimalPlacesMultiplier = (long) Math.pow(10, numberOfDecimalPlaces);
 
@@ -46,6 +51,40 @@ public class DecimalInPortuguese implements DecimalInWords {
             conjuction = " e ";
 
         return integerPartDescription + conjuction + decimalPartDescription;
+    }
+
+    private String inWordsForFloatPointPronuntiation(BigDecimal number) {
+        int numberOfDecimalPlaces = getNumberOfDecimalPlaces(number);
+        long numberOfDecimalPlacesMultiplier = (long) Math.pow(10, numberOfDecimalPlaces);
+
+        long integerPart = number.longValue();
+
+        number = number.subtract(new BigDecimal(integerPart));
+        number = number.multiply(BigDecimal.valueOf(numberOfDecimalPlacesMultiplier));
+
+        long decimalPart = number.longValue();
+
+        String integerPartInWords = NumberInWordsFactory.createCardinalBuilderChooser()
+                .forPortugueseLanguage()
+                .withGender(this.gender)
+                .withCommaSeparator(this.useCommaSeparator)
+                .build()
+                .inWords(integerPart);
+
+        if (decimalPart == 0)
+            return integerPartInWords;
+
+        int decimalPartDigitsSize = (int) (Math.log10 (decimalPart) + 1);
+        String zero = "zero ".repeat(numberOfDecimalPlaces - decimalPartDigitsSize);
+
+        String decimalPartInWords = NumberInWordsFactory.createCardinalBuilderChooser()
+                .forPortugueseLanguage()
+                .withGender(this.gender)
+                .withCommaSeparator(this.useCommaSeparator)
+                .build()
+                .inWords(decimalPart);
+
+        return integerPartInWords + " ponto " + zero + decimalPartInWords;
     }
 
     private String getIntegerPartDescription(long integerPart, long decimalPart) {
@@ -125,6 +164,16 @@ public class DecimalInPortuguese implements DecimalInWords {
         private boolean useCommaSeparator;
         private boolean useOnlyDecimalPart = false;
         private boolean useOnlyIntegerPart = false;
+        private boolean useFloatPointPronuntiation = false;
+
+        public Builder withFloatPointPronuntiation(boolean useFloatPointPronuntiation) {
+            this.useFloatPointPronuntiation = useFloatPointPronuntiation;
+            return this;
+        }
+
+        public Builder withFloatPointPronuntiation() {
+            return this.withFloatPointPronuntiation(true);
+        }
 
         public Builder withGender(Gender gender) {
             this.gender = gender;

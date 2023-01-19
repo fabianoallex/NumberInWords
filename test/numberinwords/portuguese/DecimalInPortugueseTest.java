@@ -53,6 +53,67 @@ class DecimalInPortugueseTest {
     }
 
     @Test
+    @DisplayName("inWords (Float point pronuntiation)")
+    void inWordsFloatPointPronuntiation() {
+        Map<BigDecimal, String> testCases = new HashMap<>();
+        testCases.put(new BigDecimal("0.0"), "zero");
+        testCases.put(new BigDecimal("0.1"), "zero ponto um");
+        testCases.put(new BigDecimal("0.2"), "zero ponto dois");
+        testCases.put(new BigDecimal("0.02"), "zero ponto zero dois");
+        testCases.put(new BigDecimal("1"), "um");
+        testCases.put(new BigDecimal("1.0000"), "um");
+        testCases.put(new BigDecimal("6.678"), "seis ponto seiscentos e setenta e oito");
+        testCases.put(new BigDecimal("6.678000"), "seis ponto seiscentos e setenta e oito");
+        testCases.put(new BigDecimal("10.01"), "dez ponto zero um");
+        testCases.put(new BigDecimal("10.00101"), "dez ponto zero zero cento e um");
+        testCases.put(new BigDecimal("10.002"), "dez ponto zero zero dois");
+        testCases.put(new BigDecimal("10.0001"), "dez ponto zero zero zero um");
+        testCases.put(new BigDecimal("10.0002"), "dez ponto zero zero zero dois");
+        testCases.put(new BigDecimal("10.0000001"), "dez ponto zero zero zero zero zero zero um");
+        testCases.put(new BigDecimal("10.0000002"), "dez ponto zero zero zero zero zero zero dois");
+        testCases.put(new BigDecimal("1258963.125045038"),
+                "um milhão duzentos e cinquenta e oito mil novecentos e sessenta e três ponto " +
+                        "cento e vinte e cinco milhões quarenta e cinco mil e trinta e oito");
+
+        DecimalInWords decimalNumber = new DecimalInPortuguese.Builder()
+                .withFloatPointPronuntiation()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        decimalNumber.inWords(number),
+                        "retorno não esperado para o número " + number));
+    }
+
+    @Test
+    @DisplayName("inWords (Float point pronuntiation and female)")
+    void inWordsFloatPointPronuntiationAndFemale() {
+        Map<BigDecimal, String> testCases = new HashMap<>();
+        testCases.put(new BigDecimal("0.0"), "zero");
+        testCases.put(new BigDecimal("0.1"), "zero ponto uma");
+        testCases.put(new BigDecimal("0.2"), "zero ponto duas");
+        testCases.put(new BigDecimal("0.02"), "zero ponto zero duas");
+        testCases.put(new BigDecimal("1"), "uma");
+        testCases.put(new BigDecimal("1.1"), "uma ponto uma");
+        testCases.put(new BigDecimal("15.22"), "quinze ponto vinte e duas");
+        testCases.put(new BigDecimal("1.0000"), "uma");
+        testCases.put(new BigDecimal("6.678"), "seis ponto seiscentas e setenta e oito");
+        testCases.put(new BigDecimal("31.01"), "trinta e uma ponto zero uma");
+
+        DecimalInWords decimalNumber = new DecimalInPortuguese.Builder()
+                .withFloatPointPronuntiation()
+                .withFemaleGender()
+                .build();
+
+        testCases.forEach((number, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        decimalNumber.inWords(number),
+                        "retorno não esperado para o número " + number));
+    }
+
+    @Test
     @DisplayName("inWords (comma separator)")
     void inWordsWithCommaSeparator() {
         Map<BigDecimal, String> testCases = new HashMap<>();

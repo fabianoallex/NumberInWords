@@ -35,6 +35,16 @@ public class NumberInWordsFactory {
         return new FractionalBuilderChooser();
     }
 
+    public static PercentBuilderChooser createPercentBuildeChooser() {
+        return new PercentBuilderChooser();
+    }
+
+
+    public static class PercentBuilderChooser {
+        public PercentInPortuguese.Builder forPortugueseLanguage() {
+            return new PercentInPortuguese.Builder();
+        }
+    }
 
 
     public static class FractionalBuilderChooser {

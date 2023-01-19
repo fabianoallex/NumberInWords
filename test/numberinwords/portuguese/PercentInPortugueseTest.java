@@ -25,7 +25,7 @@ class PercentInPortugueseTest {
         testCases.put(new BigDecimal("31.01"), "trinta e um ponto zero um por cento");
         testCases.put(new BigDecimal("1000000"), "um milhão por cento");
 
-        DecimalInWords decimalNumber = new PercentInPortuguese();
+        DecimalInWords decimalNumber = new PercentInPortuguese.Builder().build();
 
         testCases.forEach((number, expectedResult) ->
                 assertEquals(

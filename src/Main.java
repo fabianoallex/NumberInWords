@@ -328,5 +328,10 @@ public class Main {
         System.out.println(fractional.inWords(Fractional.of(33,100)));
 
 
+        var percentInPortugues = NumberInWordsFactory.createPercentBuildeChooser()
+                .forPortugueseLanguage()
+                .build();
+
+        System.out.println(percentInPortugues.inWords(new BigDecimal("20.3")));
     }
 }

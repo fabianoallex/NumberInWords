@@ -591,25 +591,26 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         System.out.println(timeInPortuguese.inWords(LocalTime.of(23, 58)));
 ````
 
-### incluindo formato de 12 horas e pronúncia (sem horas e minutos)
+### incluindo formato de 12 horas e pronúncia informal (sem horas e minutos)
 
 ````java
         var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
                 .forPortugueseLanguage()
                 .witHalfTo30Minutes()
                 .withMiddayAndMidnightPronuntiation()
+                .withMinuteToHourPronuntiation()
                 .with12HoursFormat()
                 .withInformalPronuntiation()
                 .build();
 
-        //dez e quarenta
+        //vinte para às onze
         System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
         //oito e meia
         System.out.println(timeInPortuguese.inWords(LocalTime.of(20, 30)));
         //dez e meia
         System.out.println(timeInPortuguese.inWords(LocalTime.of(22, 30)));
-        //onze e cinquenta
+        //dez para o meio-dia
         System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
-        //nove e cinquenta e oito
+        //dois para às dez
         System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
 ````

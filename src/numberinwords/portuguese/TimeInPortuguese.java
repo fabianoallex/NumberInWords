@@ -69,14 +69,14 @@ public class TimeInPortuguese implements TimeInWords {
 
     @Override
     public String inWords(LocalTime localTime) {
-        if (this.useInformalPronuntiation)
-            return inWordsForInformalPronuntiation(localTime);
-
         long hour = this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour();
         long minute = localTime.getMinute();
 
         if (this.useMinutesToHourPronuntiation && minute >= 40)
             return inWordsForMinutesToHourPronuntiation(localTime);
+
+        if (this.useInformalPronuntiation)
+            return inWordsForInformalPronuntiation(localTime);
 
         String hoursUnit = hour >= 2 ? "horas" : "hora";
         String minutesUnit = minute >= 2 ? "minutos" : "minuto";

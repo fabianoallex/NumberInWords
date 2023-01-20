@@ -182,11 +182,11 @@ public class TimeInPortuguese implements TimeInWords {
     public static class Builder extends TimeInWords.Builder<Builder> {
         private boolean useHalfTo30Minutes = false;
 
-        public Builder witHalfTo30Minutes() {
-            return this.witHalfTo30Minutes(true);
+        public Builder withHalfTo30Minutes() {
+            return this.withHalfTo30Minutes(true);
         }
 
-        public Builder witHalfTo30Minutes(boolean useHalfTo30Minutes) {
+        public Builder withHalfTo30Minutes(boolean useHalfTo30Minutes) {
             this.useHalfTo30Minutes = useHalfTo30Minutes;
             return getThis();
         }

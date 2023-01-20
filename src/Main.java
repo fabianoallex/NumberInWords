@@ -6,7 +6,6 @@ import numberinwords.roman.NumberInRoman;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static java.lang.String.join;
@@ -338,7 +337,7 @@ public class Main {
 
         var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
                 .forPortugueseLanguage()
-                .witHalfTo30Minutes()
+                .withHalfTo30Minutes()
                 .withMiddayAndMidnightPronuntiation()
                 .withMinuteToHourPronuntiation()
                 .with12HoursFormat()

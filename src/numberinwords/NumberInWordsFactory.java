@@ -39,13 +39,22 @@ public class NumberInWordsFactory {
         return new PercentBuilderChooser();
     }
 
+    public static TimeBuilderChooser createTimeBuilderChooser() {
+        return new TimeBuilderChooser();
+    }
+
+
+    public static class TimeBuilderChooser {
+        public TimeInPortuguese.Builder forPortugueseLanguage() {
+            return new TimeInPortuguese.Builder();
+        }
+    }
 
     public static class PercentBuilderChooser {
         public PercentInPortuguese.Builder forPortugueseLanguage() {
             return new PercentInPortuguese.Builder();
         }
     }
-
 
     public static class FractionalBuilderChooser {
         public FractionalInPortuguese.Builder forPortugueseLanguage() {

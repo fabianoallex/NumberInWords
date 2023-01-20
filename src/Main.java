@@ -7,6 +7,7 @@ import numberinwords.roman.NumberInRoman;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static java.lang.String.join;
 
@@ -334,5 +335,25 @@ public class Main {
                 .build();
 
         System.out.println(percentInPortugues.inWords(new BigDecimal("20.3")));
+
+        var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
+                .forPortugueseLanguage()
+                .witHalfTo30Minutes()
+                .withMiddayAndMidnightPronuntiation()
+                .withMinuteToHourPronuntiation()
+                .with12HoursFormat()
+                .withInformalPronuntiation()
+                .build();
+
+        //dez e quarenta
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
+        //oito e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(20, 30)));
+        //dez e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(22, 30)));
+        //onze e cinquenta
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
+        //nove e cinquenta e oito
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
     }
 }

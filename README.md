@@ -549,3 +549,67 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //um centésimo (1/100 --> 0.01)
         System.out.println(fractional.inWords(Fractional.of(100)));
 ````
+
+## Exemplo hora em português
+
+````java
+        var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
+            .forPortugueseLanguage()
+            .build();
+
+        //dez horas e quarenta minutos
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
+        //zero hora e um minuto
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(0, 1)));
+        //doze horas e quinze minutos
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(12, 15)));
+        //onze horas e cinquenta minutos
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
+        //vinte e três horas e cinquenta e oito minutos
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(23, 58)));
+````
+
+### Incluíndo opções para pronúncia dos 30 minutos, meia-noite, meio-dia e minutos para horas
+
+````java
+        var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
+                .forPortugueseLanguage()
+                .witHalfTo30Minutes()
+                .withMiddayAndMidnightPronuntiation()
+                .withMinuteToHourPronuntiation()
+                .build();
+
+        //vinte minutos para às onze horas
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
+        //meia-noite e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(0, 30)));
+        //meio-dia e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(12, 30)));
+        //dez minutos para o meio-dia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
+        //dois minutos para meia-noite
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(23, 58)));
+````
+
+### incluindo formato de 12 horas e pronúncia (sem horas e minutos)
+
+````java
+        var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
+                .forPortugueseLanguage()
+                .witHalfTo30Minutes()
+                .withMiddayAndMidnightPronuntiation()
+                .with12HoursFormat()
+                .withInformalPronuntiation()
+                .build();
+
+        //dez e quarenta
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
+        //oito e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(20, 30)));
+        //dez e meia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(22, 30)));
+        //onze e cinquenta
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
+        //nove e cinquenta e oito
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
+````

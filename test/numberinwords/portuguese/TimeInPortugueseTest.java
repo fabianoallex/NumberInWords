@@ -33,6 +33,137 @@ class TimeInPortugueseTest {
     }
 
     @Test
+    void inWordsWithMinutesToHourPronuntiation() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 45), "quinze minutos para uma hora");
+        testCases.put(LocalTime.of(0, 35), "zero hora e trinta e cinco minutos");
+        testCases.put(LocalTime.of(0, 59), "um minuto para uma hora");
+        testCases.put(LocalTime.of(10, 40), "vinte minutos para às onze horas");
+        testCases.put(LocalTime.of(10, 19, 22), "dez horas e dezenove minutos");
+        testCases.put(LocalTime.of(12, 45), "quinze minutos para às treze horas");
+        testCases.put(LocalTime.of(13, 42), "dezoito minutos para às quatorze horas");
+        testCases.put(LocalTime.of(13, 58), "dois minutos para às quatorze horas");
+        testCases.put(LocalTime.of(10, 50, 33), "dez minutos para às onze horas"); //nao mostra segundos por padrão
+
+        TimeInWords dateInWords1 = new TimeInPortuguese.Builder()
+                .withMinuteToHourPronuntiation()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords1.inWords(time),
+                        "retorno não esperado para a data " + time));
+
+        //teste 2
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 45), "quinze minutos para uma hora");
+        testCases.put(LocalTime.of(0, 35), "zero hora e trinta e cinco minutos");
+        testCases.put(LocalTime.of(0, 59), "um minuto para uma hora");
+        testCases.put(LocalTime.of(10, 40), "vinte minutos para às onze horas");
+        testCases.put(LocalTime.of(10, 19, 22), "dez horas e dezenove minutos");
+        testCases.put(LocalTime.of(12, 45), "quinze minutos para uma hora");
+        testCases.put(LocalTime.of(13, 42), "dezoito minutos para às duas horas");
+        testCases.put(LocalTime.of(13, 58), "dois minutos para às duas horas");
+        testCases.put(LocalTime.of(10, 50, 33), "dez minutos para às onze horas"); //nao mostra segundos por padrão
+
+        TimeInWords dateInWords2 = new TimeInPortuguese.Builder()
+                .withMinuteToHourPronuntiation()
+                .with12HoursFormat()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a data " + time));
+
+
+        //teste 3
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 45), "quinze minutos para uma hora");
+        testCases.put(LocalTime.of(0, 35), "meia-noite e trinta e cinco minutos");
+        testCases.put(LocalTime.of(23, 59), "um minuto para meia-noite");
+        testCases.put(LocalTime.of(10, 40), "vinte minutos para às onze horas");
+        testCases.put(LocalTime.of(10, 19, 22), "dez horas e dezenove minutos");
+        testCases.put(LocalTime.of(12, 45), "quinze minutos para às treze horas");
+        testCases.put(LocalTime.of(11, 42), "dezoito minutos para o meio-dia");
+        testCases.put(LocalTime.of(11, 58), "dois minutos para o meio-dia");
+        testCases.put(LocalTime.of(11, 30), "onze horas e trinta minutos");
+        testCases.put(LocalTime.of(10, 50, 33), "dez minutos para às onze horas"); //nao mostra segundos por padrão
+
+        TimeInWords dateInWords3 = new TimeInPortuguese.Builder()
+                .withMinuteToHourPronuntiation()
+                .withMiddayAndMidnightPronuntiation()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords3.inWords(time),
+                        "retorno não esperado para a data " + time));
+    }
+
+    @Test
+    void inWordsWithHalfTo30Minutes() {
+        //teste 1 - witHalfTo30Minutes()
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 30), "zero hora e meia");
+        testCases.put(LocalTime.of(1, 30), "uma hora e meia");
+        testCases.put(LocalTime.of(10, 30), "dez horas e meia");
+        testCases.put(LocalTime.of(12, 30), "doze horas e meia");
+        testCases.put(LocalTime.of(13, 30), "treze horas e trinta minutos");
+
+        TimeInWords dateInWords1 = new TimeInPortuguese.Builder()
+                .witHalfTo30Minutes()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords1.inWords(time),
+                        "retorno não esperado para a data " + time));
+
+        //teste 2 + .withInformalPronuntiation()
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 30), "zero hora e meia");
+        testCases.put(LocalTime.of(1, 30), "uma e meia");
+        testCases.put(LocalTime.of(10, 30), "dez e meia");
+        testCases.put(LocalTime.of(12, 30), "doze e meia");
+        testCases.put(LocalTime.of(13, 30), "treze e trinta");
+
+        TimeInWords dateInWords2 = new TimeInPortuguese.Builder()
+                .witHalfTo30Minutes()
+                .withInformalPronuntiation()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a data " + time));
+
+        //teste 3 + .withMiddayAndMidnightPronuntiation()
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 30), "meia-noite e meia");
+        testCases.put(LocalTime.of(1, 30), "uma hora e meia");
+        testCases.put(LocalTime.of(10, 30), "dez horas e meia");
+        testCases.put(LocalTime.of(12, 30), "meio-dia e meia");
+        testCases.put(LocalTime.of(13, 30), "treze horas e trinta minutos");
+
+        TimeInWords dateInWords3 = new TimeInPortuguese.Builder()
+                .witHalfTo30Minutes()
+                .withMiddayAndMidnightPronuntiation()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords3.inWords(time),
+                        "retorno não esperado para a data " + time));
+    }
+
+    @Test
     void inWordsWithMiddayAndMidnightPronuntiation() {
         Map<LocalTime, String> testCases = new HashMap<>();
         testCases.put(LocalTime.of(0, 0), "meia-noite");

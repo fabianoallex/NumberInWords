@@ -6,23 +6,13 @@ import java.time.LocalTime;
 
 /*
 01:30		uma hora e trinta minutos
-                !useInformalPronuntiation
 			uma e trinta
-			    useInformalPronuntiation
 			uma e meia
-			    useInformalPronuntiation
-			    useHalfFor30Minutes
 
 01:45		uma hora e quarenta e cinco minutos
-                !useInformalPronuntiation
 			uma e quarenta e cinco
-			    useInformalPronuntiation
 			quinze para as duas
-			    useInformalPronuntiation
-			    useMinutesToHour
 			quinze minutos para as duas horas
-			    !useInformalPronuntiation
-			    useMinutesToHour
 
 01:00		uma hora
 
@@ -36,11 +26,17 @@ import java.time.LocalTime;
 			meia-noite
 
 00:30		zero horas e trinta minutos
-			meia noite e trinta minutos
-			meia noite e trinta
+			meia-noite e trinta minutos
+			meia-noite e trinta
+			meia-noite e meia
 
 12:00		doze horas
 			meio-dia
+
+12:30		doze horas e trinta minutos
+            doze e trinta
+            meio-dia e trinta minutos
+            meio-dia e trina
 
 
 11:45		onze horas e quarenta e cinco minutos
@@ -58,6 +54,8 @@ public class TimeInPortuguese implements TimeInWords {
     private final boolean use12HoursFormat;
     private final boolean useInformalPronuntiation;
     private final boolean useMiddayAndMidnightPronuntiation;
+    private final boolean useHalfTo30Minutes;
+    private final boolean useMinutesToHourPronuntiation;
 
     public TimeInPortuguese(Builder builder) {
         this.useSeconds = builder.isUsingSeconds();
@@ -65,6 +63,8 @@ public class TimeInPortuguese implements TimeInWords {
         this.use24HoursFormat = builder.isUsing24HoursFormat();
         this.useInformalPronuntiation = builder.isUsingInformalPronuntiation();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
+        this.useHalfTo30Minutes = builder.useHalfTo30Minutes;
+        this.useMinutesToHourPronuntiation = builder.isUsingMinutesToHourPronuntiation();
     }
 
     @Override
@@ -75,11 +75,14 @@ public class TimeInPortuguese implements TimeInWords {
         long hour = this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour();
         long minute = localTime.getMinute();
 
+        if (this.useMinutesToHourPronuntiation && minute >= 40)
+            return inWordsForMinutesToHourPronuntiation(localTime);
+
         String hoursUnit = hour >= 2 ? "horas" : "hora";
         String minutesUnit = minute >= 2 ? "minutos" : "minuto";
 
         String hourInWords = this.getHourInWords(hour, hoursUnit);
-        String minuteInWords = this.getMinuteInWords(minute, minutesUnit);
+        String minuteInWords = this.getMinuteInWords(minute, hour, minutesUnit);
 
         if (!this.useSeconds)
             return hourInWords + minuteInWords;
@@ -92,6 +95,42 @@ public class TimeInPortuguese implements TimeInWords {
         return hourInWords + minuteInWords + secondInWords;
     }
 
+    private String inWordsForMinutesToHourPronuntiation(LocalTime localTime) {
+        long maxHour = this.use12HoursFormat ? 12 : 23;
+
+        long hour = (this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour()) + 1;
+
+        if (hour > maxHour)
+            hour = hour == 13 ? 1 : 0; //se passou das 12 ou 23 horas, vai pra 1 ou pra 0
+
+        long minute = 60 - localTime.getMinute();
+
+        String hoursUnit = hour >= 2 ? "horas" : "hora";
+        String minutesUnit = minute >= 2 ? "minutos" : "minuto";
+
+        boolean forceToUseUnit = !this.useInformalPronuntiation
+                || (hour == 0 && !useMiddayAndMidnightPronuntiation);
+
+        String hourInWords = this.getHourInWords(hour, forceToUseUnit ? hoursUnit : "");
+        String minuteInWords = NumberInWordsFactory.createCardinalBuilderChooser()
+                .forPortugueseLanguage()
+                .withMaleGender()
+                .build()
+                .inWords(minute)
+                    + (forceToUseUnit ? " " + minutesUnit : "");
+
+        String preposition = "às ";
+
+        if (hourInWords.equals("meia-noite"))
+            preposition = "";
+        else if (hourInWords.equals("meio-dia"))
+            preposition = "o ";
+        else if (hour < 2)
+            preposition = "";
+
+        return minuteInWords + " para " + preposition + hourInWords;
+    }
+
     private String inWordsForInformalPronuntiation(LocalTime localTime) {
         long hour = this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour();
         long minute = localTime.getMinute();
@@ -102,7 +141,7 @@ public class TimeInPortuguese implements TimeInWords {
         boolean forceToUseUnit = (hour == 0 && !useMiddayAndMidnightPronuntiation) || minute == 0;
 
         String hourInWords = this.getHourInWords(hour, forceToUseUnit ? hoursUnit : "");
-        String minuteInWords = this.getMinuteInWords(minute, forceToUseUnit ? minutesUnit : "");
+        String minuteInWords = this.getMinuteInWords(minute, hour, forceToUseUnit ? minutesUnit : "");
 
         return hourInWords + minuteInWords;
     }
@@ -119,9 +158,12 @@ public class TimeInPortuguese implements TimeInWords {
                     + (unit.isEmpty() ? "" : " " + unit);
     }
 
-    private String getMinuteInWords(long minute, String unit) {
+    private String getMinuteInWords(long minute, long hour, String unit) {
         if (minute == 0)
             return "";
+
+        if (minute == 30 && this.useHalfTo30Minutes && hour <= 12)
+            return " e meia";
 
         return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
                 .forPortugueseLanguage()
@@ -147,6 +189,17 @@ public class TimeInPortuguese implements TimeInWords {
     }
 
     public static class Builder extends TimeInWords.Builder<Builder> {
+        private boolean useHalfTo30Minutes = false;
+
+        public Builder witHalfTo30Minutes() {
+            return this.witHalfTo30Minutes(true);
+        }
+
+        public Builder witHalfTo30Minutes(boolean useHalfTo30Minutes) {
+            this.useHalfTo30Minutes = useHalfTo30Minutes;
+            return getThis();
+        }
+
         @Override
         protected Builder getThis() {
             return this;

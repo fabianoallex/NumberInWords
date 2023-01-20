@@ -11,10 +11,19 @@ public interface TimeInWords extends NumberInWords<LocalTime>{
         protected boolean useInformalPronuntiation = false;
         protected boolean useMiddayAndMidnightPronuntiation = false;
         protected boolean useMinutesToHourPronuntiation = false;
+        protected boolean usePeriodPronuntiation = false;
 
         protected abstract T getThis();
         public abstract TimeInWords build();
 
+        public T withPeriodPronuntiation() {
+            return this.withPeriodPronuntiation(true);
+        }
+
+        public T withPeriodPronuntiation(boolean usePeriodPronuntiation) {
+            this.usePeriodPronuntiation = usePeriodPronuntiation;
+            return getThis();
+        }
 
         public T withMinuteToHourPronuntiation() {
             return this.withMinuteToHourPronuntiation(true);
@@ -90,6 +99,10 @@ public interface TimeInWords extends NumberInWords<LocalTime>{
 
         public boolean isUsingMinutesToHourPronuntiation() {
             return useMinutesToHourPronuntiation;
+        }
+
+        public boolean isUsingPeriodPronuntiation() {
+            return usePeriodPronuntiation;
         }
     }
 }

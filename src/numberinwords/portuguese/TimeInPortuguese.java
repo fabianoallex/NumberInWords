@@ -36,7 +36,7 @@ import java.time.LocalTime;
 12:30		doze horas e trinta minutos
             doze e trinta
             meio-dia e trinta minutos
-            meio-dia e trina
+            meio-dia e trinta
 
 
 11:45		onze horas e quarenta e cinco minutos
@@ -56,6 +56,7 @@ public class TimeInPortuguese implements TimeInWords {
     private final boolean useMiddayAndMidnightPronuntiation;
     private final boolean useHalfTo30Minutes;
     private final boolean useMinutesToHourPronuntiation;
+    private final boolean usePeriodPronuntiation;
 
     public TimeInPortuguese(Builder builder) {
         this.useSeconds = builder.isUsingSeconds();
@@ -65,6 +66,7 @@ public class TimeInPortuguese implements TimeInWords {
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
         this.useHalfTo30Minutes = builder.useHalfTo30Minutes;
         this.useMinutesToHourPronuntiation = builder.isUsingMinutesToHourPronuntiation();
+        this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
     }
 
     @Override
@@ -73,26 +75,54 @@ public class TimeInPortuguese implements TimeInWords {
         long minute = localTime.getMinute();
 
         if (this.useMinutesToHourPronuntiation && minute >= 40)
-            return inWordsForMinutesToHourPronuntiation(localTime);
+            return inWordsForMinutesToHourPronuntiation(localTime) + getInWordsForPeriod(localTime);
 
         if (this.useInformalPronuntiation)
-            return inWordsForInformalPronuntiation(localTime);
+            return inWordsForInformalPronuntiation(localTime) + getInWordsForPeriod(localTime);
 
         String hoursUnit = hour >= 2 ? "horas" : "hora";
         String minutesUnit = minute >= 2 ? "minutos" : "minuto";
 
-        String hourInWords = this.getHourInWords(hour, hoursUnit);
+        String hourInWords = this.getHourInWords(localTime, hoursUnit);
         String minuteInWords = this.getMinuteInWords(minute, hour, minutesUnit);
 
         if (!this.useSeconds)
-            return hourInWords + minuteInWords;
+            return hourInWords + minuteInWords + getInWordsForPeriod(localTime);
 
         long second = localTime.getSecond();
 
         String secondssUnit = second >= 2 ? "segundos" : "segundo";
         String secondInWords = this.getSecondInWords(second, secondssUnit);
 
-        return hourInWords + minuteInWords + secondInWords;
+        return hourInWords + minuteInWords + secondInWords + getInWordsForPeriod(localTime);
+    }
+
+    private String getInWordsForPeriod(LocalTime localTime) {
+        if (!this.usePeriodPronuntiation)
+            return "";
+
+        int hourDifferenceWhenMinutesTo = (this.useMinutesToHourPronuntiation && localTime.getMinute() >= 40)
+                ? 1 : 0;
+
+        long hour = localTime.getHour() + hourDifferenceWhenMinutesTo;
+
+        if (hour > 23)
+            hour = 0; //se passou das 12 ou 23 horas, vai pra 1 ou pra 0
+
+
+        if (this.useMiddayAndMidnightPronuntiation && (hour == 0 || hour == 12))
+            return "";
+
+        if (hour < 6)
+            return " da madrugada";
+
+        if (hour < 12)
+            return " da manhã";
+
+        if (hour < 18)
+            return " da tarde";
+
+        return " da noite";
     }
 
     private String inWordsForMinutesToHourPronuntiation(LocalTime localTime) {
@@ -111,7 +141,7 @@ public class TimeInPortuguese implements TimeInWords {
         boolean forceToUseUnit = !this.useInformalPronuntiation
                 || (hour == 0 && !useMiddayAndMidnightPronuntiation);
 
-        String hourInWords = this.getHourInWords(hour, forceToUseUnit ? hoursUnit : "");
+        String hourInWords = this.getHourInWords(localTime, forceToUseUnit ? hoursUnit : "");
         String minuteInWords = NumberInWordsFactory.createCardinalBuilderChooser()
                 .forPortugueseLanguage()
                 .withMaleGender()
@@ -140,7 +170,7 @@ public class TimeInPortuguese implements TimeInWords {
 
         boolean forceToUseUnit = (hour == 0 && !useMiddayAndMidnightPronuntiation) || minute == 0;
 
-        String hourInWords = this.getHourInWords(hour, forceToUseUnit ? hoursUnit : "");
+        String hourInWords = this.getHourInWords(localTime, forceToUseUnit ? hoursUnit : "");
         String minuteInWords = this.getMinuteInWords(minute, hour, forceToUseUnit ? minutesUnit : "");
 
         return hourInWords + minuteInWords;
@@ -173,12 +203,32 @@ public class TimeInPortuguese implements TimeInWords {
                     + (unit.isEmpty() ? "" : " " + unit);
     }
 
-    private String getHourInWords(long hour, String unit) {
-        if (this.useMiddayAndMidnightPronuntiation && hour == 0)
+    private boolean acceptMinutesToHourPronunciation(LocalTime localTime) {
+        return this.useMinutesToHourPronuntiation && localTime.getMinute() >= 40;
+    }
+
+    private String getHourInWords(LocalTime localTime, String unit) {
+        if (this.useMiddayAndMidnightPronuntiation && this.acceptMinutesToHourPronunciation(localTime) && localTime.getHour()+1 == 24)
             return "meia-noite";
 
-        if (this.useMiddayAndMidnightPronuntiation && hour == 12)
+        if (this.useMiddayAndMidnightPronuntiation && this.acceptMinutesToHourPronunciation(localTime) && localTime.getHour()+1 == 12)
             return "meio-dia";
+
+        if (this.useMiddayAndMidnightPronuntiation && !this.acceptMinutesToHourPronunciation(localTime) && localTime.getHour() == 0)
+            return "meia-noite";
+
+        if (this.useMiddayAndMidnightPronuntiation && !this.acceptMinutesToHourPronunciation(localTime) && localTime.getHour() == 12)
+            return "meio-dia";
+
+        long hour = (this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour());
+
+        if (this.useMinutesToHourPronuntiation && localTime.getMinute() >= 40)
+            hour++;
+
+        long maxHour = this.use12HoursFormat ? 12 : 23;
+
+        if (hour > maxHour)
+            hour = hour == 13 ? 1 : 0; //se passou das 12 ou 23 horas, vai pra 1 ou pra 0
 
         return NumberInWordsFactory.createCardinalBuilderChooser()
                 .forPortugueseLanguage()

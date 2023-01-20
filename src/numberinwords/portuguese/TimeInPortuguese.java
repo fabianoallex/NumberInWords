@@ -165,7 +165,7 @@ public class TimeInPortuguese implements TimeInWords {
         return hour;
     }
 
-    private String getHourInWordsForMiddayAndMidnightPronuntiation_old(LocalTime localTime) {
+    private String getHourInWordsForMiddayAndMidnightPronuntiation(LocalTime localTime) {
         if (this.useMiddayAndMidnightPronuntiation) {
             if (this.acceptMinutesToHourPronunciation(localTime)) {
                 if (localTime.getHour()+1 == 24) return "meia-noite";
@@ -177,11 +177,6 @@ public class TimeInPortuguese implements TimeInWords {
         }
 
         return "";
-    }
-
-    private String getHourInWordsForMiddayAndMidnightPronuntiation(LocalTime localTime) {
-        int hour = (localTime.getHour() + (this.acceptMinutesToHourPronunciation(localTime) ? 1 : 0)) % 24;
-        return (hour == 0) ? "meia-noite" : (hour == 12) ? "meio-dia" : "";
     }
 
     public static class Builder extends TimeInWords.Builder<Builder> {

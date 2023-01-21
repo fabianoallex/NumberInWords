@@ -25,158 +25,201 @@ public class TimeInPortuguese implements TimeInWords {
 
     @Override
     public String inWords(LocalTime localTime) {
-        if (this.acceptMinutesToHourPronunciation(localTime))
-            return inWordsForMinutesToHourPronuntiation(localTime);
+        Hour hour = new Hour(localTime);
+        Minute minute = new Minute(localTime);
+        Second second = new Second(localTime);
+        Period period = new Period(localTime);
 
-        return this.getHourInWords(localTime) +
-                this.getMinuteInWords(localTime) +
-                this.getSecondInWords(localTime) +
-                this.getPeriodInWords(localTime);
-    }
+        if (this.canUseMinutesToHourPronunciation(localTime))
+            return minute.inWords() +
+                    hour.inWords() +
+                    period.inWords();
 
-    private String inWordsForMinutesToHourPronuntiation(LocalTime localTime) {
-        long hour = calculateHourToPronuntiate(localTime);
-        long minute = 60 - localTime.getMinute();
-
-        String hourInWords = this.getHourInWords(localTime);
-        String minutesUnit = minute >= 2 ? "minutos" : "minuto";
-        String minuteInWords = NumberInWordsFactory.createCardinalBuilderChooser()
-                .forPortugueseLanguage()
-                .withMaleGender()
-                .build()
-                .inWords(minute)
-                    + (this.checkIfUseUnit(localTime) ? " " + minutesUnit : "");
-
-        return minuteInWords +
-                this.calculatePreposition(hourInWords, hour) +
-                hourInWords +
-                this.getPeriodInWords(localTime);
-    }
-
-    private String calculatePreposition(String hourInWords, long hour) {
-        String preposition = "às ";
-
-        if (hourInWords.equals("meia-noite"))
-            preposition = "";
-        else if (hourInWords.equals("meio-dia"))
-            preposition = "o ";
-        else if (hour < 2)
-            preposition = "";
-
-        return " para " + preposition;
-    }
-
-    private String getHourInWords(LocalTime localTime){
-        String hourForMiddayAndMidnight = getHourInWordsForMiddayAndMidnightPronuntiation(localTime);
-
-        if (!hourForMiddayAndMidnight.isEmpty())
-            return hourForMiddayAndMidnight;
-
-        String hoursUnit = calculateHourToPronuntiate(localTime) < 2 ?
-                " hora" : " horas";
-
-        return NumberInWordsFactory.createCardinalBuilderChooser()
-                .forPortugueseLanguage()
-                .withFemaleGender()
-                .build()
-                .inWords(calculateHourToPronuntiate(localTime))
-                    + (checkIfUseUnit(localTime) ? hoursUnit : "");
-    }
-
-    private String getSecondInWords(LocalTime localTime) {
-        if (!this.useSeconds)
-            return "";
-
-        if (localTime.getSecond() == 0)
-            return "";
-
-        return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
-                .forPortugueseLanguage()
-                .withMaleGender()
-                .build()
-                .inWords((long) localTime.getSecond())
-                    + (localTime.getSecond() < 2 ? " segundo" : " segundos");
-    }
-
-    private String getMinuteInWords(LocalTime localTime) {
-        long hour = calculateHourFor12or24Format(localTime);
-        long minute = localTime.getMinute();
-
-        if (minute == 0)
-            return "";
-
-        if (minute == 30 && this.useHalfTo30Minutes && hour <= 12)
-            return " e meia";
-
-        String minutesUnit = minute >= 2 ? " minutos" : " minuto";
-
-        return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
-                .forPortugueseLanguage()
-                .withMaleGender()
-                .build()
-                .inWords(minute)
-                    + (checkIfUseUnit(localTime) ? minutesUnit : "");
+        return hour.inWords() +
+                minute.inWords() +
+                second.inWords() +
+                period.inWords();
     }
 
     private boolean checkIfUseUnit(LocalTime localTime) {
         return localTime.getMinute() == 0 ||
                 !this.useInformalPronuntiation ||
-                (!useMiddayAndMidnightPronuntiation &&
-                        calculateHourFor12or24Format(localTime) == 0);
+                (!useMiddayAndMidnightPronuntiation && new Hour(localTime).hourFor12or24Format() == 0);
     }
 
-    private long calculateHourFor12or24Format(LocalTime localTime) {
-        return this.use12HoursFormat && localTime.getHour() > 12  ?
-                localTime.getHour()-12 : localTime.getHour();
-    }
-
-    private String getPeriodInWords(LocalTime localTime) {
-        if (!this.usePeriodPronuntiation)
-            return "";
-
-        int hour = (localTime.getHour() + (this.acceptMinutesToHourPronunciation(localTime) ? 1 : 0)) % 24;
-
-        if (this.useMiddayAndMidnightPronuntiation && (hour == 0 || hour == 12))
-            return "";
-
-        return switch (hour / 6) {
-            case 0 -> " da madrugada";
-            case 1 -> " da manhã";
-            case 2 -> " da tarde";
-            default -> " da noite";
-        };
-    }
-
-    private boolean acceptMinutesToHourPronunciation(LocalTime localTime) {
+    private boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
         return this.useMinutesToHourPronuntiation && localTime.getMinute() >= 40;
     }
 
-    private long calculateHourToPronuntiate(LocalTime localTime) {
-        long hour = (this.use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour());
+    private abstract static class PartOfTime {
+        protected final LocalTime localTime;
 
-        if (this.acceptMinutesToHourPronunciation(localTime))
-            hour++;
-
-        long maxHour = this.use12HoursFormat ? 12 : 23;
-
-        if (hour > maxHour)
-            hour = hour == 13 ? 1 : 0; //se passou das 12 ou 23 horas, vai pra 1 ou pra 0
-
-        return hour;
-    }
-
-    private String getHourInWordsForMiddayAndMidnightPronuntiation(LocalTime localTime) {
-        if (this.useMiddayAndMidnightPronuntiation) {
-            if (this.acceptMinutesToHourPronunciation(localTime)) {
-                if (localTime.getHour()+1 == 24) return "meia-noite";
-                if (localTime.getHour()+1 == 12) return "meio-dia";
-            } else {
-                if (localTime.getHour() == 0) return "meia-noite";
-                if (localTime.getHour() == 12) return "meio-dia";
-            }
+        protected PartOfTime(LocalTime localTime) {
+            this.localTime = localTime;
         }
 
-        return "";
+        public abstract String inWords();
+    }
+
+    private class Hour extends PartOfTime {
+        protected Hour(LocalTime localTime) {
+            super(localTime);
+        }
+
+        @Override
+        public String inWords() {
+            String hourForMiddayAndMidnight = this.inWordsForMiddayAndMidnightPronuntiation();
+
+            if (!hourForMiddayAndMidnight.isEmpty())
+                return hourForMiddayAndMidnight;
+
+            String hoursUnit = this.hourToPronuntiate() < 2 ? " hora" : " horas";
+
+            return NumberInWordsFactory.createCardinalBuilderChooser()
+                        .forPortugueseLanguage()
+                        .withFemaleGender()
+                        .build()
+                        .inWords(this.hourToPronuntiate())
+                            + (checkIfUseUnit(localTime) ? hoursUnit : "");
+        }
+
+        private String inWordsForMiddayAndMidnightPronuntiation() {
+            if (useMiddayAndMidnightPronuntiation) {
+                if ( canUseMinutesToHourPronunciation(localTime)) {
+                    if (localTime.getHour()+1 == 24) return "meia-noite";
+                    if (localTime.getHour()+1 == 12) return "meio-dia";
+                } else {
+                    if (localTime.getHour() == 0) return "meia-noite";
+                    if (localTime.getHour() == 12) return "meio-dia";
+                }
+            }
+
+            return "";
+        }
+
+        public long hourToPronuntiate() {
+            long hour = hourFor12or24Format();
+
+            if (canUseMinutesToHourPronunciation(localTime))
+                hour++;
+
+            long maxHour = use12HoursFormat ? 12 : 23;
+
+            if (hour > maxHour)
+                hour = hour == 13 ? 1 : 0;
+
+            return hour;
+        }
+
+        private long hourFor12or24Format() {
+            return use12HoursFormat && localTime.getHour() > 12  ? localTime.getHour()-12 : localTime.getHour();
+        }
+    }
+
+    private class Minute extends PartOfTime {
+        private Minute(LocalTime localTime) {
+            super(localTime);
+        }
+
+        @Override
+        public String inWords() {
+            if (canUseMinutesToHourPronunciation(localTime))
+                return inWordsForMinutesToHourPronuntiation();
+
+            long hour = new Hour(localTime).hourFor12or24Format();
+            long minute = localTime.getMinute();
+
+            if (minute == 0)
+                return "";
+
+            if (minute == 30 && useHalfTo30Minutes && hour <= 12)
+                return " e meia";
+
+            String minutesUnit = minute >= 2 ? " minutos" : " minuto";
+
+            return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
+                    .forPortugueseLanguage()
+                    .withMaleGender()
+                    .build()
+                    .inWords(minute)
+                    + (checkIfUseUnit(localTime) ? minutesUnit : "");
+        }
+
+        private String inWordsForMinutesToHourPronuntiation() {
+            Hour hour = new Hour(localTime);
+
+            long minute = 60 - localTime.getMinute();
+
+            String minutesUnit = minute >= 2 ? "minutos" : "minuto";
+            String minuteInWords = NumberInWordsFactory.createCardinalBuilderChooser()
+                    .forPortugueseLanguage()
+                    .withMaleGender()
+                    .build()
+                    .inWords(minute)
+                    + (checkIfUseUnit(localTime) ? " " + minutesUnit : "");
+
+            return minuteInWords +
+                    calculatePreposition(hour.inWords(), hour.hourToPronuntiate());
+        }
+
+        private String calculatePreposition(String hourInWords, long hour) {
+            String preposition = "às ";
+
+            if (hourInWords.equals("meia-noite"))
+                preposition = "";
+            else if (hourInWords.equals("meio-dia"))
+                preposition = "o ";
+            else if (hour < 2)
+                preposition = "";
+
+            return " para " + preposition;
+        }
+    }
+
+    public class Second extends PartOfTime {
+        protected Second(LocalTime localTime) {
+            super(localTime);
+        }
+
+        @Override
+        public String inWords() {
+            if (!useSeconds)
+                return "";
+
+            if (localTime.getSecond() == 0)
+                return "";
+
+            return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
+                    .forPortugueseLanguage()
+                    .withMaleGender()
+                    .build()
+                    .inWords((long) localTime.getSecond())
+                    + (localTime.getSecond() < 2 ? " segundo" : " segundos");
+        }
+    }
+
+    public class Period extends PartOfTime {
+        protected Period(LocalTime localTime) {
+            super(localTime);
+        }
+
+        @Override
+        public String inWords() {
+            if (!usePeriodPronuntiation)
+                return "";
+
+            int hour = (localTime.getHour() + (canUseMinutesToHourPronunciation(localTime) ? 1 : 0)) % 24;
+
+            if (useMiddayAndMidnightPronuntiation && (hour == 0 || hour == 12))
+                return "";
+
+            return switch (hour / 6) {
+                case 0 -> " da madrugada";
+                case 1 -> " da manhã";
+                case 2 -> " da tarde";
+                default -> " da noite";
+            };
+        }
     }
 
     public static class Builder extends TimeInWords.Builder<Builder> {

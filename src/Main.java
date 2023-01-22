@@ -342,17 +342,18 @@ public class Main {
                 .withMinuteToHourPronuntiation()
                 .with12HoursFormat()
                 .withInformalPronuntiation()
+                .withPeriodPronuntiation()
                 .build();
 
-        //dez e quarenta
-        System.out.println(timeInPortuguese.inWords(LocalTime.of(10, 40)));
-        //oito e meia
-        System.out.println(timeInPortuguese.inWords(LocalTime.of(20, 30)));
-        //dez e meia
+        //vinte para meia-noite
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(23, 40)));
+        //nove e meia da manhã
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(9, 30)));
+        //dez e meia da noite
         System.out.println(timeInPortuguese.inWords(LocalTime.of(22, 30)));
-        //onze e cinquenta
+        //dez para o meio-dia
         System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
-        //nove e cinquenta e oito
+        //dois para às dez da noite
         System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
     }
 }

@@ -614,3 +614,28 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //dois para às dez
         System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
 ````
+
+### Incluíndo o período do dia na pronúncia
+
+````java
+        var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
+                .forPortugueseLanguage()
+                .withHalfFor30Minutes()
+                .withMiddayAndMidnightPronuntiation()
+                .withMinuteToHourPronuntiation()
+                .with12HoursFormat()
+                .withInformalPronuntiation()
+                .withPeriodPronuntiation()
+                .build();
+
+        //vinte para meia-noite
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(23, 40)));
+        //nove e meia da manhã
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(9, 30)));
+        //dez e meia da noite
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(22, 30)));
+        //dez para o meio-dia
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
+        //dois para às dez da noite
+        System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
+````

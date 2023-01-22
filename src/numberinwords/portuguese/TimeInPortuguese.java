@@ -140,17 +140,15 @@ public class TimeInPortuguese implements TimeInWords {
 
         @Override
         public String inWords() {
+            if (localTime.getMinute() == 0)
+                return "";
+
             if (canUseMinutesToHourPronunciation(localTime))
                 return inWordsForMinutesToHourPronuntiation();
 
             long minute = this.minuteToPronuntiate();
 
-            if (minute == 0)
-                return "";
-
-            long hour = hourOf(localTime).hourFor12or24Format();
-
-            if (minute == 30 && useHalfFor30Minutes && hour <= 12)
+            if (minute == 30 && useHalfFor30Minutes && hourOf(localTime).hourFor12or24Format() <= 12)
                 return " e meia";
 
             return " e " + NumberInWordsFactory.createCardinalBuilderChooser()

@@ -1,17 +1,13 @@
 package numberinwords.portuguese;
 
 import numberinwords.CardinalInWords;
-import numberinwords.NumberInWords;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardinalInPortugueseTest {
-
     @Test
     @DisplayName("inWords")
     void inWords() {

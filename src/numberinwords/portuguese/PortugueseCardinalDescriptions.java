@@ -1,7 +1,6 @@
 package numberinwords.portuguese;
 
 import numberinwords.Suffix;
-
 import java.util.HashMap;
 import java.util.Map;
 

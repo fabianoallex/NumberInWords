@@ -97,10 +97,34 @@ class CardinalInPortugueseTest {
                 .build();
 
         testCases.forEach((number, expected) ->
-            assertEquals(
-                    expected,
-                    cardinalNumber.inWords(number),
-                    String.format("Retorno não esperado para o número %d.", number)));
+                assertEquals(
+                        expected,
+                        cardinalNumber.inWords(number),
+                        String.format("Retorno não esperado para o número %d.", number)));
+    }
+
+    @Test
+    @DisplayName("inWords (digit pronuntiation)")
+    void inWordsWithDigitPronuntiation() {
+        Map<Long, String> testCases = new HashMap<>();
+        testCases.put(1L, "um");
+        testCases.put(2L, "dois");
+        testCases.put(19600L, "um nove seis zero zero");
+        testCases.put(701L, "sete zero um");
+        testCases.put(800L, "oito zero zero");
+        testCases.put(1000L, "um zero zero zero");
+        testCases.put(202002002L, "dois zero dois zero zero dois zero zero dois");
+        testCases.put(500202002002L, "cinco zero zero dois zero dois zero zero dois zero zero dois");
+
+        CardinalInWords cardinalNumber = new CardinalInPortuguese.Builder()
+                .withDigitPronuntiation()
+                .build();
+
+        testCases.forEach((number, expected) ->
+                assertEquals(
+                        expected,
+                        cardinalNumber.inWords(number),
+                        String.format("Retorno não esperado para o número %d.", number)));
     }
 
     @Test

@@ -15,12 +15,12 @@ public class TimeInPortuguese implements TimeInWords {
 
     public TimeInPortuguese(Builder builder) {
         this.useSeconds = builder.isUsingSeconds();
-        this.use12HoursFormat = builder.isUsing12HoursFormat();
-        this.useInformalPronuntiation = builder.isUsingInformalPronuntiation();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
-        this.useHalfFor30Minutes = builder.useHalfFor30Minutes;
-        this.useMinutesToHourPronuntiation = builder.isUsingMinutesToHourPronuntiation();
         this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
+        this.use12HoursFormat = builder.use12HoursFormat;
+        this.useInformalPronuntiation = builder.useInformalPronuntiation;
+        this.useHalfFor30Minutes = builder.useHalfFor30Minutes;
+        this.useMinutesToHourPronuntiation = builder.useMinutesToHourPronuntiation;
     }
 
     @Override
@@ -247,6 +247,9 @@ public class TimeInPortuguese implements TimeInWords {
 
     public static class Builder extends TimeInWords.Builder<Builder> {
         private boolean useHalfFor30Minutes = false;
+        protected boolean use12HoursFormat = false;
+        protected boolean useInformalPronuntiation = false;
+        protected boolean useMinutesToHourPronuntiation = false;
 
         public Builder withHalfFor30Minutes() {
             return this.withHalfFor30Minutes(true);
@@ -254,6 +257,33 @@ public class TimeInPortuguese implements TimeInWords {
 
         public Builder withHalfFor30Minutes(boolean useHalfFor30Minutes) {
             this.useHalfFor30Minutes = useHalfFor30Minutes;
+            return getThis();
+        }
+
+        public Builder withInformalPronuntiation(boolean useInformalPronuntiation) {
+            this.useInformalPronuntiation = useInformalPronuntiation;
+            return getThis();
+        }
+
+        public Builder withInformalPronuntiation() {
+            return this.withInformalPronuntiation(true);
+        }
+
+        public Builder with12HoursFormat(boolean use12HoursFormat) {
+            this.use12HoursFormat = use12HoursFormat;
+            return getThis();
+        }
+
+        public Builder with12HoursFormat() {
+            return this.with12HoursFormat(true);
+        }
+
+        public Builder withMinuteToHourPronuntiation() {
+            return this.withMinuteToHourPronuntiation(true);
+        }
+
+        public Builder withMinuteToHourPronuntiation(boolean useMinutesToHourPronuntiation) {
+            this.useMinutesToHourPronuntiation = useMinutesToHourPronuntiation;
             return getThis();
         }
 

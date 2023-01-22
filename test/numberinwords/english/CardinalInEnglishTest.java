@@ -1,6 +1,7 @@
 package numberinwords.english;
 
 import numberinwords.CardinalInWords;
+import numberinwords.portuguese.CardinalInPortuguese;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
@@ -99,5 +100,29 @@ class CardinalInEnglishTest {
                         expectedResult,
                         cardinalNumber.inWords(number),
                         "retorno não esperado para o número " + number));
+    }
+
+    @Test
+    @DisplayName("inWords (digit pronuntiation)")
+    void inWordsWithDigitPronuntiation() {
+        Map<Long, String> testCases = new HashMap<>();
+        testCases.put(1L, "one");
+        testCases.put(2L, "two");
+        testCases.put(19600L, "one nine six zero zero");
+        testCases.put(701L, "seven zero one");
+        testCases.put(800L, "eight zero zero");
+        testCases.put(1000L, "one zero zero zero");
+        testCases.put(202002002L, "two zero two zero zero two zero zero two");
+        testCases.put(500202002002L, "five zero zero two zero two zero zero two zero zero two");
+
+        CardinalInWords cardinalNumber = new CardinalInEnglish.Builder()
+                .withDigitPronuntiation()
+                .build();
+
+        testCases.forEach((number, expected) ->
+                assertEquals(
+                        expected,
+                        cardinalNumber.inWords(number),
+                        String.format("Retorno não esperado para o número %d.", number)));
     }
 }

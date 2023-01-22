@@ -59,7 +59,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando pronuncia de dígitos
 
 ````java
-        CardinalInWords digit = new CardinalInPortuguese.Builder()
+        var digit = new CardinalInPortuguese.Builder()
             .withDigitPronuntiation()
             .build();
 
@@ -102,6 +102,23 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         //two million, two hundred and fifty-two thousand
         System.out.println(inEnglish.inWords(2252000L));
 ```
+
+### Usando pronúncia de dígitos
+
+````java
+        var digit = new CardinalInEnglish.Builder()
+            .withDigitPronuntiation()
+            .build();
+
+        //zero
+        System.out.println(digit.inWords(0L));
+        //seven eight
+        System.out.println(digit.inWords(78L));
+        //nine five five
+        System.out.println(digit.inWords(955L));
+        //five zero two two
+        System.out.println(digit.inWords(5022L));
+````
 
 ## Exemplo Ordinal em português
 

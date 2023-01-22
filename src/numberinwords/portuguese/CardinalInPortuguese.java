@@ -80,7 +80,7 @@ public class CardinalInPortuguese implements CardinalInWords {
             comma = this.useCommaSeparator ? ", " : " ";
         } while (number > 0);
 
-        return result.toString().trim();
+        return result.toString();
     }
 
     private String getSignalDescription(Long number) {

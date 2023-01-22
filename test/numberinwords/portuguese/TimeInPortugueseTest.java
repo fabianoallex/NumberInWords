@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TimeInPortugueseTest {
@@ -130,7 +129,6 @@ class TimeInPortugueseTest {
 
         TimeInWords dateInWords4 = new TimeInPortuguese.Builder()
                 .withPeriodPronuntiation()
-                //.with12HoursFormat()
                 .withMinuteToHourPronuntiation()
                 .withMiddayAndMidnightPronuntiation()
                 .build();

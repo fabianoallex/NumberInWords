@@ -25,24 +25,35 @@ public class TimeInPortuguese implements TimeInWords {
 
     @Override
     public String inWords(LocalTime localTime) {
-        Hour hour = new Hour(localTime);
-        Minute minute = new Minute(localTime);
-        Second second = new Second(localTime);
-        Period period = new Period(localTime);
-
         if (this.canUseMinutesToHourPronunciation(localTime))
-            return minute.inWords() +
-                    hour.inWords() +
-                    period.inWords();
+            return minuteOf(localTime).inWords() +
+                    hourOf(localTime).inWords() +
+                    periodOf(localTime).inWords();
 
-        return hour.inWords() +
-                minute.inWords() +
-                second.inWords() +
-                period.inWords();
+        return hourOf(localTime).inWords() +
+                minuteOf(localTime).inWords() +
+                secondOf(localTime).inWords() +
+                periodOf(localTime).inWords();
     }
 
-    protected boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
+    private boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
         return useMinutesToHourPronuntiation && localTime.getMinute() >= 40;
+    }
+
+    private Hour hourOf(LocalTime localTime) {
+        return new Hour(localTime);
+    }
+
+    private Minute minuteOf(LocalTime localTime) {
+        return new Minute(localTime);
+    }
+
+    private Second secondOf(LocalTime localTime) {
+        return new Second(localTime);
+    }
+
+    private Period periodOf(LocalTime localTime) {
+        return new Period(localTime);
     }
 
     private abstract class PartOfTime {
@@ -57,7 +68,7 @@ public class TimeInPortuguese implements TimeInWords {
         protected boolean checkUnitNeedToBeUsed(LocalTime localTime) {
             return (localTime.getMinute() == 0 ||
                     !useInformalPronuntiation ||
-                    (!useMiddayAndMidnightPronuntiation && new Hour(localTime).hourFor12or24Format() == 0));
+                    (!useMiddayAndMidnightPronuntiation && hourOf(localTime).hourFor12or24Format() == 0));
 
         }
     }
@@ -132,12 +143,12 @@ public class TimeInPortuguese implements TimeInWords {
             if (canUseMinutesToHourPronunciation(localTime))
                 return inWordsForMinutesToHourPronuntiation();
 
-            long minute = minuteToPronuntiate();
+            long minute = this.minuteToPronuntiate();
 
             if (minute == 0)
                 return "";
 
-            long hour = new Hour(localTime).hourFor12or24Format();
+            long hour = hourOf(localTime).hourFor12or24Format();
 
             if (minute == 30 && useHalfFor30Minutes && hour <= 12)
                 return " e meia";
@@ -172,7 +183,7 @@ public class TimeInPortuguese implements TimeInWords {
         }
 
         private String getPreposition() {
-            Hour hour = new Hour(localTime);
+            Hour hour = hourOf(localTime);
 
             String preposition = "às ";
 
@@ -197,11 +208,12 @@ public class TimeInPortuguese implements TimeInWords {
             if (!useSeconds || localTime.getSecond() == 0)
                 return "";
 
-            return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
-                                .forPortugueseLanguage()
-                                .withMaleGender()
-                                .build()
-                                .inWords((long) localTime.getSecond()) + this.getUnit();
+            return " e " +
+                    NumberInWordsFactory.createCardinalBuilderChooser()
+                            .forPortugueseLanguage()
+                            .withMaleGender()
+                            .build()
+                            .inWords((long) localTime.getSecond()) + this.getUnit();
         }
 
         private String getUnit() {

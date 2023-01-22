@@ -56,6 +56,23 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
         System.out.println(inPortuguese.inWords(2252000L));
 ```
 
+### Usando pronuncia de dígitos
+
+````java
+        CardinalInWords digit = new CardinalInPortuguese.Builder()
+            .withDigitPronuntiation()
+            .build();
+
+        //zero
+        System.out.println(digit.inWords(0L));
+        //três zero
+        System.out.println(digit.inWords(30L));
+        //dois três zero
+        System.out.println(digit.inWords(230L));
+        //um zero três zero
+        System.out.println(digit.inWords(1030L));
+````
+
 ## Exemplo Cardinal em inglês
 
 ```java

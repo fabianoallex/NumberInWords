@@ -355,5 +355,19 @@ public class Main {
         System.out.println(timeInPortuguese.inWords(LocalTime.of(11, 50)));
         //dois para às dez da noite
         System.out.println(timeInPortuguese.inWords(LocalTime.of(21, 58)));
+
+
+        CardinalInWords digit = new CardinalInPortuguese.Builder()
+                .withDigitPronuntiation()
+                .build();
+
+        //zero
+        System.out.println(digit.inWords(0L));
+        //três zero
+        System.out.println(digit.inWords(30L));
+        //dois três zero
+        System.out.println(digit.inWords(230L));
+        //um zero três zero
+        System.out.println(digit.inWords(1030L));
     }
 }

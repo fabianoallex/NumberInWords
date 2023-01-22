@@ -255,7 +255,7 @@ class TimeInPortugueseTest {
         testCases.put(LocalTime.of(13, 30), "treze horas e trinta minutos");
 
         TimeInWords dateInWords1 = new TimeInPortuguese.Builder()
-                .withHalfTo30Minutes()
+                .withHalfFor30Minutes()
                 .build();
 
         testCases.forEach((time, expectedResult) ->
@@ -273,7 +273,7 @@ class TimeInPortugueseTest {
         testCases.put(LocalTime.of(13, 30), "treze e trinta");
 
         TimeInWords dateInWords2 = new TimeInPortuguese.Builder()
-                .withHalfTo30Minutes()
+                .withHalfFor30Minutes()
                 .withInformalPronuntiation()
                 .build();
 
@@ -292,7 +292,7 @@ class TimeInPortugueseTest {
         testCases.put(LocalTime.of(13, 30), "treze horas e trinta minutos");
 
         TimeInWords dateInWords3 = new TimeInPortuguese.Builder()
-                .withHalfTo30Minutes()
+                .withHalfFor30Minutes()
                 .withMiddayAndMidnightPronuntiation()
                 .build();
 

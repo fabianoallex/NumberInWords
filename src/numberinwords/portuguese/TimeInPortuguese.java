@@ -9,7 +9,7 @@ public class TimeInPortuguese implements TimeInWords {
     private final boolean use12HoursFormat;
     private final boolean useInformalPronuntiation;
     private final boolean useMiddayAndMidnightPronuntiation;
-    private final boolean useHalfTo30Minutes;
+    private final boolean useHalfFor30Minutes;
     private final boolean useMinutesToHourPronuntiation;
     private final boolean usePeriodPronuntiation;
 
@@ -18,7 +18,7 @@ public class TimeInPortuguese implements TimeInWords {
         this.use12HoursFormat = builder.isUsing12HoursFormat();
         this.useInformalPronuntiation = builder.isUsingInformalPronuntiation();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
-        this.useHalfTo30Minutes = builder.useHalfTo30Minutes;
+        this.useHalfFor30Minutes = builder.useHalfFor30Minutes;
         this.useMinutesToHourPronuntiation = builder.isUsingMinutesToHourPronuntiation();
         this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
     }
@@ -41,24 +41,25 @@ public class TimeInPortuguese implements TimeInWords {
                 period.inWords();
     }
 
-    private boolean ifDoNotUseUnit(LocalTime localTime) {
-        return localTime.getMinute() != 0 &&
-                this.useInformalPronuntiation &&
-                (useMiddayAndMidnightPronuntiation || new Hour(localTime).hourFor12or24Format() != 0);
+    protected boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
+        return useMinutesToHourPronuntiation && localTime.getMinute() >= 40;
     }
 
-    private boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
-        return this.useMinutesToHourPronuntiation && localTime.getMinute() >= 40;
-    }
-
-    private abstract static class PartOfTime {
+    private abstract class PartOfTime {
         protected final LocalTime localTime;
+
+        public abstract String inWords();
 
         protected PartOfTime(LocalTime localTime) {
             this.localTime = localTime;
         }
 
-        public abstract String inWords();
+        protected boolean checkUnitNeedToBeUsed(LocalTime localTime) {
+            return (localTime.getMinute() == 0 ||
+                    !useInformalPronuntiation ||
+                    (!useMiddayAndMidnightPronuntiation && new Hour(localTime).hourFor12or24Format() == 0));
+
+        }
     }
 
     private class Hour extends PartOfTime {
@@ -82,10 +83,10 @@ public class TimeInPortuguese implements TimeInWords {
         }
 
         private String getUnit() {
-            if (ifDoNotUseUnit(localTime))
-                return "";
+            if (checkUnitNeedToBeUsed(localTime))
+                return this.hourToPronuntiate() < 2 ? " hora" : " horas";
 
-            return this.hourToPronuntiate() < 2 ? " hora" : " horas";
+            return "";
         }
 
         private String inWordsForMiddayAndMidnightPronuntiation() {
@@ -138,7 +139,7 @@ public class TimeInPortuguese implements TimeInWords {
 
             long hour = new Hour(localTime).hourFor12or24Format();
 
-            if (minute == 30 && useHalfTo30Minutes && hour <= 12)
+            if (minute == 30 && useHalfFor30Minutes && hour <= 12)
                 return " e meia";
 
             return " e " + NumberInWordsFactory.createCardinalBuilderChooser()
@@ -164,10 +165,10 @@ public class TimeInPortuguese implements TimeInWords {
         }
 
         private String getUnit() {
-            if (ifDoNotUseUnit(localTime))
-                return "";
+            if (checkUnitNeedToBeUsed(localTime))
+                return this.minuteToPronuntiate() < 2 ? " minuto" : " minutos";
 
-            return this.minuteToPronuntiate() < 2 ? " minuto" : " minutos";
+            return "";
         }
 
         private String getPreposition() {
@@ -233,14 +234,14 @@ public class TimeInPortuguese implements TimeInWords {
     }
 
     public static class Builder extends TimeInWords.Builder<Builder> {
-        private boolean useHalfTo30Minutes = false;
+        private boolean useHalfFor30Minutes = false;
 
-        public Builder withHalfTo30Minutes() {
-            return this.withHalfTo30Minutes(true);
+        public Builder withHalfFor30Minutes() {
+            return this.withHalfFor30Minutes(true);
         }
 
-        public Builder withHalfTo30Minutes(boolean useHalfTo30Minutes) {
-            this.useHalfTo30Minutes = useHalfTo30Minutes;
+        public Builder withHalfFor30Minutes(boolean useHalfFor30Minutes) {
+            this.useHalfFor30Minutes = useHalfFor30Minutes;
             return getThis();
         }
 

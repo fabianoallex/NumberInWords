@@ -337,7 +337,7 @@ public class Main {
 
         var timeInPortuguese = NumberInWordsFactory.createTimeBuilderChooser()
                 .forPortugueseLanguage()
-                .withHalfTo30Minutes()
+                .withHalfFor30Minutes()
                 .withMiddayAndMidnightPronuntiation()
                 .withMinuteToHourPronuntiation()
                 .with12HoursFormat()

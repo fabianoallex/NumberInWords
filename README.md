@@ -59,7 +59,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando pronuncia de dígitos
 
 ````java
-        var digit = new CardinalInPortuguese.Builder()
+        var digit = NumberInWordsFactory.createCardinalBuilderChooser()
             .withDigitPronuntiation()
             .build();
 
@@ -106,7 +106,7 @@ A biblioteca oferece configurações especiais para cada tipo de conversão, com
 ### Usando pronúncia de dígitos
 
 ````java
-        var digit = new CardinalInEnglish.Builder()
+        var digit = NumberInWordsFactory.createCardinalBuilderChooser()
             .withDigitPronuntiation()
             .build();
 

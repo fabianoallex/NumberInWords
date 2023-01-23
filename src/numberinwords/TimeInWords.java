@@ -3,13 +3,20 @@ package numberinwords;
 import java.time.LocalTime;
 
 public interface TimeInWords extends NumberInWords<LocalTime>{
+    abstract class PartOfTime {
+        protected final LocalTime localTime;
+
+        public abstract String inWords();
+
+        protected PartOfTime(LocalTime localTime) {
+            this.localTime = localTime;
+        }
+    }
 
     abstract class Builder<T extends Builder<T>> {
         protected boolean useSeconds = false;
         protected boolean usePeriodPronuntiation = false;
         protected boolean useMiddayAndMidnightPronuntiation = false;
-
-
 
         protected abstract T getThis();
         public abstract TimeInWords build();

@@ -6,12 +6,13 @@ import java.time.LocalTime;
 
 public class TimeInPortuguese implements TimeInWords {
     private final boolean useSeconds;
+    private final boolean useMiddayAndMidnightPronuntiation;
+    private final boolean usePeriodPronuntiation;
     private final boolean use12HoursFormat;
     private final boolean useInformalPronuntiation;
-    private final boolean useMiddayAndMidnightPronuntiation;
     private final boolean useHalfFor30Minutes;
     private final boolean useMinutesToHourPronuntiation;
-    private final boolean usePeriodPronuntiation;
+
 
     public TimeInPortuguese(Builder builder) {
         this.useSeconds = builder.isUsingSeconds();
@@ -56,13 +57,9 @@ public class TimeInPortuguese implements TimeInWords {
         return new Period(localTime);
     }
 
-    private abstract class PartOfTime {
-        protected final LocalTime localTime;
-
-        public abstract String inWords();
-
+    private abstract class PartOfTime extends TimeInWords.PartOfTime {
         protected PartOfTime(LocalTime localTime) {
-            this.localTime = localTime;
+            super(localTime);
         }
 
         protected boolean checkUnitNeedToBeUsed(LocalTime localTime) {
@@ -80,10 +77,10 @@ public class TimeInPortuguese implements TimeInWords {
 
         @Override
         public String inWords() {
-            String middayAndMidnight = this.inWordsForMiddayAndMidnightPronuntiation();
+            String middayMidnightAndNoon = this.inWordsForMiddayMidnightAndNoonPronuntiation();
 
-            if (!middayAndMidnight.isEmpty())
-                return middayAndMidnight;
+            if (!middayMidnightAndNoon.isEmpty())
+                return middayMidnightAndNoon;
 
             return NumberInWordsFactory.createCardinalBuilderChooser()
                         .forPortugueseLanguage()
@@ -100,7 +97,7 @@ public class TimeInPortuguese implements TimeInWords {
             return "";
         }
 
-        private String inWordsForMiddayAndMidnightPronuntiation() {
+        private String inWordsForMiddayMidnightAndNoonPronuntiation() {
             if (useMiddayAndMidnightPronuntiation) {
                 if ( canUseMinutesToHourPronunciation(localTime)) {
                     if (localTime.getHour()+1 == 24) return "meia-noite";

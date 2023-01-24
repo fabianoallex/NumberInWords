@@ -111,7 +111,8 @@ public class TimeInEnglish implements TimeInWords {
             return "";
         }
 
-        private String getUnit() {
+        @Override
+        protected String getUnit() {
             if (localTime.getMinute() == 0)
                 return " hundred hours";
 
@@ -134,15 +135,15 @@ public class TimeInEnglish implements TimeInWords {
             return NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
-                    .inWords(this.hourToBePronuntiate()) + this.getUnit();
+                    .inWords(this.hourToBePronunced()) + this.getUnit();
         }
 
-        private String getUnit() {
+        protected String getUnit() {
             if (usingOClock())
                 return " o'clock";
 
             if (usingUnit())
-                return this.hourToBePronuntiate() < 2 ? " hour" : " hours";
+                return this.hourToBePronunced() < 2 ? " hour" : " hours";
 
             return "";
         }
@@ -180,7 +181,7 @@ public class TimeInEnglish implements TimeInWords {
             return "";
         }
 
-        public long hourToBePronuntiate() {
+        public long hourToBePronunced() {
             long hour = hourFor12or24Format();
 
             if (new Minute(localTime).usingTo())
@@ -217,7 +218,7 @@ public class TimeInEnglish implements TimeInWords {
             return " " + zero + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
-                    .inWords(new Minute(localTime).minuteToBePronuntiate());
+                    .inWords(new Minute(localTime).minuteToBePronunced());
         }
     }
 
@@ -240,7 +241,7 @@ public class TimeInEnglish implements TimeInWords {
             return " " + getOh() + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
-                    .inWords(new Minute(localTime).minuteToBePronuntiate()) + this.getUnit();
+                    .inWords(new Minute(localTime).minuteToBePronunced()) + this.getUnit();
         }
 
         private String getOh() {
@@ -261,7 +262,7 @@ public class TimeInEnglish implements TimeInWords {
                 result = NumberInWordsFactory.createCardinalBuilderChooser()
                         .forEnglishLanguage()
                         .build()
-                        .inWords(minuteToBePronuntiate());
+                        .inWords(minuteToBePronunced());
 
             return result + (useAfterWordForPast ? " after " : " past ");
         }
@@ -275,19 +276,19 @@ public class TimeInEnglish implements TimeInWords {
                 result = NumberInWordsFactory.createCardinalBuilderChooser()
                         .forEnglishLanguage()
                         .build()
-                        .inWords(minuteToBePronuntiate());
+                        .inWords(minuteToBePronunced());
 
             return result + (useUntilWordForTo ? " until " : " to ");
         }
 
         private String getUnit() {
             if (usingUnit())
-                return this.minuteToBePronuntiate() < 2 ? " minute" : " minutes";
+                return this.minuteToBePronunced() < 2 ? " minute" : " minutes";
 
             return "";
         }
 
-        public long minuteToBePronuntiate() {
+        public long minuteToBePronunced() {
             if (usingTo())
                 return 60 - localTime.getMinute();
 

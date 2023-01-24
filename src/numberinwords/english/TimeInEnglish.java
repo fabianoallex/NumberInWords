@@ -378,7 +378,7 @@ public class TimeInEnglish implements TimeInWords {
 
         @Override
         public String inWords() {
-            if (!useAmPm)
+            if (!useAmPm || useMilitaryFormat || localTime.getHour() == 0)
                 return "";
 
             var hour = new Hour(localTime);
@@ -400,7 +400,7 @@ public class TimeInEnglish implements TimeInWords {
 
         @Override
         public String inWords() {
-            if (!usePeriodPronuntiation)
+            if (!usePeriodPronuntiation || useMilitaryFormat)
                 return "";
 
             int hour = (localTime.getHour() + (new Minute(localTime).usingMinutesTo() ? 1 : 0)) % 24;
@@ -428,102 +428,102 @@ public class TimeInEnglish implements TimeInWords {
         private boolean useAfterWordForPast = false;
         private boolean useUntilWordForTo = false;
 
-        protected Builder withUntilWordForTo(boolean useUntilWordForTo) {
+        public Builder withUntilWordForTo(boolean useUntilWordForTo) {
             this.useUntilWordForTo = useUntilWordForTo;
             return getThis();
         }
 
-        protected Builder withUntilWordForTo() {
+        public Builder withUntilWordForTo() {
             return this.withUntilWordForTo(true);
         }
 
-        protected Builder withAfterWordForPast(boolean useAfterWordForPast) {
+        public Builder withAfterWordForPast(boolean useAfterWordForPast) {
             this.useAfterWordForPast = useAfterWordForPast;
             return getThis();
         }
 
-        protected Builder withAfterWordForPast() {
+        public Builder withAfterWordForPast() {
             return this.withAfterWordForPast(true);
         }
 
-        protected Builder withOh() {
+        public Builder withOh() {
             return this.withOh(true);
         }
 
-        protected Builder withOh(boolean useOhForMinutes) {
+        public Builder withOh(boolean useOhForMinutes) {
             this.useOhForMinutes = useOhForMinutes;
             return getThis();
         }
 
-        protected Builder withPastAndToHours() {
+        public Builder withPastAndToHours() {
             return this.withPastAndToHours(true);
         }
 
-        protected Builder withPastAndToHours(boolean usePastAndToHours) {
+        public Builder withPastAndToHours(boolean usePastAndToHours) {
             this.usePastAndToHours = usePastAndToHours;
             return getThis();
         }
 
-        protected Builder withMilitaryFormat(boolean useMilitaryFormat) {
+        public Builder withMilitaryFormat(boolean useMilitaryFormat) {
             this.useMilitaryFormat = useMilitaryFormat;
             return getThis();
         }
 
-        protected Builder withMilitaryFormat() {
+        public Builder withMilitaryFormat() {
             return this.withMilitaryFormat(true);
         }
 
-        protected Builder withAmPm(boolean useAmPm) {
+        public Builder withAmPm(boolean useAmPm) {
             this.useAmPm = useAmPm;
             return getThis();
         }
 
-        protected Builder withAmPm() {
+        public Builder withAmPm() {
             return withAmPm(true);
         }
 
-        protected Builder withNoon(boolean useNoon) {
+        public Builder withNoon(boolean useNoon) {
             this.useNoon = useNoon;
             return getThis();
         }
 
-        protected Builder withNoon() {
+        public Builder withNoon() {
             return this.withNoon(true);
         }
 
-        protected Builder with24HoursFormat(boolean use24HoursFormat) {
+        public Builder with24HoursFormat(boolean use24HoursFormat) {
             this.use24HoursFormat = use24HoursFormat;
             return getThis();
         }
 
-        protected Builder with24HoursFormat() {
+        public Builder with24HoursFormat() {
             return this.with24HoursFormat(true);
         }
 
-        protected Builder withUnits(boolean useUnits) {
+        public Builder withUnits(boolean useUnits) {
             this.useUnits = useUnits;
             return getThis();
         }
 
-        protected Builder withUnits() {
+        public Builder withUnits() {
             return this.withUnits(true);
         }
 
-        protected Builder withOClock(boolean useOClock) {
+        public Builder withOClock(boolean useOClock) {
             this.useOClock = useOClock;
             return getThis();
         }
 
-        protected Builder withOClock() {
+        public Builder withOClock() {
             return this.withOClock(true);
         }
 
-        protected Builder withQuarterAndHalf(boolean useQuarterAndHalf) {
+        public Builder withQuarterAndHalf(boolean useQuarterAndHalf) {
             this.useQuarterAndHalf = useQuarterAndHalf;
             return getThis();
         }
 
-        protected Builder withQuarterAndHalf() {
+        public Builder withQuarterAndHalf() {
             return withQuarterAndHalf(true);
         }
 

@@ -4,9 +4,14 @@ import numberinwords.portuguese.CardinalInPortuguese;
 import numberinwords.portuguese.OrdinalInPortuguese;
 import numberinwords.roman.NumberInRoman;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.*;
+import java.util.function.Consumer;
 
 import static java.lang.String.join;
 
@@ -369,5 +374,84 @@ public class Main {
         System.out.println(digit.inWords(955L));
         //five zero two two
         System.out.println(digit.inWords(5022L));
+
+
+
+        LocalTime localTime = LocalTime.of(13, 0);
+        Map<LocalTime, Set<String>> map = new LinkedHashMap<>();
+
+        do {
+            LocalTime finalLocalTime = localTime;
+
+            Set<String> values = new HashSet<>();
+
+            permutation(13, (boolean[] options) -> {
+                var timeInEnglish = NumberInWordsFactory.createTimeBuilderChooser()
+                        .forEnglishLanguage()
+                        .withUntilWordForTo(options[0])
+                        .withAfterWordForPast(options[1])
+                        .withOh(options[2])
+                        .withPastAndToHours(options[3])
+                        .withMilitaryFormat(options[4])
+                        .withAmPm(options[5])
+                        .withNoon(options[6])
+                        .with24HoursFormat(options[7])
+                        .withUnits(options[8])
+                        .withOClock(options[9])
+                        .withQuarterAndHalf(options[10])
+                        .withPeriodPronuntiation(options[11])
+                        .withMiddayAndMidnightPronuntiation(options[12])
+                        .build();
+                    values.add(timeInEnglish.inWords(finalLocalTime));
+            });
+
+            map.put(finalLocalTime, values);
+
+            localTime = localTime.plus(Duration.ofMinutes(1));
+
+        } while (localTime.getHour() != 13 || localTime.getMinute() != 30);
+
+
+        try {
+            FileWriter writer = new FileWriter("c:\\trabalho\\time.txt");
+            writer.write(localTime.toString() + "\n");
+
+            map.forEach((localTime1, strings) -> {
+                try {
+                    writer.write(localTime1.toString() + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                strings.forEach(s1 -> {
+                    try {
+                        writer.write("\t\t" + s1 + "\n");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            });
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void permutation(int size, Consumer<boolean[]> callback) {
+        boolean[] array = new boolean[size];
+        permutationHelper(array, 0, callback);
+    }
+
+    private static void permutationHelper(boolean[] array, int index, Consumer<boolean[]> callback) {
+        if (index == array.length) {
+            callback.accept(array);
+            return;
+        }
+        array[index] = false;
+        permutationHelper(array, index + 1, callback);
+        array[index] = true;
+        permutationHelper(array, index + 1, callback);
     }
 }

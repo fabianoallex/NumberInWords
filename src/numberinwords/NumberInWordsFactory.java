@@ -3,6 +3,7 @@ package numberinwords;
 import numberinwords.english.CardinalInEnglish;
 import numberinwords.english.DateInEnglish;
 import numberinwords.english.OrdinalInEnglish;
+import numberinwords.english.TimeInEnglish;
 import numberinwords.portuguese.*;
 import numberinwords.spanish.CardinalInSpanish;
 
@@ -47,6 +48,10 @@ public class NumberInWordsFactory {
     public static class TimeBuilderChooser {
         public TimeInPortuguese.Builder forPortugueseLanguage() {
             return new TimeInPortuguese.Builder();
+        }
+
+        public TimeInEnglish.Builder forEnglishLanguage() {
+            return new TimeInEnglish.Builder();
         }
     }
 

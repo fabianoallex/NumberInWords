@@ -86,13 +86,13 @@ public class TimeInPortuguese implements TimeInWords {
                         .forPortugueseLanguage()
                         .withFemaleGender()
                         .build()
-                        .inWords(this.hourToPronuntiate())
+                        .inWords(this.hourToBePronunced())
                             + this.getUnit();
         }
 
         private String getUnit() {
             if (checkUnitNeedToBeUsed(localTime))
-                return this.hourToPronuntiate() < 2 ? " hora" : " horas";
+                return this.hourToBePronunced() < 2 ? " hora" : " horas";
 
             return "";
         }
@@ -111,7 +111,7 @@ public class TimeInPortuguese implements TimeInWords {
             return "";
         }
 
-        public long hourToPronuntiate() {
+        public long hourToBePronunced() {
             long hour = hourFor12or24Format();
 
             if (canUseMinutesToHourPronunciation(localTime))
@@ -143,7 +143,7 @@ public class TimeInPortuguese implements TimeInWords {
             if (canUseMinutesToHourPronunciation(localTime))
                 return inWordsForMinutesToHourPronuntiation();
 
-            long minute = this.minuteToPronuntiate();
+            long minute = this.minuteToBePronunced();
 
             if (minute == 30 && useHalfFor30Minutes && hourOf(localTime).hourFor12or24Format() <= 12)
                 return " e meia";
@@ -160,10 +160,10 @@ public class TimeInPortuguese implements TimeInWords {
                         .forPortugueseLanguage()
                         .withMaleGender()
                         .build()
-                        .inWords(minuteToPronuntiate()) + this.getUnit() + getPreposition();
+                        .inWords(minuteToBePronunced()) + this.getUnit() + getPreposition();
         }
 
-        public long minuteToPronuntiate() {
+        public long minuteToBePronunced() {
             if (canUseMinutesToHourPronunciation(localTime))
                 return 60 - localTime.getMinute();
 
@@ -172,7 +172,7 @@ public class TimeInPortuguese implements TimeInWords {
 
         private String getUnit() {
             if (checkUnitNeedToBeUsed(localTime))
-                return this.minuteToPronuntiate() < 2 ? " minuto" : " minutos";
+                return this.minuteToBePronunced() < 2 ? " minuto" : " minutos";
 
             return "";
         }
@@ -186,7 +186,7 @@ public class TimeInPortuguese implements TimeInWords {
                 preposition = "";
             else if (hour.inWords().equals("meio-dia"))
                 preposition = "o ";
-            else if (hour.hourToPronuntiate() < 2)
+            else if (hour.hourToBePronunced() < 2)
                 preposition = "";
 
             return " para " + preposition;

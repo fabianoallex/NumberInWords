@@ -34,15 +34,68 @@ class TimeInEnglishTest {
     void inWordsWithQuarterAndHalf() {
         Map<LocalTime, String> testCases = new HashMap<>();
         testCases.put(LocalTime.of(0, 0), "zero");
-        testCases.put(LocalTime.of(0, 15), "zero one");
-        testCases.put(LocalTime.of(0, 2), "zero two");
-        testCases.put(LocalTime.of(10, 20), "ten twenty");
-        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
-        testCases.put(LocalTime.of(12, 0), "twelve");
+        testCases.put(LocalTime.of(0, 15), "a quarter past zero");
+        testCases.put(LocalTime.of(7, 45), "a quarter to eight");
+        testCases.put(LocalTime.of(12, 5), "twelve five");
+        testCases.put(LocalTime.of(12, 15), "a quarter past twelve");
+        testCases.put(LocalTime.of(12, 30), "half past twelve");
+        testCases.put(LocalTime.of(12, 35), "twelve thirty-five");
+        testCases.put(LocalTime.of(12, 45), "a quarter to one");
+        testCases.put(LocalTime.of(12, 55), "twelve fifty-five");
         testCases.put(LocalTime.of(13, 0), "one");
-        testCases.put(LocalTime.of(13, 58), "one fifty-eight");
 
         TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withQuarterAndHalf()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords.inWords(time),
+                        "retorno não esperado para a data " + time));
+    }
+
+    @Test
+    void inWordsWithPastAndToHours() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 0), "zero");
+        testCases.put(LocalTime.of(0, 15), "fifteen past zero");
+        testCases.put(LocalTime.of(7, 45), "fifteen to eight");
+        testCases.put(LocalTime.of(12, 5), "five past twelve");
+        testCases.put(LocalTime.of(12, 15), "fifteen past twelve");
+        testCases.put(LocalTime.of(12, 30), "thirty past twelve");
+        testCases.put(LocalTime.of(12, 35), "twenty-five to one");
+        testCases.put(LocalTime.of(12, 45), "fifteen to one");
+        testCases.put(LocalTime.of(12, 55), "five to one");
+        testCases.put(LocalTime.of(13, 0), "one");
+
+        TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withPastAndToHours()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords.inWords(time),
+                        "retorno não esperado para a data " + time));
+    }
+
+    @Test
+    void inWordsWithPastAndToHoursAndQuarterAndHalf() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 0), "zero");
+        testCases.put(LocalTime.of(0, 15), "a quarter past zero");
+        testCases.put(LocalTime.of(7, 45), "a quarter to eight");
+        testCases.put(LocalTime.of(12, 5), "five past twelve");
+        testCases.put(LocalTime.of(12, 15), "a quarter past twelve");
+        testCases.put(LocalTime.of(12, 30), "half past twelve");
+        testCases.put(LocalTime.of(12, 35), "twenty-five to one");
+        testCases.put(LocalTime.of(12, 45), "a quarter to one");
+        testCases.put(LocalTime.of(12, 55), "five to one");
+        testCases.put(LocalTime.of(13, 0), "one");
+
+        TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withPastAndToHours()
                 .withQuarterAndHalf()
                 .build();
 

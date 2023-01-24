@@ -9,8 +9,8 @@ public class TimeInEnglish implements TimeInWords {
     private final boolean useMiddayAndMidnightPronuntiation;
     private final boolean usePeriodPronuntiation;
     private final boolean useQuarterAndHalf;
-    private final boolean useMinutesToAndPastHour = false;
-    private final int minutesLimitToAndPastHour = 29;
+    private final boolean usePastAndToHours;
+    private static final int minutesLimitForUsingPastAndTo = 30;
     private final boolean useOClock;
     private final boolean useUnits;
     private final boolean use24HoursFormat;
@@ -19,10 +19,10 @@ public class TimeInEnglish implements TimeInWords {
     private final boolean useMilitarFormat;
 
     private  TimeInEnglish(Builder builder) {
-        //this.useMinutesToAndPastHour = builder.
         this.useSeconds = builder.isUsingSeconds();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
         this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
+        this.usePastAndToHours = builder.usePastAndToHours;
         this.useQuarterAndHalf = builder.useQuarterAndHalf;
         this.useOClock = builder.useOClock;
         this.useUnits = builder.useUnits;
@@ -142,7 +142,7 @@ public class TimeInEnglish implements TimeInWords {
         public long hourToPronuntiate() {
             long hour = hourFor12or24Format();
 
-            if (minuteOf(localTime).canUseMinutesToPronunciation())
+            if (minuteOf(localTime).usingTo())
                 hour++;
 
             long maxHour = use24HoursFormat ? 23 : 12;
@@ -168,16 +168,46 @@ public class TimeInEnglish implements TimeInWords {
             if (localTime.getMinute() == 0)
                 return "";
 
-            if (canUseMinutesToPronunciation())
-                return inWordsForMinutesToHourPronuntiation();
+            if (usingTo())
+                return inWordsForTo();
 
-            if (canUseMinutesPastPronunciation())
-                return inWordsForMinutesPastHourPronuntiation();
+            if (usingPast())
+                return inWordsForPast();
 
             return this.calcBeforMinute() + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
                     .inWords(minuteOf(localTime).minuteToPronuntiate()) + this.getUnit();
+        }
+
+        private String inWordsForPast() {
+            String result = "";
+
+            if (usingQuarter() && localTime.getMinute() == 15)
+                result = "a quarter";
+            else if (usingHalf() && localTime.getMinute() == 30)
+                result = "half";
+            else
+                result = NumberInWordsFactory.createCardinalBuilderChooser()
+                        .forEnglishLanguage()
+                        .build()
+                        .inWords(minuteToPronuntiate());
+
+            return result + " past ";
+        }
+
+        private String inWordsForTo() {
+            String result = "";
+
+            if (usingQuarter() && localTime.getMinute() == 45)
+                result = "a quarter";
+            else
+                result = NumberInWordsFactory.createCardinalBuilderChooser()
+                        .forEnglishLanguage()
+                        .build()
+                        .inWords(minuteToPronuntiate());
+
+            return result + " to ";
         }
 
         private String calcBeforMinute() {
@@ -192,30 +222,57 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         public long minuteToPronuntiate() {
-            if (canUseMinutesToPronunciation())
+            if (usingTo())
                 return 60 - localTime.getMinute();
 
             return localTime.getMinute();
         }
 
-        private String inWordsForMinutesPastHourPronuntiation() {
-            return "implementar inWordsForMinutesPastHourPronuntiation";
+        private boolean usingPast() {
+            if (localTime.getMinute() == 0)
+                return false;
+
+            if (usePastAndToHours && localTime.getMinute() <= minutesLimitForUsingPastAndTo)
+                return true;
+
+            return useQuarterAndHalf && localTime.getMinute() % 15 == 0;
         }
 
-        private String inWordsForMinutesToHourPronuntiation() {
-            return "implementar inWordsForMinutesToHourPronuntiation";
+        private boolean usingTo() {
+            if (localTime.getMinute() == 0)
+                return false;
+
+            if (usePastAndToHours && localTime.getMinute() >= 60 - Math.min(minutesLimitForUsingPastAndTo, 29))
+                return true;
+
+            return useQuarterAndHalf && localTime.getMinute() == 45;
+        }
+
+        private boolean usingHalf() {
+            return useQuarterAndHalf && localTime.getMinute() == 30;
+        }
+
+        private boolean usingQuarter() {
+            if (useQuarterAndHalf && localTime.getMinute() == 15)
+                return true;
+
+            return useQuarterAndHalf && localTime.getMinute() == 45;
+        }
+
+        public boolean usingMinutesTo() {
+            return usingTo() && !usingHalf() && !usingQuarter();
+        }
+
+        public boolean usingMinutesPast() {
+            return usingPast() && !usingHalf() && !usingQuarter();
         }
 
         private boolean canUseMinutesToPronunciation() {
-            return (useMinutesToAndPastHour) && localTime.getMinute() >= 60 - minutesLimitToAndPastHour;
+            return (usePastAndToHours) && localTime.getMinute() >= 60 - Math.min(minutesLimitForUsingPastAndTo, 29);
         }
 
         private boolean canUseMinutesPastPronunciation() {
-            return useMinutesToAndPastHour && localTime.getMinute() <= minutesLimitToAndPastHour;
-        }
-
-        private boolean canUseHalf() {
-            return useQuarterAndHalf && localTime.getMinute() == 30;
+            return usePastAndToHours && localTime.getMinute() <= minutesLimitForUsingPastAndTo;
         }
 
         private boolean canUseQuarterOrHalf() {
@@ -291,6 +348,7 @@ public class TimeInEnglish implements TimeInWords {
     }
 
     public static class Builder extends TimeInWords.Builder<Builder> {
+        public boolean usePastAndToHours = false;
         private boolean useQuarterAndHalf = false;
         private boolean useOClock = false;
         private boolean useUnits = false;
@@ -298,6 +356,15 @@ public class TimeInEnglish implements TimeInWords {
         private boolean useNoon = false;
         private boolean useAmPm = false;
         private boolean useMilitarFormat = false;
+
+        protected Builder withPastAndToHours() {
+            return this.withPastAndToHours(true);
+        }
+
+        protected Builder withPastAndToHours(boolean usePastAndToHours) {
+            this.usePastAndToHours = usePastAndToHours;
+            return getThis();
+        }
 
         protected Builder withMilitarFormat(boolean useMilitarFormat) {
             this.useMilitarFormat = useMilitarFormat;

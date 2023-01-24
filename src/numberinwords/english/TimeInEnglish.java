@@ -5,23 +5,27 @@ import numberinwords.TimeInWords;
 import java.time.LocalTime;
 
 public class TimeInEnglish implements TimeInWords {
+    private static final int minutesLimitForUsingPastAndTo = 30;
     private final boolean useSeconds;
     private final boolean useMiddayAndMidnightPronuntiation;
     private final boolean usePeriodPronuntiation;
+    private final boolean useAmPm;
     private final boolean useQuarterAndHalf;
     private final boolean usePastAndToHours;
-    private static final int minutesLimitForUsingPastAndTo = 30;
     private final boolean useOClock;
     private final boolean useUnits;
     private final boolean use24HoursFormat;
     private final boolean useNoon;
-    private final boolean useAmPm;
-    private final boolean useMilitarFormat;
+    private final boolean useOh;
+    private final boolean useMilitaryFormat;
+    private final boolean useAfterWordForPast;
+    private final boolean useUntilWordForTo;
 
     private  TimeInEnglish(Builder builder) {
         this.useSeconds = builder.isUsingSeconds();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
         this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
+        this.useOh = builder.useOhForMinutes;
         this.usePastAndToHours = builder.usePastAndToHours;
         this.useQuarterAndHalf = builder.useQuarterAndHalf;
         this.useOClock = builder.useOClock;
@@ -29,7 +33,9 @@ public class TimeInEnglish implements TimeInWords {
         this.use24HoursFormat = builder.use24HoursFormat;
         this.useNoon = builder.useNoon;
         this.useAmPm = builder.useAmPm;
-        this.useMilitarFormat = builder.useMilitarFormat;
+        this.useMilitaryFormat = builder.useMilitaryFormat;
+        this.useAfterWordForPast = builder.useAfterWordForPast;
+        this.useUntilWordForTo = builder.useUntilWordForTo;
     }
 
     @Override
@@ -71,7 +77,7 @@ public class TimeInEnglish implements TimeInWords {
             super(localTime);
         }
 
-        protected boolean checkUnitNeedToBeUsed(LocalTime localTime) {
+        protected boolean usingUnit() {
             if (useMiddayAndMidnightPronuntiation && hourOf(localTime).hourFor12or24Format() == 0)
                 return false;
 
@@ -86,6 +92,9 @@ public class TimeInEnglish implements TimeInWords {
 
         @Override
         public String inWords() {
+            if (useMilitaryFormat)
+                return inWordForMilitaryFormat();
+
             String middayAndMidnight = this.inWordsForMiddayMidnightAndNoonPronuntiation();
 
             if (!middayAndMidnight.isEmpty())
@@ -97,17 +106,36 @@ public class TimeInEnglish implements TimeInWords {
                     .inWords(this.hourToPronuntiate()) + this.getUnit();
         }
 
+        private String inWordForMilitaryFormat() {
+            if (this.hourToPronuntiate() == 0)
+                return (useOh ? "oh oh" : "zero zero") + this.getUnit();
+
+            String zero = "";
+
+            if (this.hourToPronuntiate() < 10)
+                zero = useOh ? "oh " : "zero ";
+
+            return zero + NumberInWordsFactory.createCardinalBuilderChooser()
+                    .forEnglishLanguage()
+                    .build()
+                    .inWords(this.hourToPronuntiate()) + this.getUnit();
+        }
+
         private String getUnit() {
-            if (canUseOClock())
+            if (useMilitaryFormat)
+                if (localTime.getMinute() == 0)
+                    return " hundred hours";
+
+            if (usingOClock())
                 return " o'clock";
 
-            if (checkUnitNeedToBeUsed(localTime))
+            if (usingUnit())
                 return this.hourToPronuntiate() < 2 ? " hour" : " hours";
 
             return "";
         }
 
-        private boolean canUseOClock() {
+        private boolean usingOClock() {
             if (!useOClock)
                 return false;
 
@@ -140,6 +168,9 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         public long hourToPronuntiate() {
+            if (useMilitaryFormat)
+                return localTime.getHour();
+
             long hour = hourFor12or24Format();
 
             if (minuteOf(localTime).usingTo())
@@ -168,16 +199,38 @@ public class TimeInEnglish implements TimeInWords {
             if (localTime.getMinute() == 0)
                 return "";
 
+            if (useMilitaryFormat)
+                return inWordForMilitaryFormat();
+
             if (usingTo())
                 return inWordsForTo();
 
             if (usingPast())
                 return inWordsForPast();
 
-            return this.calcBeforMinute() + NumberInWordsFactory.createCardinalBuilderChooser()
+            return " " + getOh() + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
                     .inWords(minuteOf(localTime).minuteToPronuntiate()) + this.getUnit();
+        }
+
+        private String inWordForMilitaryFormat() {
+            String zero = "";
+
+            if (localTime.getMinute() < 10)
+                zero = useOh ? "oh " : "zero ";
+
+            return " " + zero + NumberInWordsFactory.createCardinalBuilderChooser()
+                    .forEnglishLanguage()
+                    .build()
+                    .inWords(minuteOf(localTime).minuteToPronuntiate());
+        }
+
+        private String getOh() {
+            if (useOh && localTime.getMinute() < 10)
+                return "oh ";
+
+            return "";
         }
 
         private String inWordsForPast() {
@@ -193,7 +246,7 @@ public class TimeInEnglish implements TimeInWords {
                         .build()
                         .inWords(minuteToPronuntiate());
 
-            return result + " past ";
+            return result + (useAfterWordForPast ? " after " : " past ");
         }
 
         private String inWordsForTo() {
@@ -207,15 +260,11 @@ public class TimeInEnglish implements TimeInWords {
                         .build()
                         .inWords(minuteToPronuntiate());
 
-            return result + " to ";
-        }
-
-        private String calcBeforMinute() {
-            return " ";
+            return result + (useUntilWordForTo ? " until " : " to ");
         }
 
         private String getUnit() {
-            if (checkUnitNeedToBeUsed(localTime))
+            if (usingUnit() && !useMilitaryFormat)
                 return this.minuteToPronuntiate() < 2 ? " minute" : " minutes";
 
             return "";
@@ -297,7 +346,9 @@ public class TimeInEnglish implements TimeInWords {
             if (!useSeconds || localTime.getSecond() == 0)
                 return "";
 
-            return " and " +
+            String oh = getOh();
+
+            return (oh.isEmpty() ? " and " : " " + oh) +
                     NumberInWordsFactory.createCardinalBuilderChooser()
                             .forEnglishLanguage()
                             .build()
@@ -305,7 +356,19 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         private String getUnit() {
-            return localTime.getSecond() < 2 ? " second" : " seconds";
+            String unit = localTime.getSecond() < 2 ? " second" : " seconds";
+
+            if (useUnits)
+                return unit;
+
+            return (getOh().isEmpty()) ? unit : "";
+        }
+
+        private String getOh() {
+            if (useOh && localTime.getSecond() < 10)
+                return "oh ";
+
+            return "";
         }
     }
 
@@ -316,6 +379,9 @@ public class TimeInEnglish implements TimeInWords {
 
         @Override
         public String inWords() {
+            if (useMilitaryFormat)
+                return "";
+
             if (useAmPm)
                 return getAmPm();
 
@@ -334,8 +400,8 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         private String getAmPm() {
-            if (!useAmPm)
-                return "";
+            if (useMilitaryFormat) return "";
+            if (!useAmPm) return "";
 
             if (!hourOf(localTime).inWordsForMiddayMidnightAndNoonPronuntiation().isEmpty())
                 return "";
@@ -355,7 +421,37 @@ public class TimeInEnglish implements TimeInWords {
         private boolean use24HoursFormat = false;
         private boolean useNoon = false;
         private boolean useAmPm = false;
-        private boolean useMilitarFormat = false;
+        private boolean useMilitaryFormat = false;
+        private boolean useOhForMinutes = false;
+        private boolean useAfterWordForPast = false;
+        private boolean useUntilWordForTo = false;
+
+        protected Builder withUntilWordForTo(boolean useUntilWordForTo) {
+            this.useUntilWordForTo = useUntilWordForTo;
+            return getThis();
+        }
+
+        protected Builder withUntilWordForTo() {
+            return this.withUntilWordForTo(true);
+        }
+
+        protected Builder withAfterWordForPast(boolean useAfterWordForPast) {
+            this.useAfterWordForPast = useAfterWordForPast;
+            return getThis();
+        }
+
+        protected Builder withAfterWordForPast() {
+            return this.withAfterWordForPast(true);
+        }
+
+        protected Builder withOh() {
+            return this.withOh(true);
+        }
+
+        protected Builder withOh(boolean useOhForMinutes) {
+            this.useOhForMinutes = useOhForMinutes;
+            return getThis();
+        }
 
         protected Builder withPastAndToHours() {
             return this.withPastAndToHours(true);
@@ -366,13 +462,13 @@ public class TimeInEnglish implements TimeInWords {
             return getThis();
         }
 
-        protected Builder withMilitarFormat(boolean useMilitarFormat) {
-            this.useMilitarFormat = useMilitarFormat;
+        protected Builder withMilitaryFormat(boolean useMilitaryFormat) {
+            this.useMilitaryFormat = useMilitaryFormat;
             return getThis();
         }
 
-        protected Builder withMilitarFormat() {
-            return this.withMilitarFormat(true);
+        protected Builder withMilitaryFormat() {
+            return this.withMilitaryFormat(true);
         }
 
         protected Builder withAmPm(boolean useAmPm) {

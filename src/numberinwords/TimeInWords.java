@@ -39,7 +39,7 @@ public interface TimeInWords extends NumberInWords<LocalTime>{
             return this.withMiddayAndMidnightPronuntiation(true);
         }
 
-        public T usingSeconds() {
+        public T withSeconds() {
             this.useSeconds = true;
             return getThis();
         }

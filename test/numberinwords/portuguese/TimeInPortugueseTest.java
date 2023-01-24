@@ -387,7 +387,7 @@ class TimeInPortugueseTest {
         testCases.put(LocalTime.of(0, 0, 59), "zero hora e cinquenta e nove segundos");
 
         TimeInWords dateInWords = new TimeInPortuguese.Builder()
-                .usingSeconds()
+                .withSeconds()
                 .build();
 
         testCases.forEach((time, expectedResult) ->
@@ -413,7 +413,7 @@ class TimeInPortugueseTest {
         testCases.put(LocalTime.of(0, 0, 59), "zero hora e cinquenta e nove segundos");
 
         TimeInWords dateInWords = new TimeInPortuguese.Builder()
-                .usingSeconds()
+                .withSeconds()
                 .with12HoursFormat()
                 .build();
 

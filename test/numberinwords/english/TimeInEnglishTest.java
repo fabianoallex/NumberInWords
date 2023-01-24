@@ -15,10 +15,10 @@ class TimeInEnglishTest {
         testCases.put(LocalTime.of(0, 1), "zero one");
         testCases.put(LocalTime.of(0, 2), "zero two");
         testCases.put(LocalTime.of(10, 20), "ten twenty");
-        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
         testCases.put(LocalTime.of(12, 0), "twelve");
         testCases.put(LocalTime.of(13, 0), "one");
         testCases.put(LocalTime.of(13, 58), "one fifty-eight");
+        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
 
         TimeInWords dateInWords = new TimeInEnglish.Builder()
                 .build();
@@ -27,7 +27,91 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
+    }
+
+    @Test
+    void inWordsWithMilitaryFormat() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 0), "zero zero hundred hours");
+        testCases.put(LocalTime.of(0, 1), "zero zero zero one");
+        testCases.put(LocalTime.of(0, 2), "zero zero zero two");
+        testCases.put(LocalTime.of(10, 20), "ten twenty");
+        testCases.put(LocalTime.of(12, 0), "twelve hundred hours");
+        testCases.put(LocalTime.of(13, 0), "thirteen hundred hours");
+        testCases.put(LocalTime.of(13, 58), "thirteen fifty-eight");
+        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
+
+        TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withMilitaryFormat()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords.inWords(time),
+                        "retorno não esperado para a hora " + time));
+
+        //teste 02
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 0), "oh oh hundred hours");
+        testCases.put(LocalTime.of(0, 1), "oh oh oh one");
+        testCases.put(LocalTime.of(0, 2), "oh oh oh two");
+        testCases.put(LocalTime.of(10, 20), "ten twenty");
+
+        TimeInWords dateInWords2 = new TimeInEnglish.Builder()
+                .withMilitaryFormat()
+                .withOh()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
+    }
+
+    @Test
+    void inWordsWithOhForMinutes() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 0), "zero");
+        testCases.put(LocalTime.of(0, 1), "zero oh one");
+        testCases.put(LocalTime.of(0, 2), "zero oh two");
+        testCases.put(LocalTime.of(10, 20), "ten twenty");
+        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
+        testCases.put(LocalTime.of(12, 0), "twelve");
+        testCases.put(LocalTime.of(13, 0), "one");
+        testCases.put(LocalTime.of(13, 58), "one fifty-eight");
+
+        TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withOh()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords.inWords(time),
+                        "retorno não esperado para a hora " + time));
+
+        //test 02
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 1), "zero oh one AM");
+        testCases.put(LocalTime.of(0, 2), "zero oh two AM");
+        testCases.put(LocalTime.of(10, 5, 2), "ten oh five oh two AM");
+        testCases.put(LocalTime.of(12, 9, 2), "noon oh nine oh two");
+
+        TimeInWords dateInWords2 = new TimeInEnglish.Builder()
+                .withOh()
+                .withSeconds()
+                .withAmPm()
+                .withNoon()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -52,7 +136,24 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
+
+        //test 02
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 15), "a quarter after zero");
+        testCases.put(LocalTime.of(12, 45), "a quarter until one");
+
+        TimeInWords dateInWords2 = new TimeInEnglish.Builder()
+                .withQuarterAndHalf()
+                .withAfterWordForPast()
+                .withUntilWordForTo()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -77,7 +178,24 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
+
+        //test 02
+        testCases.clear();
+        testCases.put(LocalTime.of(0, 14), "fourteen after zero");
+        testCases.put(LocalTime.of(12, 44), "sixteen until one");
+
+        TimeInWords dateInWords2 = new TimeInEnglish.Builder()
+                .withPastAndToHours()
+                .withAfterWordForPast()
+                .withUntilWordForTo()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -103,7 +221,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -127,7 +245,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
 
         //teste 02 - withMiddayAndMidnightPronuntiation
         testCases.clear();
@@ -144,7 +262,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords2.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
 
         //teste 03 - withNoon
         testCases.clear();
@@ -161,7 +279,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords3.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -191,7 +309,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -214,7 +332,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -238,7 +356,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -263,7 +381,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -286,7 +404,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -309,7 +427,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
 
         //teste 02 -
         testCases.clear();
@@ -325,7 +443,7 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords2.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -340,14 +458,14 @@ class TimeInEnglishTest {
         testCases.put(LocalTime.of(13, 58, 59), "one fifty-eight and fifty-nine seconds");
 
         TimeInWords dateInWords = new TimeInEnglish.Builder()
-                .usingSeconds()
+                .withSeconds()
                 .build();
 
         testCases.forEach((time, expectedResult) ->
                 assertEquals(
                         expectedResult,
                         dateInWords.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
 
         //teste 2 - with am pm
         testCases.clear();
@@ -355,14 +473,14 @@ class TimeInEnglishTest {
 
         TimeInWords dateInWords2 = new TimeInEnglish.Builder()
                 .withAmPm()
-                .usingSeconds()
+                .withSeconds()
                 .build();
 
         testCases.forEach((time, expectedResult) ->
                 assertEquals(
                         expectedResult,
                         dateInWords2.inWords(time),
-                        "retorno não esperado para a data " + time));
+                        "retorno não esperado para a hora " + time));
 
     }
 }

@@ -19,6 +19,7 @@ public class TimeInEnglish implements TimeInWords {
     private final boolean useMilitarFormat;
 
     private  TimeInEnglish(Builder builder) {
+        //this.useMinutesToAndPastHour = builder.
         this.useSeconds = builder.isUsingSeconds();
         this.useMiddayAndMidnightPronuntiation = builder.isUsingMiddayAndMidnightPronuntiation();
         this.usePeriodPronuntiation = builder.isUsingPeriodPronuntiation();
@@ -31,17 +32,9 @@ public class TimeInEnglish implements TimeInWords {
         this.useMilitarFormat = builder.useMilitarFormat;
     }
 
-    private boolean canUseMinutesToHourPronunciation(LocalTime localTime) {
-        return useMinutesToAndPastHour && localTime.getMinute() >= 60 - minutesLimitToAndPastHour;
-    }
-
-    private boolean canUseMinutesPastHourPronunciation(LocalTime localTime) {
-        return useMinutesToAndPastHour && localTime.getMinute() <= minutesLimitToAndPastHour;
-    }
-
     @Override
     public String inWords(LocalTime localTime) {
-        if (useMinutesToAndPastHour)
+        if (minuteOf(localTime).canUseHalfMinutesToOrPast())
             return inWordsForMinutesToAndPastHour(localTime);
 
         return hourOf(localTime).inWords() +
@@ -56,7 +49,6 @@ public class TimeInEnglish implements TimeInWords {
                 secondOf(localTime).inWords() +
                 periodOf(localTime).inWords();
     }
-
 
     private Hour hourOf(LocalTime localTime) {
         return new Hour(localTime);
@@ -127,7 +119,7 @@ public class TimeInEnglish implements TimeInWords {
 
         private String inWordsForMiddayMidnightAndNoonPronuntiation() {
             if (useMiddayAndMidnightPronuntiation) {
-                if (canUseMinutesToHourPronunciation(localTime)) {
+                if (minuteOf(localTime).canUseMinutesToPronunciation()) {
                     if (localTime.getHour()+1 == 24) return "midnight";
                     if (localTime.getHour()+1 == 12) return "midday";
                 } else {
@@ -137,7 +129,7 @@ public class TimeInEnglish implements TimeInWords {
             }
 
             if (useNoon) {
-                if (canUseMinutesToHourPronunciation(localTime)) {
+                if (minuteOf(localTime).canUseMinutesToPronunciation()) {
                     if (localTime.getHour()+1 == 12) return "noon";
                 } else {
                     if (localTime.getHour() == 12) return "noon";
@@ -150,7 +142,7 @@ public class TimeInEnglish implements TimeInWords {
         public long hourToPronuntiate() {
             long hour = hourFor12or24Format();
 
-            if (canUseMinutesToHourPronunciation(localTime))
+            if (minuteOf(localTime).canUseMinutesToPronunciation())
                 hour++;
 
             long maxHour = use24HoursFormat ? 23 : 12;
@@ -176,10 +168,10 @@ public class TimeInEnglish implements TimeInWords {
             if (localTime.getMinute() == 0)
                 return "";
 
-            if (canUseMinutesToHourPronunciation(localTime))
+            if (canUseMinutesToPronunciation())
                 return inWordsForMinutesToHourPronuntiation();
 
-            if (canUseMinutesPastHourPronunciation(localTime))
+            if (canUseMinutesPastPronunciation())
                 return inWordsForMinutesPastHourPronuntiation();
 
             return this.calcBeforMinute() + NumberInWordsFactory.createCardinalBuilderChooser()
@@ -200,7 +192,7 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         public long minuteToPronuntiate() {
-            if (canUseMinutesToHourPronunciation(localTime))
+            if (canUseMinutesToPronunciation())
                 return 60 - localTime.getMinute();
 
             return localTime.getMinute();
@@ -212,6 +204,29 @@ public class TimeInEnglish implements TimeInWords {
 
         private String inWordsForMinutesToHourPronuntiation() {
             return "implementar inWordsForMinutesToHourPronuntiation";
+        }
+
+        private boolean canUseMinutesToPronunciation() {
+            return (useMinutesToAndPastHour) && localTime.getMinute() >= 60 - minutesLimitToAndPastHour;
+        }
+
+        private boolean canUseMinutesPastPronunciation() {
+            return useMinutesToAndPastHour && localTime.getMinute() <= minutesLimitToAndPastHour;
+        }
+
+        private boolean canUseHalf() {
+            return useQuarterAndHalf && localTime.getMinute() == 30;
+        }
+
+        private boolean canUseQuarterOrHalf() {
+            if (useQuarterAndHalf && localTime.getMinute() > 0)
+                return localTime.getMinute() % 15 == 0;
+
+            return false;
+        }
+
+        private boolean canUseHalfMinutesToOrPast() {
+            return canUseQuarterOrHalf() || canUseMinutesPastPronunciation() || canUseMinutesToPronunciation();
         }
     }
 
@@ -250,20 +265,14 @@ public class TimeInEnglish implements TimeInWords {
             if (!usePeriodPronuntiation)
                 return "";
 
-            int hour = (localTime.getHour() + (canUseMinutesToHourPronunciation(localTime) ? 1 : 0)) % 24;
+            int hour = (localTime.getHour() + (minuteOf(localTime).canUseMinutesToPronunciation() ? 1 : 0)) % 24;
 
             if (useMiddayAndMidnightPronuntiation && (hour == 0 || hour == 12))
                 return "";
 
-            if (hour < 12)
-                return " in the morning";
-
-            if (hour < 18)
-                return " in the afternoon";
-
-            if (hour < 21)
-                return " in the evening";
-
+            if (hour < 12) return " in the morning";
+            if (hour < 18) return " in the afternoon";
+            if (hour < 21) return " in the evening";
             return " at night";
         }
 

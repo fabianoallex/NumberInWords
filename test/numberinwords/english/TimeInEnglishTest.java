@@ -31,6 +31,29 @@ class TimeInEnglishTest {
     }
 
     @Test
+    void inWordsWithQuarterAndHalf() {
+        Map<LocalTime, String> testCases = new HashMap<>();
+        testCases.put(LocalTime.of(0, 0), "zero");
+        testCases.put(LocalTime.of(0, 15), "zero one");
+        testCases.put(LocalTime.of(0, 2), "zero two");
+        testCases.put(LocalTime.of(10, 20), "ten twenty");
+        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
+        testCases.put(LocalTime.of(12, 0), "twelve");
+        testCases.put(LocalTime.of(13, 0), "one");
+        testCases.put(LocalTime.of(13, 58), "one fifty-eight");
+
+        TimeInWords dateInWords = new TimeInEnglish.Builder()
+                .withQuarterAndHalf()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords.inWords(time),
+                        "retorno não esperado para a data " + time));
+    }
+
+    @Test
     void inWordsWithOClock() {
         Map<LocalTime, String> testCases = new HashMap<>();
         testCases.put(LocalTime.of(0, 0), "zero o'clock");

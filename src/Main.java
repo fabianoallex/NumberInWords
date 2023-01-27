@@ -377,7 +377,7 @@ public class Main {
 
 
 
-        LocalTime localTime = LocalTime.of(13, 0);
+        LocalTime localTime = LocalTime.of(0, 0);
         Map<LocalTime, Set<String>> map = new LinkedHashMap<>();
 
         do {
@@ -407,14 +407,16 @@ public class Main {
 
             map.put(finalLocalTime, values);
 
+            if (localTime.getHour() == 23 && localTime.getMinute() == 59)
+                break;
+
             localTime = localTime.plus(Duration.ofMinutes(1));
 
-        } while (localTime.getHour() != 13 || localTime.getMinute() != 30);
+        } while (true) ;
 
 
         try {
             FileWriter writer = new FileWriter("c:\\trabalho\\time.txt");
-            writer.write(localTime.toString() + "\n");
 
             map.forEach((localTime1, strings) -> {
                 try {
@@ -423,7 +425,10 @@ public class Main {
                     throw new RuntimeException(e);
                 }
 
-                strings.forEach(s1 -> {
+                List<String> list = new ArrayList<>(strings);
+                Collections.sort(list);
+
+                list.forEach(s1 -> {
                     try {
                         writer.write("\t\t" + s1 + "\n");
                     } catch (IOException e) {

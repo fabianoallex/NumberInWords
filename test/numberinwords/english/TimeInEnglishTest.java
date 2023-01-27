@@ -34,13 +34,13 @@ class TimeInEnglishTest {
     void inWordsWithMilitaryFormat() {
         Map<LocalTime, String> testCases = new HashMap<>();
         testCases.put(LocalTime.of(0, 0), "zero zero hundred hours");
-        testCases.put(LocalTime.of(0, 1), "zero zero zero one");
-        testCases.put(LocalTime.of(0, 2), "zero zero zero two");
-        testCases.put(LocalTime.of(10, 20), "ten twenty");
+        testCases.put(LocalTime.of(0, 1), "zero zero zero one hours");
+        testCases.put(LocalTime.of(0, 2), "zero zero zero two hours");
+        testCases.put(LocalTime.of(10, 20), "ten twenty hours");
         testCases.put(LocalTime.of(12, 0), "twelve hundred hours");
         testCases.put(LocalTime.of(13, 0), "thirteen hundred hours");
-        testCases.put(LocalTime.of(13, 58), "thirteen fifty-eight");
-        testCases.put(LocalTime.of(10, 20, 22), "ten twenty");
+        testCases.put(LocalTime.of(13, 58), "thirteen fifty-eight hours");
+        testCases.put(LocalTime.of(10, 20, 22), "ten twenty hours");
 
         TimeInWords dateInWords = new TimeInEnglish.Builder()
                 .withMilitaryFormat()
@@ -54,7 +54,7 @@ class TimeInEnglishTest {
 
         //teste 02
         testCases.clear();
-        testCases.put(LocalTime.of(0, 0), "oh oh hundred hours");
+        testCases.put(LocalTime.of(0, 0), "oh oh hundred");
         testCases.put(LocalTime.of(0, 1), "oh oh oh one");
         testCases.put(LocalTime.of(0, 2), "oh oh oh two");
         testCases.put(LocalTime.of(10, 20), "ten twenty");
@@ -95,10 +95,11 @@ class TimeInEnglishTest {
 
         //test 02
         testCases.clear();
-        testCases.put(LocalTime.of(0, 1), "zero oh one AM");
-        testCases.put(LocalTime.of(0, 2), "zero oh two AM");
+        testCases.put(LocalTime.of(0, 1), "zero oh one");
+        testCases.put(LocalTime.of(0, 2), "zero oh two");
         testCases.put(LocalTime.of(10, 5, 2), "ten oh five oh two AM");
         testCases.put(LocalTime.of(12, 9, 2), "noon oh nine oh two");
+        testCases.put(LocalTime.of(13, 9, 2), "one oh nine oh two PM");
 
         TimeInWords dateInWords2 = new TimeInEnglish.Builder()
                 .withOh()
@@ -111,6 +112,22 @@ class TimeInEnglishTest {
                 assertEquals(
                         expectedResult,
                         dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
+
+
+        //test 03
+        testCases.clear();
+        testCases.put(LocalTime.of(13, 9, 2), "thirteen nine");
+
+        TimeInWords dateInWords3 = new TimeInEnglish.Builder()
+                .withAmPm()
+                .with24HoursFormat()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords3.inWords(time),
                         "retorno não esperado para a hora " + time));
     }
 
@@ -333,6 +350,24 @@ class TimeInEnglishTest {
                         expectedResult,
                         dateInWords.inWords(time),
                         "retorno não esperado para a hora " + time));
+
+
+        //test 02
+        testCases.clear();
+
+        testCases.put(LocalTime.of(0, 14), "fourteen minutes past midnight");
+
+        TimeInWords dateInWords2 = new TimeInEnglish.Builder()
+                .withMiddayAndMidnightPronuntiation()
+                .withUnits()
+                .withPastAndToHours()
+                .build();
+
+        testCases.forEach((time, expectedResult) ->
+                assertEquals(
+                        expectedResult,
+                        dateInWords2.inWords(time),
+                        "retorno não esperado para a hora " + time));
     }
 
     @Test
@@ -410,9 +445,9 @@ class TimeInEnglishTest {
     @Test
     void inWordsWithAmPm() {
         Map<LocalTime, String> testCases = new HashMap<>();
-        testCases.put(LocalTime.of(0, 0), "zero AM");
-        testCases.put(LocalTime.of(0, 1), "zero one AM");
-        testCases.put(LocalTime.of(0, 2), "zero two AM");
+        testCases.put(LocalTime.of(0, 0), "zero");
+        testCases.put(LocalTime.of(0, 1), "zero one");
+        testCases.put(LocalTime.of(0, 2), "zero two");
         testCases.put(LocalTime.of(10, 20), "ten twenty AM");
         testCases.put(LocalTime.of(10, 20, 22), "ten twenty AM");
         testCases.put(LocalTime.of(12, 0), "twelve PM");

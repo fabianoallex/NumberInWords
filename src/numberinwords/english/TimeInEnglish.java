@@ -83,8 +83,11 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         protected boolean usingUnit() {
-            if (useMiddayAndMidnightPronuntiation && new Hour(localTime).hourFor12or24Format() == 0)
-                return false;
+//            if (useMiddayAndMidnightPronuntiation && new Hour(localTime).hourFor12or24Format() == 0)
+//                return false;
+
+//            if (new Hour(localTime).hourFor12or24Format() == 0)
+//                return false;
 
             return useUnits;
         }
@@ -106,7 +109,7 @@ public class TimeInEnglish implements TimeInWords {
 
         private String getZero() {
             if (localTime.getHour() < 10)
-                return useOh ? "oh " : "zero ";
+                return useOh && !useUnits ? "oh " : "zero ";
 
             return "";
         }
@@ -114,7 +117,7 @@ public class TimeInEnglish implements TimeInWords {
         @Override
         protected String getUnit() {
             if (localTime.getMinute() == 0)
-                return " hundred hours";
+                return " hundred" + (useUnits ? " hours" : "");
 
             return "";
         }
@@ -213,12 +216,19 @@ public class TimeInEnglish implements TimeInWords {
             String zero = "";
 
             if (localTime.getMinute() < 10)
-                zero = useOh ? "oh " : "zero ";
+                zero = useOh && !useUnits ? "oh " : "zero ";
 
             return " " + zero + NumberInWordsFactory.createCardinalBuilderChooser()
                     .forEnglishLanguage()
                     .build()
-                    .inWords(new Minute(localTime).minuteToBePronunced());
+                    .inWords((long) localTime.getMinute()) + getUnit();
+        }
+
+        protected String getUnit() {
+            if (useUnits && localTime.getMinute() != 0)
+                return " hours";
+
+            return "";
         }
     }
 
@@ -245,7 +255,7 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         private String getOh() {
-            if (useOh && localTime.getMinute() < 10)
+            if (useOh && !useUnits && localTime.getMinute() < 10)
                 return "oh ";
 
             return "";
@@ -262,7 +272,7 @@ public class TimeInEnglish implements TimeInWords {
                 result = NumberInWordsFactory.createCardinalBuilderChooser()
                         .forEnglishLanguage()
                         .build()
-                        .inWords(minuteToBePronunced());
+                        .inWords(minuteToBePronunced()) + this.getUnit();
 
             return result + (useAfterWordForPast ? " after " : " past ");
         }
@@ -276,7 +286,7 @@ public class TimeInEnglish implements TimeInWords {
                 result = NumberInWordsFactory.createCardinalBuilderChooser()
                         .forEnglishLanguage()
                         .build()
-                        .inWords(minuteToBePronunced());
+                        .inWords(minuteToBePronunced()) + this.getUnit();
 
             return result + (useUntilWordForTo ? " until " : " to ");
         }
@@ -364,7 +374,7 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         private String getOh() {
-            if (useOh && localTime.getSecond() < 10)
+            if (useOh && !useUnits && localTime.getSecond() < 10)
                 return "oh ";
 
             return "";
@@ -378,10 +388,10 @@ public class TimeInEnglish implements TimeInWords {
 
         @Override
         public String inWords() {
-            if (!useAmPm || useMilitaryFormat || localTime.getHour() == 0)
-                return "";
-
             var hour = new Hour(localTime);
+
+            if (!useAmPm || useMilitaryFormat || localTime.getHour() == 0 || hour.hourToBePronunced() > 12)
+                return "";
 
             if (!hour.inWordsForMiddayMidnightAndNoonPronuntiation().isEmpty())
                 return "";
@@ -447,6 +457,7 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         public Builder withOh() {
+            this.withUnits(false); //oh cant use unit
             return this.withOh(true);
         }
 
@@ -470,6 +481,7 @@ public class TimeInEnglish implements TimeInWords {
         }
 
         public Builder withMilitaryFormat() {
+            this.withUnits();
             return this.withMilitaryFormat(true);
         }
 
